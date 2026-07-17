@@ -1,0 +1,248 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const tool = {
+  title: 'Набор резцов для резьбы по дереву',
+  price: 3800,
+  desc: 'Собственноручно изготовленный набор из трёх резцов для геометрической и контурной резьбы. Каждый инструмент пройден от ковки до финальной заточки.',
+  details: [
+    'Нож-косяк — универсальный инструмент для геометрической резьбы, подрезки контура.',
+    'Стамеска-клюкарза — изогнутое лезвие для выборки фона и создания углублений.',
+    'Полукруглая стамеска — для плавных линий, лепестков и орнаментов.',
+  ],
+  specs: {
+    'Сталь': 'У8, закалка 58-60 HRC',
+    'Ручки': 'Кап берёзы, льняное масло',
+    'Чехол': 'Натуральная кожа, ручная прошивка',
+    'Вес': '180 г (набор)',
+  },
+  images: [
+    '/images/10 Mind-Blowing Wood Carving Techniques You Need To Try Today! - The Table Read Magazine.jpg',
+  ],
+};
+
+const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
+---
+
+<Layout>
+  <header class="detail-header">
+    <div class="container">
+      <a href="/" class="detail-back">← На главную</a>
+    </div>
+  </header>
+  <main>
+    <section class="detail">
+      <div class="container">
+        <div class="detail-layout">
+          <div class="detail-gallery" data-animate="left">
+            <div class="gallery-main" id="detail-gallery">
+              {tool.images.map((src, i) => (
+                <img src={src} alt={`${tool.title} — фото ${i + 1}`} class="gallery-img" data-index={i} />
+              ))}
+            </div>
+            <div class="gallery-thumbs">
+              {tool.images.map((src, i) => (
+                <button class="thumb-btn" data-index={i}>
+                  <img src={src} alt="" />
+                </button>
+              ))}
+            </div>
+          </div>
+          <div class="detail-info" data-animate="right">
+            <h1 class="detail-title">{tool.title}</h1>
+            <p class="detail-desc">{tool.desc}</p>
+            <ul class="detail-list">
+              {tool.details.map(d => <li>{d}</li>)}
+            </ul>
+            <div class="detail-specs">
+              {Object.entries(tool.specs).map(([key, val]) => (
+                <div class="spec-row">
+                  <span class="spec-key">{key}</span>
+                  <span class="spec-val">{val}</span>
+                </div>
+              ))}
+            </div>
+            <div class="detail-bottom">
+              <span class="detail-price">{formatPrice(tool.price)}</span>
+              <button class="btn btn-cart" data-id="10" data-title={tool.title} data-price={tool.price}>
+                В корзину
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const images = document.querySelectorAll('#detail-gallery .gallery-img');
+    const thumbs = document.querySelectorAll('.thumb-btn');
+    let current = 0;
+
+    function show(index) {
+      images.forEach((img, i) => img.classList.toggle('active', i === index));
+      thumbs.forEach((btn, i) => btn.classList.toggle('active', i === index));
+      current = index;
+    }
+
+    if (images.length > 0) show(0);
+
+    thumbs.forEach(btn => btn.addEventListener('click', () => show(parseInt(btn.dataset.index))));
+  </script>
+</Layout>
+
+<style>
+  .detail-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(255, 248, 240, 0.9);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    height: 64px;
+    display: flex;
+    align-items: center;
+  }
+
+  .detail-back {
+    font-size: 0.95rem;
+    color: var(--text-light);
+  }
+
+  .detail-back:hover {
+    color: var(--text);
+  }
+
+  .detail {
+    padding: 120px 0 80px;
+  }
+
+  .detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .gallery-main {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--beige);
+    position: relative;
+  }
+
+  .gallery-main .gallery-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .gallery-main .gallery-img.active {
+    opacity: 1;
+  }
+
+  .gallery-thumbs {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .thumb-btn {
+    width: 64px;
+    height: 64px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    padding: 0;
+    overflow: hidden;
+    background: var(--beige);
+  }
+
+  .thumb-btn.active {
+    border-color: var(--accent);
+  }
+
+  .thumb-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .detail-title {
+    font-size: 2.2rem;
+    margin-bottom: 16px;
+  }
+
+  .detail-desc {
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .detail-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .detail-list li {
+    padding-left: 20px;
+    position: relative;
+    color: var(--text-light);
+  }
+
+  .detail-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .detail-specs {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+    margin-bottom: 24px;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+  }
+
+  .spec-key {
+    color: var(--text-light);
+    font-size: 0.9rem;
+  }
+
+  .spec-val {
+    font-weight: 500;
+  }
+
+  .detail-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .detail-price {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .detail-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
