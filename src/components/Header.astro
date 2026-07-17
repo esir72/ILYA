@@ -1,0 +1,68 @@
+---
+const links = [
+  { href: '#about', label: 'Обо мне' },
+  { href: '#products', label: 'Изделия' },
+  { href: '#contact', label: 'Контакты' },
+];
+---
+
+<header class="header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Илья</a>
+    <nav class="nav">
+      {links.map(link => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(255, 248, 240, 0.9);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+
+  .header.scrolled {
+    background: rgba(255, 248, 240, 0.97);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .nav {
+    display: flex;
+    gap: 32px;
+  }
+
+  .nav a {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+  }
+
+  .nav a:hover {
+    color: var(--text);
+  }
+</style>

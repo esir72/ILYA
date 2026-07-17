@@ -1,0 +1,93 @@
+---
+
+---
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <p class="hero-label" data-animate="fade" data-delay="1">Мастер резьбы по дереву</p>
+      <h1 class="hero-title" data-animate data-delay="2">Илья</h1>
+      <p class="hero-desc" data-animate data-delay="3">
+        Создаю уникальные изделия из натурального дерева. Каждая работа — 
+        это сочетание традиционного мастерства и современного дизайна.
+      </p>
+      <div class="hero-actions" data-animate data-delay="4">
+        <a href="#products" class="btn">Смотреть изделия</a>
+        <a href="#contact" class="btn btn-outline">Связаться</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 64px;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .hero-content {
+    max-width: 540px;
+  }
+
+  .hero-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-size: 4rem;
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+
+  .hero-desc {
+    font-size: 1.15rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--text);
+  }
+
+  .btn-outline:hover {
+    background: var(--text);
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    .hero-content {
+      margin: 0 auto;
+    }
+    .hero-title {
+      font-size: 3rem;
+    }
+    .hero-actions {
+      justify-content: center;
+    }
+  }
+</style>

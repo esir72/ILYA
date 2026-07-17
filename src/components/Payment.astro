@@ -1,0 +1,70 @@
+---
+
+---
+
+<section class="section payment" id="payment">
+  <div class="container">
+    <h2 class="section-title" data-animate>Оплата</h2>
+    <p class="section-subtitle" data-animate data-delay="1">
+      Оплата заказа после согласования. Доступные способы:
+    </p>
+    <div class="payment-grid">
+      <div class="payment-card" data-animate data-delay="1">
+        <h3>Перевод на карту</h3>
+        <p>По номеру карты СБЕР или Т-Банк</p>
+      </div>
+      <div class="payment-card" data-animate data-delay="2">
+        <h3>ЮMoney</h3>
+        <p>Электронный кошелёк</p>
+      </div>
+      <div class="payment-card" data-animate data-delay="3">
+        <h3>Наличные</h3>
+        <p>При самовывозе или встрече</p>
+      </div>
+    </div>
+    <p class="payment-note" data-animate>
+      После оформления заказа я свяжусь с вами для уточнения деталей оплаты и доставки.
+    </p>
+  </div>
+</section>
+
+<style>
+  .payment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .payment-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+  }
+
+  .payment-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .payment-card p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+  }
+
+  .payment-note {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .payment-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

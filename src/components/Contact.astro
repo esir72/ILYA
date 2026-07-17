@@ -1,0 +1,122 @@
+---
+
+---
+
+<section class="section" id="contact">
+  <div class="container">
+    <div class="contact-layout">
+      <div class="contact-info" data-animate="left">
+        <h2 class="section-title" style="text-align: left;">Контакты</h2>
+        <p class="contact-desc">
+          Готов ответить на ваши вопросы и обсудить заказ. 
+          Пишите — я на связи.
+        </p>
+        <div class="contact-details">
+          <div class="contact-item">
+            <strong>Email</strong>
+            <a href="mailto:ilya@woodcraft.ru">ilya@woodcraft.ru</a>
+          </div>
+          <div class="contact-item">
+            <strong>Telegram</strong>
+            <a href="https://t.me/ilya_wood">@ilya_wood</a>
+          </div>
+          <div class="contact-item">
+            <strong>Instagram</strong>
+            <a href="https://instagram.com/ilya_wood">@ilya_wood</a>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form" data-netlify="true" name="contact" data-animate="right">
+        <input type="hidden" name="form-name" value="contact" />
+        <div class="form-group">
+          <label for="name">Имя</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Сообщение</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn">Отправить</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+
+  .contact-desc {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .contact-item strong {
+    display: block;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+    margin-bottom: 4px;
+  }
+
+  .contact-item a {
+    font-size: 1.1rem;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+</style>

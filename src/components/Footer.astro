@@ -1,0 +1,42 @@
+---
+
+---
+
+<footer class="footer">
+  <div class="container footer-inner" data-animate>
+    <p class="footer-copy">© {new Date().getFullYear()} Илья. Резьба по дереву.</p>
+    <p class="footer-tag">Сделано вручную с любовью к дереву</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    color: var(--text-light);
+    font-size: 0.9rem;
+  }
+
+  .footer-tag {
+    color: var(--accent-light);
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .footer-inner {
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+  }
+</style>

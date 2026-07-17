@@ -1,0 +1,68 @@
+---
+
+---
+
+<section class="section about" id="about">
+  <div class="container">
+    <h2 class="section-title" data-animate>Обо мне</h2>
+    <p class="section-subtitle" data-animate data-delay="1">
+      Мастерство, переданное через года, и любовь к природе в каждом изделии.
+    </p>
+    <div class="about-grid">
+      <div class="about-image" data-animate="left">
+        <div class="image-placeholder">
+          <span>Фото Ильи</span>
+        </div>
+      </div>
+      <div class="about-text" data-animate="right">
+        <p>
+          Меня зовут Илья. Резьбой по дереву занимаюсь более 10 лет. 
+          Для меня дерево — это живой материал, который сам подсказывает форму.
+        </p>
+        <p>
+          Каждое изделие создаётся вручную, от выбора заготовки до финальной 
+          шлифовки. Я использую только натуральные масла и воски для покрытия, 
+          чтобы сохранить текстуру и тепло дерева.
+        </p>
+        <p>
+          Работаю с дубом, орехом, ясенем и липой. Готов обсудить 
+          индивидуальный заказ под ваши пожелания.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .image-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: var(--beige);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    font-size: 1.1rem;
+  }
+
+  .about-text p {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+</style>

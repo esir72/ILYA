@@ -1,0 +1,120 @@
+---
+const products = [
+  {
+    title: 'Разделочная доска',
+    desc: 'Из дуба с масляным покрытием. Ручная работа.',
+    price: '2 500 ₽',
+  },
+  {
+    title: 'Шкатулка резная',
+    desc: 'Орех, ручная резьба, восковое покрытие.',
+    price: '4 800 ₽',
+  },
+  {
+    title: 'Фигурка животного',
+    desc: 'Липа, авторская работа, высота 20 см.',
+    price: '3 200 ₽',
+  },
+  {
+    title: 'Набор кухонный',
+    desc: 'Доска + лопатка + ложка. Ясень. Подарочный набор.',
+    price: '5 500 ₽',
+  },
+];
+---
+
+<section class="section" id="products">
+  <div class="container">
+    <h2 class="section-title" data-animate>Изделия</h2>
+    <p class="section-subtitle" data-animate data-delay="1">
+      Каждое изделие уникально. Фактура дерева и рисунок могут незначительно 
+      отличаться от фото.
+    </p>
+    <div class="products-grid">
+      {products.map((product, i) => (
+        <article class="product-card" data-animate="scale" data-delay={i + 1}>
+          <div class="product-image">
+            <span>Фото</span>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">{product.title}</h3>
+            <p class="product-desc">{product.desc}</p>
+            <span class="product-price">{product.price}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="products-more" data-animate>
+      <p>Хотите что-то особенное? Я делаю изделия на заказ.</p>
+      <a href="#contact" class="btn">Обсудить заказ</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-bottom: 60px;
+  }
+
+  .product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: box-shadow 0.2s;
+  }
+
+  .product-card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+
+  .product-image {
+    aspect-ratio: 4 / 3;
+    background: var(--beige);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+  }
+
+  .product-info {
+    padding: 24px;
+  }
+
+  .product-title {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+
+  .product-desc {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  .product-price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .products-more {
+    text-align: center;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .products-more p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
