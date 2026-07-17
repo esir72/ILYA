@@ -4,8 +4,30 @@
 
 <footer class="footer">
   <div class="container footer-inner" data-animate>
-    <p class="footer-copy">© {new Date().getFullYear()} Илья. Резьба по дереву.</p>
-    <p class="footer-tag">Сделано вручную с любовью к дереву</p>
+    <div class="footer-left">
+      <p class="footer-copy">© {new Date().getFullYear()} Илья. Резьба по дереву.</p>
+      <p class="footer-tag">Сделано вручную с любовью к дереву</p>
+    </div>
+    <div class="footer-socials">
+      <a href="https://t.me/ilya_wood" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21.5 2L2.5 10.5l7 2.5L12 20l4-7 5.5-11z"/>
+          <path d="M9.5 12.5l10-8"/>
+        </svg>
+      </a>
+      <a href="https://instagram.com/ilya_wood" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="5"/>
+          <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="https://tiktok.com/@ilya_wood" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+        </svg>
+      </a>
+    </div>
   </div>
 </footer>
 
@@ -21,6 +43,12 @@
     align-items: center;
   }
 
+  .footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
   .footer-copy {
     color: var(--text-light);
     font-size: 0.9rem;
@@ -32,11 +60,31 @@
     font-style: italic;
   }
 
+  .footer-socials {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer-socials a {
+    color: var(--text-light);
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-socials a:hover {
+    color: var(--text);
+  }
+
   @media (max-width: 768px) {
     .footer-inner {
       flex-direction: column;
-      gap: 8px;
+      gap: 16px;
       text-align: center;
+    }
+
+    .footer-left {
+      align-items: center;
     }
   }
 </style>
