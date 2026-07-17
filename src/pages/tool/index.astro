@@ -243,6 +243,41 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   @media (max-width: 768px) {
     .detail-layout {
       grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .detail {
+      padding: 100px 0 60px;
+    }
+    .detail-title {
+      font-size: 1.8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .detail {
+      padding: 80px 0 40px;
+    }
+    .detail-title {
+      font-size: 1.4rem;
+    }
+    .spec-row {
+      flex-direction: column;
+      gap: 2px;
+      padding: 6px 0;
+    }
+    .detail-bottom {
+      flex-direction: column;
+      gap: 16px;
+      align-items: stretch;
+    }
+    .detail-price {
+      text-align: center;
+    }
+    .detail-bottom .btn {
+      width: 100%;
+    }
+    .gallery-thumbs {
+      flex-wrap: wrap;
     }
   }
 </style>

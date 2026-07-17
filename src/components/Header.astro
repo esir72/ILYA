@@ -10,7 +10,12 @@ const links = [
 <header class="header">
   <div class="container header-inner">
     <a href="/" class="logo">Илья</a>
-    <nav class="nav">
+    <button id="menu-toggle" class="menu-toggle" aria-label="Меню">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav" id="nav">
       {links.map(link => (
         <a href={link.href}>{link.label}</a>
       ))}
@@ -25,6 +30,15 @@ const links = [
     </nav>
   </div>
 </header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const nav = document.getElementById('nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => nav.classList.toggle('open'));
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+  }
+</script>
 
 <style>
   .header {
@@ -104,5 +118,64 @@ const links = [
     align-items: center;
     justify-content: center;
     font-family: var(--font-body);
+  }
+
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .menu-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    transition: transform 0.2s;
+  }
+
+  @media (max-width: 640px) {
+    .menu-toggle {
+      display: flex;
+    }
+
+    .nav {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      gap: 0;
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s, padding 0.3s;
+    }
+
+    .nav.open {
+      max-height: 300px;
+      padding: 12px 24px;
+    }
+
+    .nav a {
+      display: block;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav a:last-of-type {
+      border-bottom: none;
+    }
+
+    .cart-toggle {
+      align-self: flex-start;
+      margin-top: 12px;
+    }
   }
 </style>
