@@ -13,6 +13,14 @@ const links = [
       {links.map(link => (
         <a href={link.href}>{link.label}</a>
       ))}
+      <button id="cart-toggle" class="cart-toggle" aria-label="Корзина">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/>
+          <circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span id="cart-count" class="cart-count">0</span>
+      </button>
     </nav>
   </div>
 </header>
@@ -46,7 +54,7 @@ const links = [
   .logo {
     font-family: var(--font-heading);
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: 400;
     color: var(--text);
   }
 
@@ -58,11 +66,42 @@ const links = [
   .nav a {
     font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     color: var(--text-light);
   }
 
   .nav a:hover {
     color: var(--text);
+  }
+
+  .cart-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+    padding: 4px;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  .cart-toggle:hover {
+    color: var(--text);
+  }
+
+  .cart-count {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 400;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
   }
 </style>

@@ -1,26 +1,36 @@
 ---
 const products = [
   {
-    title: 'Разделочная доска',
-    desc: 'Из дуба с масляным покрытием. Ручная работа.',
-    price: '2 500 ₽',
+    id: 0,
+    title: 'Сумка из дерева',
+    desc: 'Ручная работа из натурального дерева. Уникальный дизайн с фактурой древесины.',
+    price: 4500,
+    image: '/images/sumka-iz-dereva.jpg',
   },
   {
-    title: 'Шкатулка резная',
-    desc: 'Орех, ручная резьба, восковое покрытие.',
-    price: '4 800 ₽',
+    id: 1,
+    title: 'Сумка малая',
+    desc: 'Компактная деревянная сумка на каждый день. Лёгкая, прочная, с надёжной фурнитурой.',
+    price: 3800,
+    image: '/images/sumka-iz-dereva2.jpg',
   },
   {
-    title: 'Фигурка животного',
-    desc: 'Липа, авторская работа, высота 20 см.',
-    price: '3 200 ₽',
+    id: 2,
+    title: 'Кошелёк из дерева',
+    desc: 'Оригинальный деревянный кошелёк ручной работы. Вместительный и долговечный.',
+    price: 2900,
+    image: '/images/koshelek-iz-dereva.jpg',
   },
   {
-    title: 'Набор кухонный',
-    desc: 'Доска + лопатка + ложка. Ясень. Подарочный набор.',
-    price: '5 500 ₽',
+    id: 3,
+    title: 'Картина «Волны»',
+    desc: 'Резная картина с морскими волнами из дерева. Авторская работа, подарок в любую коллекцию.',
+    price: 5200,
+    image: '/images/kartina-volny-golubye-iz-dereva.jpg',
   },
 ];
+
+const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
 ---
 
 <section class="section" id="products">
@@ -34,12 +44,17 @@ const products = [
       {products.map((product, i) => (
         <article class="product-card" data-animate="scale" data-delay={i + 1}>
           <div class="product-image">
-            <span>Фото</span>
+            <img src={product.image} alt={product.title} loading="lazy" />
           </div>
           <div class="product-info">
             <h3 class="product-title">{product.title}</h3>
             <p class="product-desc">{product.desc}</p>
-            <span class="product-price">{product.price}</span>
+            <div class="product-bottom">
+              <span class="product-price">{formatPrice(product.price)}</span>
+              <button class="btn btn-sm btn-cart" data-id={product.id} data-title={product.title} data-price={product.price}>
+                В корзину
+              </button>
+            </div>
           </div>
         </article>
       ))}
@@ -62,20 +77,22 @@ const products = [
   .product-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    transition: box-shadow 0.2s;
   }
 
   .product-card:hover {
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   }
 
   .product-image {
     aspect-ratio: 4 / 3;
+    overflow: hidden;
     background: var(--beige);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-light);
+  }
+
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .product-info {
@@ -95,10 +112,21 @@ const products = [
     line-height: 1.6;
   }
 
+  .product-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .product-price {
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--accent);
+  }
+
+  .btn-sm {
+    padding: 10px 20px;
+    font-size: 0.85rem;
   }
 
   .products-more {
