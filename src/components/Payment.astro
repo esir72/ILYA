@@ -1,76 +1,281 @@
 ---
-
 ---
 
-<section class="section payment" id="payment">
+<section class="section" id="payment">
   <div class="container">
-    <h2 class="section-title" data-animate>Оплата</h2>
-    <p class="section-subtitle" data-animate data-delay="1">
-      Оплата заказа после согласования. Доступные способы:
-    </p>
-    <div class="payment-grid">
-      <div class="payment-card" data-animate data-delay="1">
-        <h3>Перевод на карту</h3>
-        <p>По номеру карты СБЕР или Т-Банк</p>
-      </div>
-      <div class="payment-card" data-animate data-delay="2">
-        <h3>ЮMoney</h3>
-        <p>Электронный кошелёк</p>
-      </div>
-      <div class="payment-card" data-animate data-delay="3">
-        <h3>Наличные</h3>
-        <p>При самовывозе или встрече</p>
+    <div class="order-card" data-animate>
+      <div class="order-card-inner">
+        <div class="order-ornament"></div>
+        <div class="order-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <h2 class="order-title">Оформить заказ</h2>
+        <p class="order-subtitle">
+          Заполните форму — я свяжусь с вами в удобном мессенджере
+        </p>
+      <form class="order-form" action="https://formspree.io/f/xpqvdaed" method="POST">
+          <div class="form-group">
+            <label for="order-name">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Ваше имя
+            </label>
+            <input type="text" id="order-name" name="name" placeholder="Иван" required />
+          </div>
+          <div class="form-group">
+            <label for="order-phone">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Телефон для связи
+            </label>
+            <input type="tel" id="order-phone" name="phone" placeholder="+7 (___) ___-__-__" required />
+          </div>
+          <div class="form-group">
+            <label for="order-messenger">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Куда написать?
+            </label>
+            <select id="order-messenger" name="messenger" required>
+              <option value="" disabled selected>Выберите мессенджер</option>
+              <option value="telegram">Telegram</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="viber">Viber</option>
+              <option value="sms">SMS</option>
+            </select>
+            <p class="form-hint">Убедитесь, что в выбранной соцсети открыт номер для связи</p>
+          </div>
+          <div class="form-divider"></div>
+          <button type="submit" class="order-btn">
+            <span>Отправить</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+          <p class="form-agreement">
+            Нажимая «Отправить», вы соглашаетесь с 
+            <a href="/privacy">обработкой персональных данных</a>
+          </p>
+          <div id="form-success" class="form-success">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <p>Спасибо! Я свяжусь с вами в ближайшее время.</p>
+          </div>
+        </form>
       </div>
     </div>
-    <p class="payment-note" data-animate>
-      После оформления заказа я свяжусь с вами для уточнения деталей оплаты и доставки.
-    </p>
   </div>
 </section>
 
+<script>
+  const form = document.getElementById('order-form');
+  const success = document.getElementById('form-success');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.order-btn');
+      btn.disabled = true;
+      btn.textContent = 'Отправка...';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' },
+        });
+        if (res.ok) {
+          form.reset();
+          form.style.display = 'none';
+          success.classList.add('show');
+        }
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Отправить</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+      }
+    });
+  }
+</script>
+
 <style>
-  .payment-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 40px;
-  }
-
-  .payment-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 32px 24px;
-    text-align: center;
-  }
-
-  .payment-card h3 {
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-  }
-
-  .payment-card p {
-    color: var(--text-light);
-    font-size: 0.95rem;
-  }
-
-  .payment-note {
-    text-align: center;
-    color: var(--text-light);
-    font-size: 0.95rem;
-    max-width: 500px;
+  .order-card {
+    max-width: 540px;
     margin: 0 auto;
   }
 
-  @media (max-width: 768px) {
-    .payment-grid {
-      grid-template-columns: 1fr;
-    }
+  .order-card-inner {
+    background: linear-gradient(135deg, var(--surface), var(--beige));
+    border: 1px solid var(--border);
+    padding: 48px 40px 40px;
+    position: relative;
+  }
+
+  .order-ornament {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .order-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: var(--accent);
+  }
+
+  .order-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .order-subtitle {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-bottom: 32px;
+    line-height: 1.6;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    border-radius: 0;
+  }
+
+  .form-group input::placeholder {
+    color: var(--border);
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
+  }
+
+  .form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238D6E63' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 44px;
+  }
+
+  .form-hint {
+    font-size: 0.78rem;
+    color: var(--border);
+    line-height: 1.4;
+  }
+
+  .form-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+  }
+
+  .order-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    transition: background 0.25s, gap 0.25s;
+  }
+
+  .order-btn:hover {
+    background: var(--text);
+    gap: 14px;
+  }
+
+  .order-btn svg {
+    transition: transform 0.25s;
+  }
+
+  .order-btn:hover svg {
+    transform: translateX(4px);
+  }
+
+  .form-agreement {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .form-agreement a {
+    text-decoration: underline;
+  }
+
+  .form-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 32px 0;
+    color: var(--accent);
+    text-align: center;
+  }
+
+  .form-success.show {
+    display: flex;
+  }
+
+  .form-success p {
+    color: var(--text-light);
+    font-size: 0.95rem;
   }
 
   @media (max-width: 480px) {
-    .payment-card {
-      padding: 24px 16px;
+    .order-card-inner {
+      padding: 36px 20px 28px;
+    }
+    .order-title {
+      font-size: 1.5rem;
+    }
+    .order-subtitle {
+      font-size: 0.88rem;
+      margin-bottom: 24px;
     }
   }
 </style>

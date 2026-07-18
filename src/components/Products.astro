@@ -61,7 +61,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     </div>
     <div class="products-more" data-animate>
       <p>Хотите что-то особенное? Я делаю изделия на заказ.</p>
-      <a href="#contact" class="btn">Обсудить заказ</a>
+      <a href="#payment" class="btn">Обсудить заказ</a>
     </div>
   </div>
 </section>
@@ -77,6 +77,22 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   .product-card {
     background: var(--surface);
     border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
+    transition: transform 0.6s;
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+
+  .product-card:hover::after {
+    transform: translateX(100%);
   }
 
   .product-card:hover {

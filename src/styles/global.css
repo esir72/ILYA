@@ -27,6 +27,7 @@ body {
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4 {
@@ -79,21 +80,37 @@ a:hover {
 .btn {
   display: inline-block;
   padding: 14px 32px;
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
   color: #fff;
   border: none;
   border-radius: 0;
   font-family: var(--font-body);
   font-size: 0.95rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.3s, box-shadow 0.3s;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+  transition: transform 0.5s;
+  transform: translateX(-100%);
+}
+
+.btn:hover::after {
+  transform: translateX(100%);
 }
 
 .btn:hover {
-  background: var(--text);
+  background: linear-gradient(135deg, var(--accent-light), var(--text));
   color: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
 }
 
 @media (max-width: 768px) {
