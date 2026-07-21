@@ -8,130 +8,119 @@ const tool = {
 ---
 
 <a href="/tool" class="tool-banner" id="tools" data-animate="fade">
-  <div class="tool-bg">
+  <div class="tool-image">
     <img src={tool.image} alt="" />
   </div>
-  <div class="tool-overlay"></div>
-  <div class="container tool-content">
-    <p class="tool-label">Инструменты</p>
-    <h2 class="tool-title">{tool.title}</h2>
-    <p class="tool-desc">{tool.desc}</p>
-    <span class="tool-link">Подробнее →</span>
+  <div class="tool-text">
+    <p class="tool-label" data-i18n="tools.label">Инструменты</p>
+    <h2 class="tool-title" data-i18n="tools.title">{tool.title}</h2>
+    <p class="tool-desc" data-i18n="tools.desc">{tool.desc}</p>
   </div>
 </a>
 
 <style>
   .tool-banner {
     position: relative;
-    display: block;
-    height: 80vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     min-height: 400px;
-    max-height: 600px;
     max-width: 1200px;
     margin: 0 auto;
     overflow: hidden;
     color: #fff;
     text-decoration: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
   }
 
-  .tool-bg {
-    position: absolute;
-    inset: 0;
+  .tool-image {
+    position: relative;
     overflow: hidden;
   }
 
-  .tool-bg img {
+  .tool-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s;
   }
 
-  .tool-banner:hover .tool-bg img {
+  .tool-banner:hover .tool-image img {
     transform: scale(1.05);
   }
 
-  .tool-overlay {
+  .tool-image::after {
+    content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.1) 100%);
+    background: linear-gradient(to right, transparent 50%, var(--surface) 100%);
+    pointer-events: none;
   }
 
-  .tool-content {
-    position: relative;
-    z-index: 1;
-    height: 100%;
+  .tool-text {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding-bottom: 80px;
+    justify-content: center;
+    padding: 48px 48px 48px 32px;
+    color: var(--text);
   }
 
   .tool-label {
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: rgba(255,255,255,0.7);
+    color: var(--accent);
     margin-bottom: 12px;
   }
 
   .tool-title {
     font-family: var(--font-heading);
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 400;
-    margin-bottom: 12px;
-    max-width: 600px;
+    margin-bottom: 16px;
+    line-height: 1.2;
   }
 
   .tool-desc {
     font-size: 1.05rem;
-    color: rgba(255,255,255,0.8);
-    max-width: 500px;
-    line-height: 1.6;
-    margin-bottom: 24px;
-  }
-
-  .tool-link {
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid rgba(255,255,255,0.4);
-    padding-bottom: 4px;
-    display: inline-block;
-    width: fit-content;
-  }
-
-  .tool-banner:hover .tool-link {
-    border-color: #fff;
+    color: var(--text-light);
+    line-height: 1.7;
   }
 
   @media (max-width: 768px) {
     .tool-banner {
-      height: 60vh;
+      grid-template-columns: 1fr;
       min-height: 320px;
     }
-    .tool-title {
-      font-size: 1.8rem;
+    .tool-image {
+      height: 200px;
     }
-    .tool-content {
-      padding-bottom: 48px;
+    .tool-image::after {
+      background: linear-gradient(to bottom, transparent 50%, var(--surface) 100%);
+    }
+    .tool-text {
+      padding: 24px 24px 32px;
+    }
+    .tool-title {
+      font-size: 1.6rem;
     }
   }
 
   @media (max-width: 480px) {
     .tool-banner {
-      height: 50vh;
-      min-height: 280px;
-      max-height: 400px;
+      min-height: auto;
+    }
+    .tool-image {
+      height: 160px;
+    }
+    .tool-text {
+      padding: 20px 16px 24px;
     }
     .tool-title {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
     }
     .tool-desc {
       font-size: 0.9rem;
-    }
-    .tool-content {
-      padding-bottom: 32px;
     }
   }
 </style>

@@ -5,16 +5,24 @@
 <section class="hero">
   <div class="container hero-inner">
     <div class="hero-content">
-      <p class="hero-label" data-animate="fade" data-delay="1">Мастер резьбы по дереву</p>
-      <h1 class="hero-title" data-animate data-delay="2">Илья</h1>
-      <p class="hero-desc" data-animate data-delay="3">
+      <p class="hero-label" data-animate="fade" data-delay="1" data-i18n="hero.label">Мастер резьбы по дереву</p>
+      <h1 class="hero-title" data-animate data-delay="2" data-i18n="hero.title">Илья</h1>
+      <p class="hero-desc" data-animate data-delay="3" data-i18n="hero.desc">
         Создаю уникальные изделия из натурального дерева. Каждая работа — 
         это сочетание традиционного мастерства и современного дизайна.
       </p>
-      <div class="hero-actions" data-animate data-delay="4">
-        <a href="#products" class="btn">Смотреть изделия</a>
-        <a href="#payment" class="btn btn-outline">Заказать</a>
-      </div>
+    </div>
+    <div class="hero-nav" data-animate data-delay="4">
+      <a href="#products" class="hero-card">
+        <div class="hero-card-img hero-card-products">
+          <span class="hero-card-placeholder" data-i18n="hero.cardProducts">Изделия</span>
+        </div>
+      </a>
+      <a href="#tools" class="hero-card">
+        <div class="hero-card-img hero-card-tools">
+          <span class="hero-card-placeholder" data-i18n="hero.cardTools">Инструменты</span>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -32,11 +40,14 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
-    align-items: center;
+    align-items: stretch;
   }
 
   .hero-content {
     max-width: 540px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .hero-label {
@@ -60,20 +71,52 @@
     margin-bottom: 40px;
   }
 
-  .hero-actions {
+  .hero-nav {
     display: flex;
-    gap: 16px;
+    gap: 24px;
+    align-items: stretch;
   }
 
-  .btn-outline {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--text);
+  .hero-card {
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+    flex: 1;
+    display: flex;
   }
 
-  .btn-outline:hover {
-    background: var(--text);
-    color: #fff;
+  .hero-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .hero-card-img {
+    flex: 1;
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s;
+  }
+
+  .hero-card:hover .hero-card-img {
+    border-color: var(--accent);
+  }
+
+  .hero-card-placeholder {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-card-products {
+    background: linear-gradient(135deg, var(--surface), var(--beige));
+  }
+
+  .hero-card-tools {
+    background: linear-gradient(135deg, var(--beige), var(--surface));
   }
 
   @media (max-width: 768px) {
@@ -87,8 +130,20 @@
     .hero-title {
       font-size: 3rem;
     }
-    .hero-actions {
+    .hero-nav {
+      flex-direction: row;
       justify-content: center;
+      gap: 16px;
+    }
+    .hero-card {
+      flex: 1;
+      max-width: 260px;
+    }
+    .hero-card-img {
+      aspect-ratio: 4 / 3;
+    }
+    .hero-card-placeholder {
+      font-size: 1rem;
     }
   }
 
@@ -98,14 +153,19 @@
     }
     .hero-desc {
       font-size: 1rem;
+      margin-bottom: 24px;
     }
-    .hero-actions {
+    .hero-nav {
       flex-direction: column;
       align-items: center;
     }
-    .hero-actions .btn {
+    .hero-card {
+      flex: none;
       width: 100%;
-      max-width: 280px;
+      max-width: 260px;
+    }
+    .hero-card-img {
+      aspect-ratio: 4 / 3;
     }
   }
 </style>

@@ -10,8 +10,8 @@ import CookieConsent from '../components/CookieConsent.astro';
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Илья — Резьба по дереву</title>
-    <meta name="description" content="Ручная работа. Резьба по дереву от Ильи. Уникальные изделия из натурального дерева." />
+    <title data-i18n="meta.title">Илья — Резьба по дереву</title>
+    <meta name="description" content="Ручная работа. Резьба по дереву от Ильи. Уникальные изделия из натурального дерева." data-i18n-content="meta.desc" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oranienbaum&display=swap" rel="stylesheet" />
@@ -19,7 +19,16 @@ import CookieConsent from '../components/CookieConsent.astro';
   <body>
     <slot />
     <CookieConsent />
-    <script>
+    <script is:inline src="/js/i18n.js"></script>
+      <script>
+      function __t(key, fallback) {
+        if (window.i18n && window.i18n.loaded) {
+          var val = window.i18n.t(key);
+          if (val !== key) return val;
+        }
+        return fallback;
+      }
+
       function initCart() {
         const overlay = document.getElementById('cart-overlay');
         const cart = document.getElementById('cart');
@@ -44,36 +53,41 @@ import CookieConsent from '../components/CookieConsent.astro';
           return items.reduce((s, item) => s + item.qty, 0);
         }
 
+        function fmtPrice(p) {
+          var lang = (window.i18n && window.i18n.lang) || 'ru';
+          return p.toLocaleString(lang === 'en' ? 'en-US' : 'ru-RU') + ' ₽';
+        }
+
         function render() {
           if (!itemsEl) return;
           if (items.length === 0) {
-            itemsEl.innerHTML = '<p class="cart-empty">Корзина пуста</p>';
+            itemsEl.innerHTML = '<p class="cart-empty">' + __t('cart.empty', 'Корзина пуста') + '</p>';
           } else {
-            itemsEl.innerHTML = items.map((item, i) => `
-              <div class="cart-item">
-                <div class="cart-item-info">
-                  <div class="cart-item-title">${item.title}</div>
-                  <div class="cart-item-price">${item.price.toLocaleString('ru-RU')} ₽</div>
-                  <div class="cart-item-actions">
-                    <div class="cart-item-qty">
-                      <button class="cart-qty-btn" data-index="${i}" data-dir="-1">−</button>
-                      <span class="cart-qty-value">${item.qty}</span>
-                      <button class="cart-qty-btn" data-index="${i}" data-dir="1">+</button>
-                    </div>
-                    <button class="cart-item-remove" data-index="${i}">Удалить</button>
-                  </div>
-                </div>
-              </div>
-            `).join('');
+            itemsEl.innerHTML = items.map(function (item, i) { return (
+              '<div class="cart-item">' +
+                '<div class="cart-item-info">' +
+                  '<div class="cart-item-title">' + item.title + '</div>' +
+                  '<div class="cart-item-price">' + fmtPrice(item.price) + '</div>' +
+                  '<div class="cart-item-actions">' +
+                    '<div class="cart-item-qty">' +
+                      '<button class="cart-qty-btn" data-index="' + i + '" data-dir="-1">−</button>' +
+                      '<span class="cart-qty-value">' + item.qty + '</span>' +
+                      '<button class="cart-qty-btn" data-index="' + i + '" data-dir="1">+</button>' +
+                    '</div>' +
+                    '<button class="cart-item-remove" data-index="' + i + '">' + __t('cart.remove', 'Удалить') + '</button>' +
+                  '</div>' +
+                '</div>' +
+              '</div>');
+            }).join('');
           }
 
-          totalEl.textContent = `${total().toLocaleString('ru-RU')} ₽`;
+          totalEl.textContent = fmtPrice(total());
           countEl.textContent = count();
 
-          itemsEl.querySelectorAll('.cart-qty-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-              const idx = parseInt(btn.dataset.index);
-              const dir = parseInt(btn.dataset.dir);
+          itemsEl.querySelectorAll('.cart-qty-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              var idx = parseInt(btn.dataset.index);
+              var dir = parseInt(btn.dataset.dir);
               items[idx].qty += dir;
               if (items[idx].qty <= 0) items.splice(idx, 1);
               save();
@@ -81,8 +95,8 @@ import CookieConsent from '../components/CookieConsent.astro';
             });
           });
 
-          itemsEl.querySelectorAll('.cart-item-remove').forEach(btn => {
-            btn.addEventListener('click', () => {
+          itemsEl.querySelectorAll('.cart-item-remove').forEach(function (btn) {
+            btn.addEventListener('click', function () {
               items.splice(parseInt(btn.dataset.index), 1);
               save();
               render();
@@ -107,20 +121,20 @@ import CookieConsent from '../components/CookieConsent.astro';
         if (overlay) overlay.addEventListener('click', close);
         if (checkoutBtn) checkoutBtn.addEventListener('click', close);
 
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', function (e) {
           if (e.key === 'Escape') close();
         });
 
-        document.querySelectorAll('.btn-cart').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const id = parseInt(btn.dataset.id);
-            const title = btn.dataset.title;
-            const price = parseInt(btn.dataset.price);
-            const existing = items.find(item => item.id === id);
+        document.querySelectorAll('.btn-cart').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var id = parseInt(btn.dataset.id);
+            var title = btn.dataset.title;
+            var price = parseInt(btn.dataset.price);
+            var existing = items.find(function (item) { return item.id === id; });
             if (existing) {
               existing.qty++;
             } else {
-              items.push({ id, title, price, qty: 1 });
+              items.push({ id: id, title: title, price: price, qty: 1 });
             }
             save();
             render();
@@ -131,9 +145,9 @@ import CookieConsent from '../components/CookieConsent.astro';
         render();
       }
 
-      document.addEventListener('DOMContentLoaded', () => {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
+      document.addEventListener('DOMContentLoaded', function () {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
             if (entry.isIntersecting) {
               entry.target.classList.add('animated');
             } else {
@@ -142,16 +156,28 @@ import CookieConsent from '../components/CookieConsent.astro';
           });
         }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-        document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+        document.querySelectorAll('[data-animate]').forEach(function (el) { observer.observe(el); });
 
         initCart();
       });
 
-      let ticking = false;
-      document.addEventListener('scroll', () => {
+      document.addEventListener('langchange', function () {
+        var cart = document.getElementById('cart-items');
+        if (cart) {
+          initCart();
+        }
+        document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
+          if (window.i18n && window.i18n.loaded) {
+            el.title = window.i18n.t(el.dataset.i18nTitle);
+          }
+        });
+      });
+
+      var ticking = false;
+      document.addEventListener('scroll', function () {
         if (!ticking) {
-          requestAnimationFrame(() => {
-            const header = document.querySelector('.header');
+          requestAnimationFrame(function () {
+            var header = document.querySelector('.header');
             if (header) {
               header.classList.toggle('scrolled', window.scrollY > 100);
             }

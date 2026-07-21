@@ -12,51 +12,50 @@
             <polyline points="22,6 12,13 2,6"/>
           </svg>
         </div>
-        <h2 class="order-title">Оформить заказ</h2>
-        <p class="order-subtitle">
+        <h2 class="order-title" data-i18n="payment.title">Оформить заказ</h2>
+        <p class="order-subtitle" data-i18n="payment.subtitle">
           Заполните форму — я свяжусь с вами в удобном мессенджере
         </p>
-      <form class="order-form" action="https://formspree.io/f/xpqvdaed" method="POST">
+      <form id="order-form" class="order-form" action="https://formspree.io/f/xpqvdaed" method="POST">
           <div class="form-group">
             <label for="order-name">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              Ваше имя
+              <span data-i18n="payment.nameLabel">Ваше имя</span>
             </label>
-            <input type="text" id="order-name" name="name" placeholder="Иван" required />
+            <input type="text" id="order-name" name="name" placeholder="Иван" data-i18n-placeholder="payment.namePlaceholder" required />
           </div>
           <div class="form-group">
             <label for="order-phone">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              Телефон для связи
+              <span data-i18n="payment.phoneLabel">Телефон для связи</span>
             </label>
-            <input type="tel" id="order-phone" name="phone" placeholder="+7 (___) ___-__-__" required />
+            <input type="tel" id="order-phone" name="phone" placeholder="+7 (___) ___-__-__" data-i18n-placeholder="payment.phonePlaceholder" required />
           </div>
           <div class="form-group">
             <label for="order-messenger">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              Куда написать?
+              <span data-i18n="payment.messengerLabel">Куда написать?</span>
             </label>
             <select id="order-messenger" name="messenger" required>
-              <option value="" disabled selected>Выберите мессенджер</option>
-              <option value="telegram">Telegram</option>
-              <option value="whatsapp">WhatsApp</option>
-              <option value="viber">Viber</option>
-              <option value="sms">SMS</option>
+              <option value="" disabled selected data-i18n="payment.messengerPlaceholder">Выберите мессенджер</option>
+              <option value="telegram" data-i18n="payment.messengerOptTelegram">Telegram</option>
+              <option value="whatsapp" data-i18n="payment.messengerOptWhatsApp">WhatsApp</option>
+              <option value="viber" data-i18n="payment.messengerOptViber">Viber</option>
+              <option value="sms" data-i18n="payment.messengerOptSMS">SMS</option>
             </select>
-            <p class="form-hint">Убедитесь, что в выбранной соцсети открыт номер для связи</p>
+            <p class="form-hint" data-i18n="payment.messengerHint">Убедитесь, что в выбранной соцсети открыт номер для связи</p>
           </div>
           <div class="form-divider"></div>
           <button type="submit" class="order-btn">
-            <span>Отправить</span>
+            <span data-i18n="payment.btnSubmit">Отправить</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
           <p class="form-agreement">
-            Нажимая «Отправить», вы соглашаетесь с 
-            <a href="/privacy">обработкой персональных данных</a>
+            <span data-i18n="payment.agreement">Нажимая «Отправить», вы соглашаетесь с</span><span> </span><a href="/privacy" data-i18n="payment.agreementLink">обработкой персональных данных</a>
           </p>
           <div id="form-success" class="form-success">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            <p>Спасибо! Я свяжусь с вами в ближайшее время.</p>
+            <p data-i18n="payment.success">Спасибо! Я свяжусь с вами в ближайшее время.</p>
           </div>
         </form>
       </div>
@@ -65,6 +64,15 @@
 </section>
 
 <script>
+  const i18nBtnText = function () {
+    if (window.i18n && window.i18n.loaded) return window.i18n.t('payment.btnSubmit');
+    return 'Отправить';
+  };
+  const i18nSendingText = function () {
+    if (window.i18n && window.i18n.loaded) return window.i18n.t('payment.btnSending');
+    return 'Отправка...';
+  };
+
   const form = document.getElementById('order-form');
   const success = document.getElementById('form-success');
   if (form) {
@@ -72,7 +80,7 @@
       e.preventDefault();
       const btn = form.querySelector('.order-btn');
       btn.disabled = true;
-      btn.textContent = 'Отправка...';
+      btn.innerHTML = i18nSendingText();
       try {
         const res = await fetch(form.action, {
           method: 'POST',
@@ -86,7 +94,7 @@
         }
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '<span>Отправить</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+        btn.innerHTML = '<span>' + i18nBtnText() + '</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
       }
     });
   }

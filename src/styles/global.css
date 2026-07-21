@@ -1,12 +1,12 @@
 :root {
-  --bg: #FFF8F0;
-  --text: #3E2723;
-  --text-light: #6D4C41;
-  --accent: #8D6E63;
-  --accent-light: #A1887F;
-  --surface: #FFFFFF;
-  --border: #E8DDD0;
-  --beige: #F5F0EB;
+  --bg: #1C1714;
+  --text: #F5EDE4;
+  --text-light: #C4B5A4;
+  --accent: #C8A96E;
+  --accent-light: #D4BA85;
+  --surface: #261F1A;
+  --border: #3D322A;
+  --beige: #2A2219;
   --font-heading: 'Oranienbaum', Georgia, serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }

@@ -4,28 +4,26 @@
 
 <section class="section about" id="about">
   <div class="container">
-    <h2 class="section-title" data-animate>Обо мне</h2>
-    <p class="section-subtitle" data-animate data-delay="1">
+    <h2 class="section-title" data-animate data-i18n="about.title">Обо мне</h2>
+    <p class="section-subtitle" data-animate data-delay="1" data-i18n="about.subtitle">
       Мастерство, переданное через года, и любовь к природе в каждом изделии.
     </p>
     <div class="about-grid">
       <div class="about-image" data-animate="left">
-        <div class="image-placeholder">
-          <span>Фото Ильи</span>
-        </div>
+        <img src="/images/Ilya.jpg" alt="Илья" class="about-photo" />
       </div>
       <div class="about-text" data-animate="right">
-        <p>
-          Меня зовут Илья. Резьбой по дереву занимаюсь более 10 лет. 
+        <p data-i18n="about.p1">
+          Меня зовут Илья. Резьбой по дереву занимаюсь более 20 лет. 
           Для меня дерево — это живой материал, который сам подсказывает форму.
         </p>
-        <p>
+        <p data-i18n="about.p2">
           Каждое изделие создаётся вручную, от выбора заготовки до финальной 
           шлифовки. Я использую только натуральные масла и воски для покрытия, 
           чтобы сохранить текстуру и тепло дерева.
         </p>
-        <p>
-          Работаю с дубом, орехом, ясенем и липой. Готов обсудить 
+        <p data-i18n="about.p3">
+          Работаю со всеми видами дерева. Готов обсудить 
           индивидуальный заказ под ваши пожелания.
         </p>
       </div>
@@ -41,15 +39,11 @@
     align-items: center;
   }
 
-  .image-placeholder {
+  .about-photo {
     width: 100%;
     aspect-ratio: 4 / 5;
-    background: var(--beige);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-light);
-    font-size: 1.1rem;
+    object-fit: cover;
+    display: block;
   }
 
   .about-text p {

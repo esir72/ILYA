@@ -1,0 +1,34 @@
+<button id="lang-toggle" class="lang-toggle" aria-label="Switch language">RU</button>
+
+<style>
+  .lang-toggle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--beige);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    padding: 0;
+    transition: background 0.2s, border-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lang-toggle:hover {
+    background: var(--surface);
+    border-color: var(--accent);
+  }
+
+  .lang-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+</style>
