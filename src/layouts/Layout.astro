@@ -55,7 +55,11 @@ import CookieConsent from '../components/CookieConsent.astro';
 
         function fmtPrice(p) {
           var lang = (window.i18n && window.i18n.lang) || 'ru';
-          return p.toLocaleString(lang === 'en' ? 'en-US' : 'ru-RU') + ' ₽';
+          if (lang === 'en') {
+            var usd = Math.round(p / 90);
+            return '$' + usd.toLocaleString('en-US');
+          }
+          return p.toLocaleString('ru-RU') + ' ₽';
         }
 
         function render() {
