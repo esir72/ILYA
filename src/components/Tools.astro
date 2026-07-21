@@ -1,71 +1,185 @@
 ---
-const tool = {
-  title: 'Набор резцов для резьбы по дереву',
-  desc: 'Собственноручно изготовленный набор из трёх резцов. Сталь У8, ручки — кап берёзы.',
-  price: 3800,
-  image: '/images/10 Mind-Blowing Wood Carving Techniques You Need To Try Today! - The Table Read Magazine.jpg',
-};
+const slides = [
+  {
+    image: '/images/10 Mind-Blowing Wood Carving Techniques You Need To Try Today! - The Table Read Magazine.jpg',
+    shortTitle: 'Набор резцов',
+    shortDesc: 'Собственноручно изготовленный набор из трёх резцов.',
+    fullTitle: 'Набор резцов для резьбы по дереву',
+    fullDesc: 'Собственноручно изготовленный набор из трёх резцов для геометрической и контурной резьбы. Сталь У8, ручки — кап берёзы.',
+  },
+  {
+    image: '/images/sumka-iz-dereva.jpg',
+    shortTitle: 'Сумка из дерева',
+    shortDesc: 'Ручная работа из натурального дерева.',
+    fullTitle: 'Сумка из дерева',
+    fullDesc: 'Уникальный дизайн с фактурой древесины. Каждое изделие создаётся вручную, от выбора заготовки до финальной шлифовки.',
+  },
+  {
+    image: '/images/kartina-volny-golubye-iz-dereva.jpg',
+    shortTitle: 'Картина «Волны»',
+    shortDesc: 'Резная картина с морскими волнами.',
+    fullTitle: 'Картина «Волны»',
+    fullDesc: 'Авторская работа из дерева. Глубина и текстура дерева передают движение волн.',
+  },
+  {
+    image: '/images/koshelek-iz-dereva.jpg',
+    shortTitle: 'Кошелёк из дерева',
+    shortDesc: 'Оригинальный деревянный кошелёк.',
+    fullTitle: 'Кошелёк из дерева',
+    fullDesc: 'Вместительный и долговечный. Ручная работа с натуральным покрытием из масел и воска.',
+  },
+];
 ---
 
-<a href="/tool" class="tool-banner" id="tools" data-animate="fade">
-  <div class="tool-image">
-    <img src={tool.image} alt="" />
+<section class="tools-carousel" id="tools" data-animate="fade">
+  <div class="carousel-container">
+    <div class="carousel-track" id="carousel-track">
+      {slides.map((slide, i) => (
+        <div class="carousel-slide" data-index={i}>
+          <img src={slide.image} alt="" class="carousel-bg" />
+          <div class="carousel-overlay"></div>
+          <div class="carousel-content">
+            <p class="carousel-label" data-i18n="tools.label">Инструменты</p>
+            <h2 class="carousel-short-title">{slide.shortTitle}</h2>
+            <p class="carousel-short-desc">{slide.shortDesc}</p>
+            <div class="carousel-full">
+              <h2 class="carousel-full-title">{slide.fullTitle}</h2>
+              <p class="carousel-full-desc">{slide.fullDesc}</p>
+            </div>
+            <button class="carousel-toggle-btn" data-i18n="tools.expand">Подробнее</button>
+          </div>
+        </div>
+      ))}
+    </div>
+    <button class="carousel-arrow carousel-prev" id="carousel-prev" aria-label="Назад">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="carousel-arrow carousel-next" id="carousel-next" aria-label="Вперёд">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <div class="carousel-dots" id="carousel-dots">
+      {slides.map((_, i) => (
+        <button class="carousel-dot" data-slide={i} aria-label={`Слайд ${i + 1}`}></button>
+      ))}
+    </div>
   </div>
-  <div class="tool-text">
-    <p class="tool-label" data-i18n="tools.label">Инструменты</p>
-    <h2 class="tool-title" data-i18n="tools.title">{tool.title}</h2>
-    <p class="tool-desc" data-i18n="tools.desc">{tool.desc}</p>
-  </div>
-</a>
+</section>
+
+<script>
+  (function () {
+    var track = document.getElementById('carousel-track');
+    var slides = track.querySelectorAll('.carousel-slide');
+    var prevBtn = document.getElementById('carousel-prev');
+    var nextBtn = document.getElementById('carousel-next');
+    var dots = document.querySelectorAll('.carousel-dot');
+    var current = 0;
+
+    function goTo(index) {
+      if (index < 0) index = slides.length - 1;
+      if (index >= slides.length) index = 0;
+      current = index;
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+      dots.forEach(function (d, i) {
+        d.classList.toggle('active', i === current);
+      });
+      // collapse all slides
+      slides.forEach(function (s) { s.classList.remove('expanded'); });
+      updateToggleText();
+    }
+
+    function getToggleBtn(slide) {
+      return slide.querySelector('.carousel-toggle-btn');
+    }
+
+    function updateToggleText() {
+      slides.forEach(function (s) {
+        var btn = getToggleBtn(s);
+        if (window.i18n && window.i18n.loaded) {
+          btn.textContent = s.classList.contains('expanded')
+            ? window.i18n.t('tools.collapse')
+            : window.i18n.t('tools.expand');
+        } else {
+          btn.textContent = s.classList.contains('expanded') ? 'Свернуть' : 'Подробнее';
+        }
+      });
+    }
+
+    prevBtn.addEventListener('click', function () { goTo(current - 1); });
+    nextBtn.addEventListener('click', function () { goTo(current + 1); });
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () { goTo(parseInt(dot.dataset.slide)); });
+    });
+
+    slides.forEach(function (slide) {
+      var btn = getToggleBtn(slide);
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        slide.classList.toggle('expanded');
+        updateToggleText();
+      });
+    });
+
+    // keyboard
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') goTo(current - 1);
+      if (e.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    goTo(0);
+  })();
+</script>
 
 <style>
-  .tool-banner {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 400px;
+  .tools-carousel {
     max-width: 1200px;
     margin: 0 auto;
-    overflow: hidden;
-    color: #fff;
-    text-decoration: none;
-    background: var(--surface);
-    border: 1px solid var(--border);
+    padding: 0;
   }
 
-  .tool-image {
+  .carousel-container {
     position: relative;
     overflow: hidden;
   }
 
-  .tool-image img {
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .carousel-slide {
+    min-width: 100%;
+    position: relative;
+    height: 70vh;
+    min-height: 400px;
+    max-height: 600px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .carousel-bg {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s;
   }
 
-  .tool-banner:hover .tool-image img {
-    transform: scale(1.05);
-  }
-
-  .tool-image::after {
-    content: '';
+  .carousel-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, transparent 50%, var(--surface) 100%);
-    pointer-events: none;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1) 100%);
   }
 
-  .tool-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 48px 48px 48px 32px;
-    color: var(--text);
+  .carousel-content {
+    position: relative;
+    z-index: 1;
+    padding: 48px;
+    max-width: 600px;
+    color: #fff;
   }
 
-  .tool-label {
+  .carousel-label {
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -73,54 +187,165 @@ const tool = {
     margin-bottom: 12px;
   }
 
-  .tool-title {
+  .carousel-short-title {
     font-family: var(--font-heading);
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     font-weight: 400;
-    margin-bottom: 16px;
-    line-height: 1.2;
+    margin-bottom: 12px;
   }
 
-  .tool-desc {
+  .carousel-short-desc {
     font-size: 1.05rem;
-    color: var(--text-light);
+    color: rgba(255,255,255,0.8);
+    line-height: 1.6;
+  }
+
+  .carousel-full {
+    display: none;
+    margin-top: 16px;
+  }
+
+  .carousel-slide.expanded .carousel-short-title,
+  .carousel-slide.expanded .carousel-short-desc {
+    display: none;
+  }
+
+  .carousel-slide.expanded .carousel-full {
+    display: block;
+  }
+
+  .carousel-full-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+
+  .carousel-full-desc {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
     line-height: 1.7;
   }
 
+  .carousel-toggle-btn {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 12px 28px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background 0.25s;
+  }
+
+  .carousel-toggle-btn:hover {
+    background: var(--accent-light);
+  }
+
+  /* arrows */
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .carousel-arrow:hover {
+    background: rgba(0,0,0,0.7);
+  }
+
+  .carousel-prev { left: 16px; }
+  .carousel-next { right: 16px; }
+
+  /* dots */
+  .carousel-dots {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    gap: 10px;
+  }
+
+  .carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.6);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .carousel-dot.active {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .carousel-dot:hover {
+    border-color: #fff;
+  }
+
   @media (max-width: 768px) {
-    .tool-banner {
-      grid-template-columns: 1fr;
-      min-height: 320px;
+    .carousel-slide {
+      height: 60vh;
+      min-height: 360px;
     }
-    .tool-image {
-      height: 200px;
+    .carousel-content {
+      padding: 32px;
     }
-    .tool-image::after {
-      background: linear-gradient(to bottom, transparent 50%, var(--surface) 100%);
+    .carousel-short-title {
+      font-size: 1.8rem;
     }
-    .tool-text {
-      padding: 24px 24px 32px;
-    }
-    .tool-title {
-      font-size: 1.6rem;
+    .carousel-full-title {
+      font-size: 1.5rem;
     }
   }
 
   @media (max-width: 480px) {
-    .tool-banner {
-      min-height: auto;
+    .carousel-slide {
+      height: 55vh;
+      min-height: 320px;
     }
-    .tool-image {
-      height: 160px;
+    .carousel-content {
+      padding: 24px;
     }
-    .tool-text {
-      padding: 20px 16px 24px;
+    .carousel-short-title {
+      font-size: 1.4rem;
     }
-    .tool-title {
-      font-size: 1.3rem;
-    }
-    .tool-desc {
+    .carousel-short-desc {
       font-size: 0.9rem;
+    }
+    .carousel-full-title {
+      font-size: 1.2rem;
+    }
+    .carousel-full-desc {
+      font-size: 0.9rem;
+    }
+    .carousel-arrow {
+      width: 36px;
+      height: 36px;
+    }
+    .carousel-prev { left: 8px; }
+    .carousel-next { right: 8px; }
+    .carousel-dots {
+      bottom: 16px;
     }
   }
 </style>

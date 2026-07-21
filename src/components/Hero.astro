@@ -14,13 +14,13 @@
     </div>
     <div class="hero-nav" data-animate data-delay="4">
       <a href="#products" class="hero-card">
-        <div class="hero-card-img hero-card-products">
-          <span class="hero-card-placeholder" data-i18n="hero.cardProducts">Изделия</span>
+        <div class="hero-card-img" style="background-image: url('/images/sumka-iz-dereva.jpg')">
+          <span class="hero-card-label" data-i18n="hero.cardProducts">Изделия</span>
         </div>
       </a>
       <a href="#tools" class="hero-card">
-        <div class="hero-card-img hero-card-tools">
-          <span class="hero-card-placeholder" data-i18n="hero.cardTools">Инструменты</span>
+        <div class="hero-card-img" style="background-image: url('/images/10 Mind-Blowing Wood Carving Techniques You Need To Try Today! - The Table Read Magazine.jpg')">
+          <span class="hero-card-label" data-i18n="hero.cardTools">Инструменты</span>
         </div>
       </a>
     </div>
@@ -38,16 +38,13 @@
 
   .hero-inner {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 3fr;
     gap: 60px;
-    align-items: stretch;
+    align-items: center;
   }
 
   .hero-content {
     max-width: 540px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 
   .hero-label {
@@ -74,14 +71,12 @@
   .hero-nav {
     display: flex;
     gap: 24px;
-    align-items: stretch;
   }
 
   .hero-card {
     text-decoration: none;
     transition: transform 0.3s, box-shadow 0.3s;
     flex: 1;
-    display: flex;
   }
 
   .hero-card:hover {
@@ -89,34 +84,39 @@
   }
 
   .hero-card-img {
-    flex: 1;
     width: 100%;
-    background: var(--surface);
+    aspect-ratio: 4 / 3;
+    background-size: cover;
+    background-position: center;
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     transition: border-color 0.3s;
   }
 
-  .hero-card:hover .hero-card-img {
-    border-color: var(--accent);
+  .hero-card-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    transition: background 0.3s;
   }
 
-  .hero-card-placeholder {
+  .hero-card:hover .hero-card-img::before {
+    background: rgba(0,0,0,0.25);
+  }
+
+  .hero-card-label {
+    position: relative;
+    z-index: 1;
     font-family: var(--font-heading);
-    font-size: 1.5rem;
-    color: var(--text-light);
+    font-size: 2rem;
+    color: #fff;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-  }
-
-  .hero-card-products {
-    background: linear-gradient(135deg, var(--surface), var(--beige));
-  }
-
-  .hero-card-tools {
-    background: linear-gradient(135deg, var(--beige), var(--surface));
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
   }
 
   @media (max-width: 768px) {
@@ -142,7 +142,7 @@
     .hero-card-img {
       aspect-ratio: 4 / 3;
     }
-    .hero-card-placeholder {
+    .hero-card-label {
       font-size: 1rem;
     }
   }

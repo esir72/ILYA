@@ -36,6 +36,8 @@
   "tools.title": "Wood Carving Chisel Set",
   "tools.desc": "A handcrafted set of three chisels. U8 steel, birch burl handles.",
   "tools.link": "Learn more →",
+  "tools.expand": "Details",
+  "tools.collapse": "Collapse",
 
   "payment.title": "Place an order",
   "payment.subtitle": "Fill out the form — I will contact you in your preferred messenger",
