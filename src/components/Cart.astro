@@ -1,7 +1,15 @@
 <div id="cart-overlay" class="cart-overlay"></div>
 <aside id="cart" class="cart">
   <div class="cart-header">
-    <h2 class="cart-title" data-i18n="cart.title">Корзина</h2>
+    <div class="cart-header-left">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <h2 class="cart-title" data-i18n="cart.title">Корзина</h2>
+      <span id="cart-count" class="cart-count-badge">0</span>
+    </div>
     <button id="cart-close" class="cart-close" aria-label="Закрыть">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"/>
@@ -10,12 +18,19 @@
     </button>
   </div>
   <div id="cart-items" class="cart-items">
-    <p class="cart-empty" data-i18n="cart.empty">Корзина пуста</p>
+    <div class="cart-empty">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <p data-i18n="cart.empty">Корзина пуста</p>
+    </div>
   </div>
   <div id="cart-footer" class="cart-footer">
-    <div class="cart-total">
-      <span data-i18n="cart.total">Итого</span>
-      <span id="cart-total">0 ₽</span>
+    <div class="cart-total-row">
+      <span class="cart-total-label" data-i18n="cart.total">Итого</span>
+      <span id="cart-total" class="cart-total-value">0 ₽</span>
     </div>
     <a href="#payment" id="cart-checkout" class="btn cart-checkout" data-i18n="cart.checkout">Оформить заказ</a>
   </div>
@@ -42,7 +57,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    width: 380px;
+    width: 420px;
     max-width: 100vw;
     background: var(--surface);
     border-left: 1px solid var(--border);
@@ -51,6 +66,7 @@
     flex-direction: column;
     transform: translateX(100%);
     transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: -4px 0 24px rgba(0,0,0,0.15);
   }
 
   .cart.open {
@@ -61,8 +77,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 24px;
-    border-bottom: 1px solid var(--border);
+    padding: 24px 24px 20px;
+  }
+
+  .cart-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cart-header-left svg {
+    color: var(--accent);
   }
 
   .cart-title {
@@ -70,117 +95,77 @@
     font-size: 1.4rem;
   }
 
+  .cart-count-badge {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 6px;
+  }
+
   .cart-close {
     background: none;
     border: none;
     cursor: pointer;
     color: var(--text-light);
-    padding: 4px;
+    padding: 6px;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
   }
 
   .cart-close:hover {
+    background: var(--bg);
     color: var(--text);
   }
 
   .cart-items {
     flex: 1;
     overflow-y: auto;
-    padding: 24px;
+    padding: 0 24px;
   }
 
   .cart-empty {
     color: var(--text-light);
     text-align: center;
-    margin-top: 60px;
-  }
-
-  .cart-item {
+    margin-top: 80px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 16px;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
   }
 
-  .cart-item:first-child {
-    padding-top: 0;
+  .cart-empty svg {
+    opacity: 0.3;
   }
 
-  .cart-item-info {
-    flex: 1;
-  }
-
-  .cart-item-title {
-    font-family: var(--font-heading);
-    font-size: 1rem;
-    margin-bottom: 4px;
-  }
-
-  .cart-item-price {
-    font-size: 0.9rem;
-    color: var(--accent);
-    font-weight: 600;
-  }
-
-  .cart-item-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 8px;
-  }
-
-  .cart-item-qty {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .cart-qty-btn {
-    width: 28px;
-    height: 28px;
-    border: 1px solid var(--border);
-    background: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    color: var(--text);
-  }
-
-  .cart-qty-btn:hover {
-    background: var(--beige);
-  }
-
-  .cart-qty-value {
-    width: 24px;
-    text-align: center;
+  .cart-empty p {
     font-size: 0.95rem;
   }
 
-  .cart-item-remove {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--text-light);
-    font-size: 0.85rem;
-    text-decoration: underline;
-  }
-
-  .cart-item-remove:hover {
-    color: var(--text);
-  }
-
   .cart-footer {
-    padding: 24px;
+    padding: 20px 24px 24px;
     border-top: 1px solid var(--border);
   }
 
-  .cart-total {
+  .cart-total-row {
     display: flex;
     justify-content: space-between;
-    font-size: 1.1rem;
-    font-weight: 600;
+    align-items: baseline;
     margin-bottom: 16px;
+  }
+
+  .cart-total-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+  }
+
+  .cart-total-value {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--accent);
   }
 
   .cart-checkout {
@@ -190,14 +175,42 @@
 
   @media (max-width: 480px) {
     .cart {
+      top: auto;
+      bottom: 0;
       width: 100vw;
+      max-height: 85vh;
+      border-left: none;
+      border-top: 1px solid var(--border);
+      border-radius: 16px 16px 0 0;
+      transform: translateY(100%);
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.2);
     }
+
+    .cart.open {
+      transform: translateY(0);
+    }
+
     .cart-header {
-      padding: 16px;
+      padding: 14px 16px 12px;
+      position: relative;
     }
+
+    .cart-header::before {
+      content: '';
+      width: 36px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
     .cart-items {
-      padding: 16px;
+      padding: 0 16px;
     }
+
     .cart-footer {
       padding: 16px;
     }

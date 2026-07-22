@@ -243,3 +243,111 @@ a:hover {
   .carousel-track { transition: none; }
   .flip-inner { transition: none; }
 }
+
+/* cart dynamic items */
+.cart-item {
+  display: flex;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  animation: cart-item-in 0.3s ease-out;
+}
+
+.cart-item:first-child {
+  padding-top: 0;
+}
+
+@keyframes cart-item-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.cart-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-item-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.cart-item-price {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+
+.cart-item-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.cart-item-subtotal {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cart-qty-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--text);
+  transition: background 0.15s, color 0.15s;
+}
+
+.cart-qty-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.cart-qty-value {
+  min-width: 32px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0 4px;
+  height: 32px;
+  line-height: 32px;
+  background: var(--surface);
+}
+
+.cart-item-remove {
+  background: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  color: var(--text-light);
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.cart-item-remove:hover {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.08);
+}

@@ -64,7 +64,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
             </div>
             <div class="detail-bottom">
               <span class="detail-price" data-i18n="toolPage.price">{formatPrice(tool.price)}</span>
-              <button class="btn btn-cart" data-id="10" data-title={tool.title} data-price={tool.price} data-i18n="toolPage.btnCart">
+              <button class="btn btn-cart" data-id="10" data-title={tool.title} data-price={tool.price} data-img={tool.images[0]} data-i18n="toolPage.btnCart">
                 В корзину
               </button>
             </div>
