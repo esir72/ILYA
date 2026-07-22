@@ -1,5 +1,4 @@
 ---
-
 ---
 
 <section class="section about" id="about">
@@ -26,10 +25,52 @@
           Работаю со всеми видами дерева. Готов обсудить 
           индивидуальный заказ под ваши пожелания.
         </p>
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-num" data-count="20">0</span>
+            <span class="stat-label" data-i18n="stats.exp">Лет опыта</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num" data-count="500">0</span>
+            <span class="stat-label" data-i18n="stats.items">Изделий создано</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num" data-count="15">0</span>
+            <span class="stat-label" data-i18n="stats.woods">Пород дерева</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  var countObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting && !entry.target.dataset.counted) {
+        entry.target.dataset.counted = '1';
+        var target = parseInt(entry.target.dataset.count);
+        animateCount(entry.target, target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.stat-num').forEach(function (el) {
+    countObserver.observe(el);
+  });
+
+  function animateCount(el, target) {
+    var duration = 1500;
+    var start = performance.now();
+    function step(now) {
+      var progress = Math.min((now - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+</script>
 
 <style>
   .about-grid {
@@ -53,6 +94,37 @@
     margin-bottom: 20px;
   }
 
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-num {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: 0.03em;
+  }
+
+  .stat-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 8px;
+  }
+
   @media (max-width: 768px) {
     .about-grid {
       grid-template-columns: 1fr;
@@ -61,6 +133,10 @@
   }
 
   @media (max-width: 480px) {
+    .stats-row {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
     .about-text p {
       font-size: 0.95rem;
     }

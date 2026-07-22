@@ -191,3 +191,55 @@ a:hover {
 [data-delay="4"] { transition-delay: 0.4s; }
 [data-delay="5"] { transition-delay: 0.5s; }
 [data-delay="6"] { transition-delay: 0.6s; }
+
+.particles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0;
+  will-change: transform;
+  animation: particle-float 6s ease-in-out infinite;
+}
+
+@keyframes particle-float {
+  0% { opacity: 0; transform: translateY(0) scale(0); }
+  20% { opacity: 0.5; transform: translateY(-20px) scale(1); }
+  80% { opacity: 0.3; transform: translateY(-60px) scale(0.8); }
+  100% { opacity: 0; transform: translateY(-80px) scale(0); }
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 169, 110, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  will-change: left, top;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .particle, .cursor-glow, .hero-gloss::before, .gloss-overlay::before,
+  .flip-front::after, .btn-shimmer::before { display: none; }
+  .carousel-track { transition: none; }
+  .flip-inner { transition: none; }
+}

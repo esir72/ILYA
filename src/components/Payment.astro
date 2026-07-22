@@ -45,6 +45,7 @@
             </select>
             <p class="form-hint" data-i18n="payment.messengerHint">Убедитесь, что в выбранной соцсети открыт номер для связи</p>
           </div>
+          <input type="hidden" name="cart" id="order-cart" />
           <div class="form-divider"></div>
           <button type="submit" class="order-btn">
             <span data-i18n="payment.btnSubmit">Отправить</span>
@@ -75,9 +76,24 @@
 
   const form = document.getElementById('order-form');
   const success = document.getElementById('form-success');
+  const cartInput = document.getElementById('order-cart');
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // build cart text from localStorage
+      var items = JSON.parse(localStorage.getItem('cart') || '[]');
+      if (cartInput && items.length > 0) {
+        var lines = items.map(function (item) {
+          var sub = (item.price * item.qty).toLocaleString('ru-RU') + ' ₽';
+          return '- ' + item.title + ' x ' + item.qty + ' = ' + sub;
+        });
+        var total = items.reduce(function (s, item) { return s + item.price * item.qty; }, 0);
+        lines.push('');
+        lines.push('Итого: ' + total.toLocaleString('ru-RU') + ' ₽');
+        cartInput.value = lines.join('\n');
+      }
+
       const btn = form.querySelector('.order-btn');
       btn.disabled = true;
       btn.innerHTML = i18nSendingText();
@@ -91,6 +107,9 @@
           form.reset();
           form.style.display = 'none';
           success.classList.add('show');
+          // clear cart
+          localStorage.removeItem('cart');
+          if (window.initCart) window.initCart();
         }
       } finally {
         btn.disabled = false;

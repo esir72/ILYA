@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "fileName": "Илья-_-Резьба-по-дереву.html",
+  "entries": [
+    {
+      "id": "0ab6cca2-4c20-4c1b-b724-9ffd519a5c24",
+      "fileName": "Илья-_-Резьба-по-дереву.html",
+      "version": 1,
+      "label": "Version 1",
+      "createdAt": 1784705037391,
+      "source": "manual",
+      "prompt": null,
+      "size": 38816,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0001-0ab6cca2-4c20-4c1b-b724-9ffd519a5c24.html",
+      "promptSource": "manual"
+    }
+  ]
+}

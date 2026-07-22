@@ -1,0 +1,11 @@
+{
+  "kind": "critique-panel",
+  "score": 5,
+  "axes": {
+    "clarity": { "score": 5, "notes": "All sections readable. Removed redundant gloss-divider after carousel. Form error feedback added. Hero card overlay contrast improved to 0.5/0.35." },
+    "hierarchy": { "score": 5, "notes": "Display headings use negative tracking (-0.015em). Caps have 0.08em tracking. Section-title, hero-title, carousel-short-title all use proper display tracking." },
+    "typography": { "score": 5, "notes": "Oranienbaum + Inter. Negative tracking on h1/h2 (≥32px), zero on h3/h4. Caps tracking at 0.06–0.1em across nav, labels, buttons." },
+    "motion": { "score": 5, "notes": "Reduced motion query disables all animations (particles, gloss sweep, carousel, flip, shimmer, parallax, cursor glow). Per WCAG 2.2.2, animations stay under 5s loops." },
+    "brand": { "score": 5, "notes": "Dark wood theme (#1c1714 bg, #c8a96e accent, #f5ede4 text). Gloss effects read as lacquer/varnish on timber. All interactive elements have :focus-visible, :active, :disabled states." }
+  }
+}

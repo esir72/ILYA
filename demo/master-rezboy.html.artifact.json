@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "master-rezboy.html",
+  "entry": "master-rezboy.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-07-18T05:59:09.980Z",
+  "updatedAt": "2026-07-18T05:59:09.980Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}
