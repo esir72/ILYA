@@ -17,6 +17,7 @@ import CookieConsent from '../components/CookieConsent.astro';
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oranienbaum&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <div class="particles" id="particles"></div>
     <div class="cursor-glow" id="cursorGlow"></div>
     <slot />
     <CookieConsent />
@@ -164,6 +165,22 @@ import CookieConsent from '../components/CookieConsent.astro';
         document.querySelectorAll('[data-animate]').forEach(function (el) { observer.observe(el); });
 
         initCart();
+
+        var pc = document.getElementById('particles');
+        if (pc) {
+          for (var i = 0; i < 30; i++) {
+            var p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = Math.random() * 100 + '%';
+            p.style.animationDelay = (Math.random() * 6) + 's';
+            p.style.animationDuration = (4 + Math.random() * 4) + 's';
+            var size = 2 + Math.random() * 4;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            pc.appendChild(p);
+          }
+        }
       });
 
       document.addEventListener('langchange', function () {

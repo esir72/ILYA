@@ -1,5 +1,5 @@
 :root {
-  --bg: #1C1714;
+  --bg: #221C18;
   --text: #F5EDE4;
   --text-light: #C4B5A4;
   --accent: #C8A96E;
@@ -23,7 +23,7 @@ html {
 
 body {
   font-family: var(--font-body);
-  background: var(--bg);
+  background: linear-gradient(135deg, var(--bg) 0%, #110d0a 100%);
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -193,9 +193,9 @@ a:hover {
 [data-delay="6"] { transition-delay: 0.6s; }
 
 .particles {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
   overflow: hidden;
 }
