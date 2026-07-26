@@ -47,6 +47,27 @@
           </div>
           <input type="hidden" name="cart" id="order-cart" />
           <div class="form-divider"></div>
+          <div class="form-group">
+            <label for="order-delivery">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              <span data-i18n="payment.deliveryLabel">Способ доставки</span>
+            </label>
+            <select id="order-delivery" name="delivery" required>
+              <option value="" disabled selected data-i18n="payment.deliveryPlaceholder">Выберите способ доставки</option>
+              <option value="post" data-i18n="payment.deliveryOptPost">Почта России</option>
+              <option value="courier" data-i18n="payment.deliveryOptCourier">Курьер (СДЭК)</option>
+              <option value="boxberry" data-i18n="payment.deliveryOptBoxberry">Boxberry</option>
+              <option value="pickpoint" data-i18n="payment.deliveryOptPickpoint">PickPoint</option>
+              <option value="dhl" data-i18n="payment.deliveryOptDHL">DHL</option>
+            </select>
+          </div>
+          <div class="form-group" id="address-group">
+            <label for="order-address">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span data-i18n="payment.addressLabel">Адрес доставки</span>
+            </label>
+            <input type="text" id="order-address" name="address" placeholder="Город, улица, дом, квартира / индекс" data-i18n-placeholder="payment.addressPlaceholder" />
+          </div>
           <button type="submit" class="order-btn">
             <span data-i18n="payment.btnSubmit">Отправить</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
