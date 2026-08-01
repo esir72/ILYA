@@ -1,0 +1,8 @@
+const toggle = document.getElementById("menu-toggle");
+const nav = document.getElementById("nav");
+if (toggle && nav) {
+	toggle.addEventListener("click", () => nav.classList.toggle("open"));
+	nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => nav.classList.remove("open")));
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJtYXBwaW5ncyI6IkFBQUEsTUFBTSxTQUFTLFNBQVMsZUFBZSxhQUFhO0FBQ3BELE1BQU0sTUFBTSxTQUFTLGVBQWUsS0FBSztBQUN6QyxJQUFJLFVBQVUsS0FBSztDQUNsQixPQUFPLGlCQUFpQixlQUFlLElBQUksVUFBVSxPQUFPLE1BQU0sQ0FBQztDQUNuRSxJQUFJLGlCQUFpQixHQUFHLENBQUMsQ0FBQyxTQUFTLE1BQU0sRUFBRSxpQkFBaUIsZUFBZSxJQUFJLFVBQVUsT0FBTyxNQUFNLENBQUMsQ0FBQztBQUN6RyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyJIZWFkZXIuYXN0cm8/YXN0cm8mdHlwZT1zY3JpcHQmaW5kZXg9MCZsYW5nLnRzIl0sInZlcnNpb24iOjMsInNvdXJjZXNDb250ZW50IjpbImNvbnN0IHRvZ2dsZSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwibWVudS10b2dnbGVcIik7XG5jb25zdCBuYXYgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcIm5hdlwiKTtcbmlmICh0b2dnbGUgJiYgbmF2KSB7XG5cdHRvZ2dsZS5hZGRFdmVudExpc3RlbmVyKFwiY2xpY2tcIiwgKCkgPT4gbmF2LmNsYXNzTGlzdC50b2dnbGUoXCJvcGVuXCIpKTtcblx0bmF2LnF1ZXJ5U2VsZWN0b3JBbGwoXCJhXCIpLmZvckVhY2goKGEpID0+IGEuYWRkRXZlbnRMaXN0ZW5lcihcImNsaWNrXCIsICgpID0+IG5hdi5jbGFzc0xpc3QucmVtb3ZlKFwib3BlblwiKSkpO1xufSJdfQ==

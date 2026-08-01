@@ -215,14 +215,16 @@ import CookieConsent from '../components/CookieConsent.astro';
 
       var glow = document.getElementById('cursorGlow');
       if (glow) {
-        document.addEventListener('mousemove', function (e) {
-          glow.style.left = e.clientX + 'px';
-          glow.style.top = e.clientY + 'px';
-          glow.style.opacity = '1';
-        });
-        document.addEventListener('mouseleave', function () {
-          glow.style.opacity = '0';
-        });
+        // TEMP-DISABLED: fixed 300x300 layer jumps on synthetic mousemove (mobile taps)
+        // and extends beyond the viewport — suspected of breaking render in emulation.
+        // document.addEventListener('mousemove', function (e) {
+        //   glow.style.left = e.clientX + 'px';
+        //   glow.style.top = e.clientY + 'px';
+        //   glow.style.opacity = '1';
+        // });
+        // document.addEventListener('mouseleave', function () {
+        //   glow.style.opacity = '0';
+        // });
       }
     </script>
   </body>
