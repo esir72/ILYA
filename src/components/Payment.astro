@@ -25,11 +25,28 @@
             <input type="text" id="order-name" name="name" placeholder="Иван" data-i18n-placeholder="payment.namePlaceholder" required />
           </div>
           <div class="form-group">
-            <label for="order-phone">
+            <label for="order-country">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              <span data-i18n="payment.phoneLabel">Телефон для связи</span>
+              <span data-i18n="payment.phoneLabel">Контакт для связи</span>
             </label>
-            <input type="tel" id="order-phone" name="phone" placeholder="+7 (___) ___-__-__" data-i18n-placeholder="payment.phonePlaceholder" required />
+            <select id="order-country" name="phone_country">
+              <option value="ru" selected data-i18n="payment.country.ru">Россия (+7)</option>
+              <option value="by" data-i18n="payment.country.by">Беларусь (+375)</option>
+              <option value="kz" data-i18n="payment.country.kz">Казахстан (+7)</option>
+              <option value="ua" data-i18n="payment.country.ua">Украина (+380)</option>
+              <option value="am" data-i18n="payment.country.am">Армения (+374)</option>
+              <option value="ge" data-i18n="payment.country.ge">Грузия (+995)</option>
+              <option value="md" data-i18n="payment.country.md">Молдова (+373)</option>
+              <option value="uz" data-i18n="payment.country.uz">Узбекистан (+998)</option>
+              <option value="kg" data-i18n="payment.country.kg">Кыргызстан (+996)</option>
+              <option value="tj" data-i18n="payment.country.tj">Таджикистан (+992)</option>
+              <option value="az" data-i18n="payment.country.az">Азербайджан (+994)</option>
+              <option value="other" data-i18n="payment.country.other">Другая страна (+...)</option>
+              <option value="tg" data-i18n="payment.country.tg">Telegram ник (@username)</option>
+            </select>
+            <input type="tel" id="order-phone" name="phone" class="form-phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel" required />
+            <input type="text" id="order-tg" name="phone" class="form-tg" placeholder="@username" autocomplete="off" disabled />
+            <p class="form-hint" id="contact-hint" data-i18n="payment.phoneHint">Введите номер в выбранном формате — только цифры</p>
           </div>
           <div class="form-group">
             <label for="order-messenger">
@@ -56,9 +73,6 @@
               <option value="" disabled selected data-i18n="payment.deliveryPlaceholder">Выберите способ доставки</option>
               <option value="post" data-i18n="payment.deliveryOptPost">Почта России</option>
               <option value="courier" data-i18n="payment.deliveryOptCourier">Курьер (СДЭК)</option>
-              <option value="boxberry" data-i18n="payment.deliveryOptBoxberry">Boxberry</option>
-              <option value="pickpoint" data-i18n="payment.deliveryOptPickpoint">PickPoint</option>
-              <option value="dhl" data-i18n="payment.deliveryOptDHL">DHL</option>
             </select>
           </div>
           <div class="form-group" id="address-group">
@@ -86,6 +100,163 @@
 </section>
 
 <script>
+  var COUNTRIES = {
+    ru:    { mask: '+7 (___) ___-__-__',   min: 11 },
+    by:    { mask: '+375 (__) ___-__-__',  min: 12 },
+    kz:    { mask: '+7 (___) ___-__-__',   min: 11 },
+    ua:    { mask: '+380 (__) ___-__-__',  min: 12 },
+    am:    { mask: '+374 (__) ___-__-__',  min: 11 },
+    ge:    { mask: '+995 (___) ___-__-__', min: 12 },
+    md:    { mask: '+373 (__) ___-__-__',  min: 12 },
+    uz:    { mask: '+998 (__) ___-__-__',  min: 12 },
+    kg:    { mask: '+996 (___) ___-__-__', min: 12 },
+    tj:    { mask: '+992 (__) ___-__-__',  min: 12 },
+    az:    { mask: '+994 (__) ___-__-__',  min: 12 },
+    other: { mask: '+___ ___ ___ ____',    min: 7 }
+  };
+  Object.keys(COUNTRIES).forEach(function (k) {
+    COUNTRIES[k].max = (COUNTRIES[k].mask.match(/_/g) || []).length;
+  });
+
+  var FALLBACK = {
+    'payment.phoneHint': 'Введите номер в выбранном формате — только цифры',
+    'payment.tgHint': 'Укажите ваш ник в Telegram, например @ilya',
+    'payment.phoneErrorShort': 'Номер слишком короткий для выбранной страны',
+    'payment.tgError': 'Ник должен содержать 4–32 символа: буквы, цифры или _'
+  };
+
+  var countrySelect = document.getElementById('order-country');
+  var phoneInput = document.getElementById('order-phone');
+  var tgInput = document.getElementById('order-tg');
+  var contactHint = document.getElementById('contact-hint');
+
+  function t(key) {
+    if (window.i18n && window.i18n.loaded) return window.i18n.t(key);
+    return FALLBACK[key] || key;
+  }
+
+  function maskPhone(digits, mask) {
+    var out = '', d = 0;
+    for (var i = 0; i < mask.length && d < digits.length; i++) {
+      out += mask[i] === '_' ? digits[d++] : mask[i];
+    }
+    return out;
+  }
+
+  function applyCountry() {
+    if (!countrySelect || !phoneInput || !tgInput) return;
+    var isTg = countrySelect.value === 'tg';
+    phoneInput.disabled = isTg;
+    phoneInput.required = !isTg;
+    tgInput.disabled = !isTg;
+    tgInput.required = isTg;
+    if (isTg) {
+      phoneInput.value = '';
+      phoneInput.setCustomValidity('');
+      contactHint.textContent = t('payment.tgHint');
+      validateTg();
+    } else {
+      tgInput.value = '';
+      tgInput.setCustomValidity('');
+      var cfg = COUNTRIES[countrySelect.value] || COUNTRIES.other;
+      phoneInput.placeholder = cfg.mask;
+      contactHint.textContent = t('payment.phoneHint');
+      validatePhone();
+    }
+  }
+
+  function validatePhone() {
+    if (!countrySelect || !phoneInput || !contactHint) return;
+    if (countrySelect.value === 'tg') return;
+    var cfg = COUNTRIES[countrySelect.value] || COUNTRIES.other;
+    var digits = phoneInput.value.replace(/\D/g, '');
+    var empty = digits.length === 0;
+    var ok = empty || digits.length >= cfg.min;
+    phoneInput.setCustomValidity(ok ? '' : t('payment.phoneErrorShort'));
+    contactHint.classList.toggle('error', !empty && !ok);
+    contactHint.textContent = ok ? t('payment.phoneHint') : t('payment.phoneErrorShort');
+  }
+
+  function validateTg() {
+    if (!tgInput || !contactHint) return;
+    var v = tgInput.value.replace(/^@/, '');
+    var empty = v.length === 0;
+    var ok = empty || /^[A-Za-z0-9_]{4,32}$/.test(v);
+    tgInput.setCustomValidity(ok ? '' : t('payment.tgError'));
+    contactHint.classList.toggle('error', !empty && !ok);
+    contactHint.textContent = ok ? t('payment.tgHint') : t('payment.tgError');
+  }
+
+  function countDigits(s) {
+    return s.replace(/\D/g, '').length;
+  }
+
+  function caretAfterDigits(value, prefixLen, n) {
+    if (n <= 0) return prefixLen;
+    var seen = 0;
+    for (var i = prefixLen; i < value.length; i++) {
+      if (/\d/.test(value[i]) && ++seen === n) return i + 1;
+    }
+    return value.length;
+  }
+
+  function applyPhoneEdit(type, data, start, end) {
+    var cfg = COUNTRIES[countrySelect.value] || COUNTRIES.other;
+    var prefixLen = cfg.mask.indexOf('_');
+    var oldVal = phoneInput.value;
+    var digits = oldVal.slice(prefixLen).replace(/\D/g, '');
+    var digitsBeforeSel = countDigits(oldVal.slice(prefixLen, start));
+    var selDigits = countDigits(oldVal.slice(Math.max(start, prefixLen), end));
+    var arr = digits.split('');
+    var n;
+    if (type === 'deleteContentBackward') {
+      if (selDigits === 0) {
+        if (start <= prefixLen || !/\d/.test(oldVal.slice(start - 1, start)) || digitsBeforeSel === 0) return null;
+        arr.splice(digitsBeforeSel - 1, 1);
+        n = digitsBeforeSel - 1;
+      } else {
+        arr.splice(digitsBeforeSel, selDigits);
+        n = digitsBeforeSel;
+      }
+    } else if (type === 'deleteContentForward' || type === 'deleteByCut') {
+      if (selDigits === 0) {
+        if (start < prefixLen || !/\d/.test(oldVal.slice(start, start + 1)) || digitsBeforeSel >= arr.length) return null;
+        arr.splice(digitsBeforeSel, 1);
+        n = digitsBeforeSel;
+      } else {
+        arr.splice(digitsBeforeSel, selDigits);
+        n = digitsBeforeSel;
+      }
+    } else if (type.indexOf('insert') === 0) {
+      var ins = (data || '').replace(/\D/g, '').split('');
+      arr.splice.apply(arr, [digitsBeforeSel, selDigits].concat(ins));
+      n = digitsBeforeSel + ins.length;
+    } else {
+      return undefined;
+    }
+    var newVal = maskPhone(arr.slice(0, cfg.max).join(''), cfg.mask);
+    return { value: newVal, pos: caretAfterDigits(newVal, prefixLen, n) };
+  }
+
+  if (countrySelect && phoneInput && tgInput) {
+    countrySelect.addEventListener('change', applyCountry);
+    phoneInput.addEventListener('beforeinput', function (e) {
+      var res = applyPhoneEdit(e.inputType, e.data, phoneInput.selectionStart, phoneInput.selectionEnd);
+      if (res === undefined) return;
+      e.preventDefault();
+      if (res !== null) {
+        phoneInput.value = res.value;
+        try { phoneInput.setSelectionRange(res.pos, res.pos); } catch (err) {}
+      }
+      validatePhone();
+    });
+    tgInput.addEventListener('input', validateTg);
+    document.addEventListener('langchange', applyCountry);
+    var orderForm = document.getElementById('order-form');
+    if (orderForm) orderForm.addEventListener('reset', applyCountry);
+    applyCountry();
+  }
+
   const i18nBtnText = function () {
     if (window.i18n && window.i18n.loaded) return window.i18n.t('payment.btnSubmit');
     return 'Отправить';
@@ -241,10 +412,23 @@
     padding-right: 44px;
   }
 
+  .form-group input[disabled] {
+    display: none;
+  }
+
   .form-hint {
     font-size: 0.78rem;
     color: var(--border);
     line-height: 1.4;
+  }
+
+  .form-hint.error {
+    color: #e07a72;
+  }
+
+  .form-group input.error,
+  .form-group select.error {
+    border-color: #e07a72;
   }
 
   .form-divider {
