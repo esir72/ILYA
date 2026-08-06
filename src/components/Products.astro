@@ -42,7 +42,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     </p>
     <div class="products-grid">
       {products.map((product, i) => (
-        <article class="product-card" data-animate="scale" data-delay={i + 1}>
+        <article class="product-card" data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
           <div class="flip-inner">
             <div class="face face-front">
               <div class="flip-front">
@@ -58,7 +58,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
                   <p class="product-desc" data-i18n={`products.item.${i}.desc`}>{product.desc}</p>
                   <div class="product-bottom">
                     <span class="product-price" data-i18n={`products.item.${i}.price`}>{formatPrice(product.price)}</span>
-                    <button class="btn btn-sm btn-cart" data-id={product.id} data-title={product.title} data-price={product.price} data-img={product.image} data-i18n="products.btnCart">
+                    <button class="btn btn-sm btn-cart" data-id={product.id} data-title={product.title} data-i18n-key={`products.item.${i}.title`} data-price={product.price} data-img={product.image} data-i18n="products.btnCart">
                       В корзину
                     </button>
                   </div>
@@ -81,6 +81,12 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     card.addEventListener('click', function (e) {
       if (e.target.closest('.btn-cart')) return;
       card.classList.toggle('flipped');
+    });
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('flipped');
+      }
     });
   });
 </script>

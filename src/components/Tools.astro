@@ -36,7 +36,7 @@ const slides = [
     <div class="carousel-track" id="carousel-track">
       {slides.map((slide, i) => (
         <div class="carousel-slide" data-index={i}>
-          <img src={slide.image} alt="" class="carousel-bg" />
+          <img src={slide.image} alt={slide.shortTitle} class="carousel-bg" />
           <div class="carousel-overlay"></div>
           <div class="carousel-content">
             <p class="carousel-label" data-i18n="tools.label">Инструменты</p>
@@ -51,10 +51,10 @@ const slides = [
         </div>
       ))}
     </div>
-    <button class="carousel-arrow carousel-prev" id="carousel-prev" aria-label="Назад">
+    <button class="carousel-arrow carousel-prev" id="carousel-prev" aria-label="Назад" data-i18n-aria="tools.ariaPrev">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
-    <button class="carousel-arrow carousel-next" id="carousel-next" aria-label="Вперёд">
+    <button class="carousel-arrow carousel-next" id="carousel-next" aria-label="Вперёд" data-i18n-aria="tools.ariaNext">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
     <div class="carousel-dots" id="carousel-dots">
@@ -103,6 +103,22 @@ const slides = [
         }
       });
     }
+
+    function slideAriaLabel(i) {
+      var base = (window.i18n && window.i18n.loaded)
+        ? (window.i18n.t('tools.ariaSlide') || 'Слайд')
+        : ((window.i18n && window.i18n.lang === 'en') ? 'Slide' : 'Слайд');
+      return base + ' ' + (i + 1);
+    }
+
+    function updateDotsAria() {
+      dots.forEach(function (d, i) {
+        d.setAttribute('aria-label', slideAriaLabel(i));
+      });
+    }
+
+    updateDotsAria();
+    document.addEventListener('langchange', updateDotsAria);
 
     prevBtn.addEventListener('click', function () { goTo(current - 1); });
     nextBtn.addEventListener('click', function () { goTo(current + 1); });

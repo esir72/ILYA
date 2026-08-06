@@ -24,27 +24,33 @@
             </label>
             <input type="text" id="order-name" name="name" placeholder="Иван" data-i18n-placeholder="payment.namePlaceholder" required />
           </div>
-          <div class="form-group">
-            <label for="order-country">
+          <div class="form-group" id="contact-group">
+            <label for="order-contact-type">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
               <span data-i18n="payment.phoneLabel">Контакт для связи</span>
             </label>
-            <select id="order-country" name="phone_country">
-              <option value="ru" selected data-i18n="payment.country.ru">Россия (+7)</option>
-              <option value="by" data-i18n="payment.country.by">Беларусь (+375)</option>
-              <option value="kz" data-i18n="payment.country.kz">Казахстан (+7)</option>
-              <option value="ua" data-i18n="payment.country.ua">Украина (+380)</option>
-              <option value="am" data-i18n="payment.country.am">Армения (+374)</option>
-              <option value="ge" data-i18n="payment.country.ge">Грузия (+995)</option>
-              <option value="md" data-i18n="payment.country.md">Молдова (+373)</option>
-              <option value="uz" data-i18n="payment.country.uz">Узбекистан (+998)</option>
-              <option value="kg" data-i18n="payment.country.kg">Кыргызстан (+996)</option>
-              <option value="tj" data-i18n="payment.country.tj">Таджикистан (+992)</option>
-              <option value="az" data-i18n="payment.country.az">Азербайджан (+994)</option>
-              <option value="other" data-i18n="payment.country.other">Другая страна (+...)</option>
-              <option value="tg" data-i18n="payment.country.tg">Telegram ник (@username)</option>
+            <select id="order-contact-type">
+              <option value="phone" selected data-i18n="payment.contactOptPhone">Телефон</option>
+              <option value="tg" data-i18n="payment.contactOptTg">Telegram ник</option>
             </select>
-            <input type="tel" id="order-phone" name="phone" class="form-phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel" required />
+            <div id="phone-fields">
+              <label for="order-country" data-i18n="payment.phoneRegionLabel">Регион / страна</label>
+              <select id="order-country" name="phone_country">
+                <option value="ru" selected data-i18n="payment.country.ru">Россия (+7)</option>
+                <option value="by" data-i18n="payment.country.by">Беларусь (+375)</option>
+                <option value="kz" data-i18n="payment.country.kz">Казахстан (+7)</option>
+                <option value="ua" data-i18n="payment.country.ua">Украина (+380)</option>
+                <option value="am" data-i18n="payment.country.am">Армения (+374)</option>
+                <option value="ge" data-i18n="payment.country.ge">Грузия (+995)</option>
+                <option value="md" data-i18n="payment.country.md">Молдова (+373)</option>
+                <option value="uz" data-i18n="payment.country.uz">Узбекистан (+998)</option>
+                <option value="kg" data-i18n="payment.country.kg">Кыргызстан (+996)</option>
+                <option value="tj" data-i18n="payment.country.tj">Таджикистан (+992)</option>
+                <option value="az" data-i18n="payment.country.az">Азербайджан (+994)</option>
+                <option value="other" data-i18n="payment.country.other">Другая страна (+...)</option>
+              </select>
+              <input type="tel" id="order-phone" name="phone" class="form-phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel" required />
+            </div>
             <input type="text" id="order-tg" name="phone" class="form-tg" placeholder="@username" autocomplete="off" disabled />
             <p class="form-hint" id="contact-hint" data-i18n="payment.phoneHint">Введите номер в выбранном формате — только цифры</p>
           </div>
@@ -125,6 +131,7 @@
     'payment.tgError': 'Ник должен содержать 4–32 символа: буквы, цифры или _'
   };
 
+  var contactTypeSelect = document.getElementById('order-contact-type');
   var countrySelect = document.getElementById('order-country');
   var phoneInput = document.getElementById('order-phone');
   var tgInput = document.getElementById('order-tg');
@@ -143,9 +150,12 @@
     return out;
   }
 
-  function applyCountry() {
-    if (!countrySelect || !phoneInput || !tgInput) return;
-    var isTg = countrySelect.value === 'tg';
+  function applyContact() {
+    if (!contactTypeSelect || !phoneInput || !tgInput) return;
+    var isTg = contactTypeSelect.value === 'tg';
+    var group = document.getElementById('contact-group');
+    if (group) group.classList.toggle('tg-mode', isTg);
+    countrySelect.disabled = isTg;
     phoneInput.disabled = isTg;
     phoneInput.required = !isTg;
     tgInput.disabled = !isTg;
@@ -167,7 +177,7 @@
 
   function validatePhone() {
     if (!countrySelect || !phoneInput || !contactHint) return;
-    if (countrySelect.value === 'tg') return;
+    if (contactTypeSelect && contactTypeSelect.value === 'tg') return;
     var cfg = COUNTRIES[countrySelect.value] || COUNTRIES.other;
     var digits = phoneInput.value.replace(/\D/g, '');
     var empty = digits.length === 0;
@@ -239,7 +249,8 @@
   }
 
   if (countrySelect && phoneInput && tgInput) {
-    countrySelect.addEventListener('change', applyCountry);
+    contactTypeSelect.addEventListener('change', applyContact);
+    countrySelect.addEventListener('change', applyContact);
     phoneInput.addEventListener('beforeinput', function (e) {
       var res = applyPhoneEdit(e.inputType, e.data, phoneInput.selectionStart, phoneInput.selectionEnd);
       if (res === undefined) return;
@@ -251,10 +262,10 @@
       validatePhone();
     });
     tgInput.addEventListener('input', validateTg);
-    document.addEventListener('langchange', applyCountry);
+    document.addEventListener('langchange', applyContact);
     var orderForm = document.getElementById('order-form');
-    if (orderForm) orderForm.addEventListener('reset', applyCountry);
-    applyCountry();
+    if (orderForm) orderForm.addEventListener('reset', applyContact);
+    applyContact();
   }
 
   const i18nBtnText = function () {
@@ -269,9 +280,12 @@
   const form = document.getElementById('order-form');
   const success = document.getElementById('form-success');
   const cartInput = document.getElementById('order-cart');
+  let submitting = false;
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (submitting) return;
+      submitting = true;
 
       // build cart text from localStorage
       var items = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -304,6 +318,7 @@
           if (window.initCart) window.initCart();
         }
       } finally {
+        submitting = false;
         btn.disabled = false;
         btn.innerHTML = '<span>' + i18nBtnText() + '</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
       }
@@ -400,7 +415,7 @@
   .form-group input:focus,
   .form-group select:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
+    box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.35);
   }
 
   .form-group select {
@@ -414,6 +429,16 @@
 
   .form-group input[disabled] {
     display: none;
+  }
+
+  #contact-group.tg-mode #phone-fields {
+    display: none;
+  }
+
+  #phone-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 
   .form-hint {
@@ -458,6 +483,10 @@
   .order-btn:hover {
     background: var(--text);
     gap: 14px;
+  }
+
+  .order-btn:active {
+    transform: scale(0.98);
   }
 
   .order-btn svg {

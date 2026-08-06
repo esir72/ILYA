@@ -5,7 +5,7 @@ import LangSwitcher from './LangSwitcher.astro';
 <header class="header">
   <div class="container header-inner">
     <a href="/" class="logo">Илья</a>
-    <button id="menu-toggle" class="menu-toggle" aria-label="Меню">
+    <button id="menu-toggle" class="menu-toggle" aria-label="Меню" data-i18n-aria="header.menuLabel">
       <span></span>
       <span></span>
       <span></span>
@@ -16,7 +16,7 @@ import LangSwitcher from './LangSwitcher.astro';
       <a href="#products" data-i18n="header.nav.products">Изделия</a>
       <a href="#payment" data-i18n="header.nav.order">Заказ</a>
       <LangSwitcher />
-      <button id="cart-toggle" class="cart-toggle" aria-label="Корзина">
+      <button id="cart-toggle" class="cart-toggle" aria-label="Корзина" data-i18n-aria="header.cartLabel">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="21" r="1"/>
           <circle cx="20" cy="21" r="1"/>

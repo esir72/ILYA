@@ -3,6 +3,8 @@
   "header.nav.tools": "Инструменты",
   "header.nav.products": "Изделия",
   "header.nav.order": "Заказ",
+  "header.menuLabel": "Меню",
+  "header.cartLabel": "Корзина",
 
   "hero.label": "Мастер резьбы по дереву",
   "hero.title": "Илья",
@@ -46,12 +48,17 @@
   "tools.link": "Подробнее →",
   "tools.expand": "Подробнее",
   "tools.collapse": "Свернуть",
+  "tools.ariaPrev": "Назад",
+  "tools.ariaNext": "Вперёд",
+  "tools.ariaSlide": "Слайд",
 
   "payment.title": "Оформить заказ",
   "payment.subtitle": "Заполните форму — я свяжусь с вами в удобном мессенджере",
   "payment.nameLabel": "Ваше имя",
   "payment.namePlaceholder": "Иван",
   "payment.phoneLabel": "Контакт для связи",
+  "payment.contactOptPhone": "Телефон",
+  "payment.contactOptTg": "Telegram ник",
   "payment.phoneRegionLabel": "Регион / страна",
   "payment.country.ru": "Россия (+7)",
   "payment.country.by": "Беларусь (+375)",
@@ -65,7 +72,6 @@
   "payment.country.tj": "Таджикистан (+992)",
   "payment.country.az": "Азербайджан (+994)",
   "payment.country.other": "Другая страна (+...)",
-  "payment.country.tg": "Telegram ник (@username)",
   "payment.phoneHint": "Введите номер в выбранном формате — только цифры",
   "payment.tgHint": "Укажите ваш ник в Telegram, например @ilya",
   "payment.phoneErrorShort": "Номер слишком короткий для выбранной страны",
@@ -85,6 +91,7 @@
 
   "lang.ru": "Русский",
   "lang.en": "English",
+  "lang.toggle": "Переключить язык",
 
   "meta.title": "Илья — Резьба по дереву",
   "meta.desc": "Ручная работа. Резьба по дереву от Ильи. Уникальные изделия из натурального дерева.",
@@ -94,6 +101,7 @@
   "cart.total": "Итого",
   "cart.checkout": "Оформить заказ",
   "cart.remove": "Удалить",
+  "cart.closeLabel": "Закрыть",
 
   "footer.copyright": "© {year} Илья. Резьба по дереву.",
   "footer.tagline": "Сделано вручную с любовью к дереву",

@@ -56,11 +56,6 @@ import CookieConsent from '../components/CookieConsent.astro';
         }
 
         function fmtPrice(p) {
-          var lang = (window.i18n && window.i18n.lang) || 'ru';
-          if (lang === 'en') {
-            var usd = Math.round(p / 90);
-            return '$' + usd.toLocaleString('en-US');
-          }
           return p.toLocaleString('ru-RU') + ' ₽';
         }
 
@@ -72,7 +67,7 @@ import CookieConsent from '../components/CookieConsent.astro';
             itemsEl.innerHTML = items.map(function (item, i) { return (
               '<div class="cart-item">' +
                 '<div class="cart-item-info">' +
-                  '<div class="cart-item-title">' + item.title + '</div>' +
+                  '<div class="cart-item-title">' + (item.i18nKey ? __t(item.i18nKey, item.title) : item.title) + '</div>' +
                   '<div class="cart-item-price">' + fmtPrice(item.price) + '</div>' +
                   '<div class="cart-item-actions">' +
                     '<div class="cart-item-qty">' +
@@ -92,6 +87,8 @@ import CookieConsent from '../components/CookieConsent.astro';
 
           totalEl.textContent = fmtPrice(total());
           countEl.textContent = count();
+          var badgeEl = document.getElementById('cart-count-badge');
+          if (badgeEl) badgeEl.textContent = count();
 
           itemsEl.querySelectorAll('.cart-qty-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
@@ -138,13 +135,15 @@ import CookieConsent from '../components/CookieConsent.astro';
           btn.addEventListener('click', function () {
             var id = parseInt(btn.dataset.id);
             var title = btn.dataset.title;
+            var i18nKey = btn.dataset.i18nKey || '';
             var price = parseInt(btn.dataset.price);
             var img = btn.dataset.img || '';
             var existing = items.find(function (item) { return item.id === id; });
             if (existing) {
               existing.qty++;
+              existing.i18nKey = i18nKey;
             } else {
-              items.push({ id: id, title: title, price: price, qty: 1, img: img });
+              items.push({ id: id, title: title, i18nKey: i18nKey, price: price, qty: 1, img: img });
             }
             save();
             render();
@@ -215,16 +214,36 @@ import CookieConsent from '../components/CookieConsent.astro';
 
       var glow = document.getElementById('cursorGlow');
       if (glow) {
-        // TEMP-DISABLED: fixed 300x300 layer jumps on synthetic mousemove (mobile taps)
-        // and extends beyond the viewport — suspected of breaking render in emulation.
-        // document.addEventListener('mousemove', function (e) {
-        //   glow.style.left = e.clientX + 'px';
-        //   glow.style.top = e.clientY + 'px';
-        //   glow.style.opacity = '1';
-        // });
-        // document.addEventListener('mouseleave', function () {
-        //   glow.style.opacity = '0';
-        // });
+        var glowTargetX = 0, glowTargetY = 0, glowCurX = 0, glowCurY = 0;
+        var glowRaf = null, glowActive = false;
+        document.addEventListener('mousemove', function (e) {
+          glowTargetX = e.clientX;
+          glowTargetY = e.clientY;
+          if (!glowActive) {
+            glowActive = true;
+            if (glow.style.opacity !== '1') {
+              glowCurX = glowTargetX;
+              glowCurY = glowTargetY;
+              glow.style.opacity = '1';
+            }
+            glowRaf = requestAnimationFrame(glowLoop);
+          }
+        });
+        document.addEventListener('mouseleave', function () {
+          glow.style.opacity = '0';
+        });
+        function glowLoop() {
+          glowCurX += (glowTargetX - glowCurX) * 0.05;
+          glowCurY += (glowTargetY - glowCurY) * 0.05;
+          glow.style.left = glowCurX + 'px';
+          glow.style.top = glowCurY + 'px';
+          if (Math.abs(glowTargetX - glowCurX) > 0.5 || Math.abs(glowTargetY - glowCurY) > 0.5) {
+            glowRaf = requestAnimationFrame(glowLoop);
+          } else {
+            glowRaf = null;
+            glowActive = false;
+          }
+        }
       }
     </script>
   </body>
