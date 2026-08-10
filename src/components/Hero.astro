@@ -6,10 +6,9 @@
   <div class="hero-gloss"></div>
   <div class="container hero-inner">
     <img class="hero-logo" src="/images/logo.png" alt="Илья — мастер резьбы по дереву" data-animate="fade" />
-    <div class="hero-nav" data-animate="fade" data-delay="1">
-      <a href="#products" class="btn hero-btn" data-i18n="hero.cardProducts">Изделия</a>
-      <a href="#tools" class="btn hero-btn" data-i18n="hero.cardTools">Инструменты</a>
-    </div>
+    <p class="hero-slogan" data-animate="fade" data-delay="1" data-i18n="hero.slogan">
+      Мастерство, переданное через года, и любовь к природе в каждом изделии.
+    </p>
   </div>
 </section>
 
@@ -66,7 +65,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 48px;
+    gap: 40px;
     position: relative;
     z-index: 2;
   }
@@ -77,40 +76,41 @@
 
   .hero-logo {
     width: 100%;
-    max-width: calc((100vh - 190px) / 9 * 16);
+    max-width: calc((100vh - 140px) / 9 * 16);
     height: auto;
     display: block;
   }
 
-  .hero-nav {
-    display: flex;
-    gap: 24px;
-    justify-content: center;
-    flex-wrap: wrap;
+  .hero-slogan {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--accent-light);
+    max-width: 900px;
+    line-height: 1.7;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
   }
 
-  .hero-btn {
-    min-width: 200px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 1rem;
-    padding: 16px 40px;
+  @media (max-width: 768px) {
+    .hero-slogan {
+      font-size: 1.1rem;
+      letter-spacing: 0.16em;
+    }
   }
 
   @media (max-width: 480px) {
     .hero-inner {
-      gap: 32px;
+      gap: 28px;
     }
     .hero-logo {
-      max-width: calc((100vh - 220px) / 9 * 16);
+      max-width: calc((100vh - 180px) / 9 * 16);
     }
-    .hero-nav {
-      flex-direction: column;
-      width: 100%;
-      max-width: 280px;
-    }
-    .hero-btn {
-      width: 100%;
+    .hero-slogan {
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      line-height: 1.6;
     }
   }
 </style>

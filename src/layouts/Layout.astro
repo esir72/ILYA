@@ -195,41 +195,57 @@ import CookieConsent from '../components/CookieConsent.astro';
             }
             return arr;
           }
-          var side = [];
-          var inner = [];
-          for (var pr = 0; pr < 3; pr++) {
-            for (var pc = 0; pc < 4; pc++) {
-              var cell = { x: pc * 25 + 3 + Math.random() * 14, y: pr * 33.3 + 3 + Math.random() * 14 };
-              if (pc === 0 || pc === 3) side.push(cell); else inner.push(cell);
+
+          function spawnPetroglyphs() {
+            pg.innerHTML = '';
+            var isMobile = window.innerWidth <= 640;
+            var petroList = isMobile ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1];
+            var cols = isMobile ? 2 : 4;
+            var rows = isMobile ? 3 : 3;
+            var side = [];
+            var inner = [];
+            for (var pr = 0; pr < rows; pr++) {
+              for (var pc = 0; pc < cols; pc++) {
+                var cell = { x: pc * (100 / cols) + 3 + Math.random() * 14, y: pr * (100 / rows) + 3 + Math.random() * 14 };
+                if (pc === 0 || pc === cols - 1) side.push(cell); else inner.push(cell);
+              }
+            }
+            shuffle(side);
+            shuffle(inner);
+            var bigCount = 3;
+            var bigCells = side.slice(0, bigCount);
+            var smallCells = side.slice(bigCount).concat(inner);
+            var smallIdx = 0;
+            var bigIdx = 0;
+            for (var pi = 0; pi < petroList.length; pi++) {
+              var petroIdx = petroList[pi];
+              var big = petroIdx >= 7;
+              var cell = big ? bigCells[bigIdx++] : smallCells[smallIdx++];
+              var g = document.createElement('div');
+              g.className = 'petroglyph';
+              var rot = (Math.random() - 0.5) * 90;
+              g.style.width = (big ? 180 + Math.random() * 70 : 80 + Math.random() * 80) + 'px';
+              g.style.left = cell.x + '%';
+              g.style.top = cell.y + '%';
+              g.style.setProperty('--r', rot.toFixed(1) + 'deg');
+              g.style.setProperty('--tx1', (-15 - Math.random() * 10).toFixed(0) + 'px');
+              g.style.setProperty('--ty1', (-12 - Math.random() * 10).toFixed(0) + 'px');
+              g.style.setProperty('--tx2', (15 + Math.random() * 10).toFixed(0) + 'px');
+              g.style.setProperty('--ty2', (12 + Math.random() * 10).toFixed(0) + 'px');
+              g.style.setProperty('--dur', (7 + Math.random() * 5).toFixed(1) + 's');
+              g.style.setProperty('--delay', (-Math.random() * 7).toFixed(1) + 's');
+              g.style.maskImage = "url('/images/imgs/petro-" + petroIdx + ".png')";
+              g.style.webkitMaskImage = "url('/images/imgs/petro-" + petroIdx + ".png')";
+              pg.appendChild(g);
             }
           }
-          shuffle(side);
-          shuffle(inner);
-          var bigCells = side.slice(0, 3);
-          var smallCells = side.slice(3).concat(inner);
-          var smallIdx = 0;
-          var bigIdx = 0;
-          for (var pi = 0; pi < 12; pi++) {
-            var petroIdx = pi % 10;
-            var big = petroIdx >= 7;
-            var cell = big ? bigCells[bigIdx++] : smallCells[smallIdx++];
-            var g = document.createElement('div');
-            g.className = 'petroglyph';
-            var rot = (Math.random() - 0.5) * 90;
-            g.style.width = (big ? 180 + Math.random() * 70 : 80 + Math.random() * 80) + 'px';
-            g.style.left = cell.x + '%';
-            g.style.top = cell.y + '%';
-            g.style.setProperty('--r', rot.toFixed(1) + 'deg');
-            g.style.setProperty('--tx1', (-15 - Math.random() * 10).toFixed(0) + 'px');
-            g.style.setProperty('--ty1', (-12 - Math.random() * 10).toFixed(0) + 'px');
-            g.style.setProperty('--tx2', (15 + Math.random() * 10).toFixed(0) + 'px');
-            g.style.setProperty('--ty2', (12 + Math.random() * 10).toFixed(0) + 'px');
-            g.style.setProperty('--dur', (7 + Math.random() * 5).toFixed(1) + 's');
-            g.style.setProperty('--delay', (-Math.random() * 7).toFixed(1) + 's');
-            g.style.maskImage = "url('/images/imgs/petro-" + petroIdx + ".png')";
-            g.style.webkitMaskImage = "url('/images/imgs/petro-" + petroIdx + ".png')";
-            pg.appendChild(g);
-          }
+
+          spawnPetroglyphs();
+          var petroResizeTimer = null;
+          window.addEventListener('resize', function () {
+            clearTimeout(petroResizeTimer);
+            petroResizeTimer = setTimeout(spawnPetroglyphs, 200);
+          });
         }
       });
 

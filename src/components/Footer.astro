@@ -5,8 +5,11 @@
 <footer class="footer">
   <div class="container footer-inner" data-animate>
     <div class="footer-left">
-      <p class="footer-copy" data-i18n="footer.copyright">© {new Date().getFullYear()} Илья. Резьба по дереву.</p>
-      <p class="footer-tag" data-i18n="footer.tagline">Сделано вручную с любовью к дереву</p>
+      <a href="/" class="footer-logo" aria-label="Илья"><span class="footer-logo-img"></span></a>
+      <div class="footer-text">
+        <p class="footer-copy" data-i18n="footer.copyright">© {new Date().getFullYear()} Илья. Резьба по дереву.</p>
+        <p class="footer-tag" data-i18n="footer.tagline">Сделано вручную с любовью к дереву</p>
+      </div>
     </div>
     <div class="footer-socials">
       <a href="https://t.me/wood_ilya" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
@@ -51,8 +54,34 @@
 
   .footer-left {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-text {
+    display: flex;
     flex-direction: column;
     gap: 4px;
+  }
+
+  .footer-logo {
+    display: flex;
+  }
+
+  .footer-logo-img {
+    display: block;
+    width: 85px;
+    height: 48px;
+    background: linear-gradient(135deg, #E3C584 0%, #C8A96E 40%, #9C7B45 100%);
+    mask-image: url('/images/logo.png');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('/images/logo.png');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
   }
 
   .footer-copy {
@@ -90,6 +119,10 @@
     }
 
     .footer-left {
+      align-items: center;
+    }
+
+    .footer-text {
       align-items: center;
     }
   }

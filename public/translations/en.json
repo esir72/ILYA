@@ -5,7 +5,6 @@
   "header.nav.order": "Order",
   "header.menuLabel": "Menu",
   "header.cartLabel": "Cart",
-
   "hero.label": "Wood Carving Master",
   "hero.title": "Ilya",
   "hero.desc": "I create unique items from natural wood. Each piece combines traditional craftsmanship with modern design.",
@@ -13,17 +12,14 @@
   "hero.btnOrder": "Place order",
   "hero.cardProducts": "Products",
   "hero.cardTools": "Tools",
-
   "about.title": "About me",
   "about.subtitle": "Craft passed down through the years, and a love for nature in every piece.",
   "about.p1": "My name is Ilya. I have been carving wood for over 20 years. For me, wood is a living material that guides its own form.",
   "about.p2": "Each piece is handmade, from selecting the blank to the final sanding. I use only natural oils and waxes for finishing to preserve the wood's texture and warmth.",
   "about.p3": "I work with all types of wood. I am happy to discuss custom orders tailored to your wishes.",
-
   "stats.exp": "Years exp.",
   "stats.items": "Items made",
   "stats.woods": "Wood types",
-
   "products.title": "Products",
   "products.subtitle": "Each piece is unique. Wood grain and pattern may vary slightly from the photos.",
   "products.item.0.title": "Wooden Bag",
@@ -41,7 +37,6 @@
   "products.btnCart": "Add to cart",
   "products.moreText": "Want something special? I make custom pieces.",
   "products.moreBtn": "Discuss an order",
-
   "tools.label": "Tools",
   "tools.title": "Wood Carving Chisel Set",
   "tools.desc": "A handcrafted set of three chisels. U8 steel, birch burl handles.",
@@ -51,7 +46,6 @@
   "tools.ariaPrev": "Back",
   "tools.ariaNext": "Next",
   "tools.ariaSlide": "Slide",
-
   "payment.title": "Place an order",
   "payment.subtitle": "Fill out the form — I will contact you in your preferred messenger",
   "payment.nameLabel": "Your name",
@@ -88,27 +82,21 @@
   "payment.agreement": "By clicking \"Send\", you agree to the",
   "payment.agreementLink": "processing of personal data",
   "payment.success": "Thank you! I will contact you shortly.",
-
   "lang.ru": "Russian",
   "lang.en": "English",
   "lang.toggle": "Switch language",
-
   "meta.title": "Ilya — Wood Carving",
   "meta.desc": "Handcrafted. Wood carving by Ilya. Unique items made from natural wood.",
-
   "cart.title": "Cart",
   "cart.empty": "Cart is empty",
   "cart.total": "Total",
   "cart.checkout": "Place order",
   "cart.remove": "Remove",
   "cart.closeLabel": "Close",
-
   "footer.copyright": "© {year} Ilya. Wood Carving.",
   "footer.tagline": "Handmade with love for wood",
-
   "cookie.text": "This site uses cookies to improve your experience. By continuing to use the site, you agree to this.",
   "cookie.btn": "Accept",
-
   "faq.title": "Frequently Asked Questions",
   "faq.subtitle": "Answers to the most common questions about ordering and delivery",
   "faq.q0": "How do I place an order?",
@@ -123,14 +111,12 @@
   "faq.a4": "Production time depends on the complexity of the item. Usually 3 to 14 days.",
   "faq.q5": "How do I care for wooden products?",
   "faq.a5": "Wooden products should be kept away from direct sunlight and excessive moisture. Wipe with a dry or slightly damp cloth. Renew the finish with natural oil once a year.",
-
   "payment.deliveryLabel": "Delivery method",
   "payment.deliveryPlaceholder": "Choose delivery method",
   "payment.deliveryOptPost": "Russian Post",
   "payment.deliveryOptCourier": "Courier (CDEK)",
   "payment.addressLabel": "Delivery address",
   "payment.addressPlaceholder": "City, street, building, apartment / ZIP code",
-
   "toolPage.back": "← Back to home",
   "toolPage.title": "Wood Carving Chisel Set",
   "toolPage.desc": "A handcrafted set of three chisels for geometric and contour carving. Each tool has been crafted from forging to final sharpening.",
@@ -143,7 +129,6 @@
   "toolPage.specKey.Вес": "Weight",
   "toolPage.btnCart": "Add to cart",
   "toolPage.price": "3 800 ₽",
-
   "privacy.back": "← Back to home",
   "privacy.title": "Privacy Policy",
   "privacy.h1": "1. General Provisions",
@@ -162,5 +147,6 @@
   "privacy.h6": "6. Use of Cookies",
   "privacy.p6": "The website uses cookies to ensure proper operation (cart, data processing consent). You can disable cookies in your browser settings.",
   "privacy.h7": "7. Contact Information",
-  "privacy.p7": "For questions related to the processing of personal data, please contact us via the feedback form on the website or through the contacts listed in the contact section."
+  "privacy.p7": "For questions related to the processing of personal data, please contact us via the feedback form on the website or through the contacts listed in the contact section.",
+  "hero.slogan": "Craftsmanship passed down through the years, and love for nature in every piece."
 }
