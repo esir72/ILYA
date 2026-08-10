@@ -5,25 +5,10 @@
 <section class="hero gloss-overlay">
   <div class="hero-gloss"></div>
   <div class="container hero-inner">
-    <div class="hero-content">
-      <p class="hero-label" data-animate="fade" data-delay="1" data-i18n="hero.label">Мастер резьбы по дереву</p>
-      <h1 class="hero-title" data-animate data-delay="2" data-i18n="hero.title">Илья</h1>
-      <p class="hero-desc" data-animate data-delay="3" data-i18n="hero.desc">
-        Создаю уникальные изделия из натурального дерева. Каждая работа — 
-        это сочетание традиционного мастерства и современного дизайна.
-      </p>
-    </div>
-    <div class="hero-nav" data-animate data-delay="4">
-      <a href="#products" class="hero-card">
-        <div class="hero-card-img" style="background-image: url('/images/sumka-iz-dereva.jpg')">
-          <span class="hero-card-label" data-i18n="hero.cardProducts">Изделия</span>
-        </div>
-      </a>
-      <a href="#tools" class="hero-card">
-        <div class="hero-card-img" style="background-image: url('/images/10 Mind-Blowing Wood Carving Techniques You Need To Try Today! - The Table Read Magazine.jpg')">
-          <span class="hero-card-label" data-i18n="hero.cardTools">Инструменты</span>
-        </div>
-      </a>
+    <img class="hero-logo" src="/images/logo.png" alt="Илья — мастер резьбы по дереву" data-animate="fade" />
+    <div class="hero-nav" data-animate="fade" data-delay="1">
+      <a href="#products" class="btn hero-btn" data-i18n="hero.cardProducts">Изделия</a>
+      <a href="#tools" class="btn hero-btn" data-i18n="hero.cardTools">Инструменты</a>
     </div>
   </div>
 </section>
@@ -77,140 +62,55 @@
   }
 
   .hero-inner {
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    gap: 60px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 48px;
+    position: relative;
+    z-index: 2;
   }
 
-  .hero-content {
-    max-width: 540px;
+  .hero .container {
+    max-width: none;
   }
 
-  .hero-label {
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    margin-bottom: 16px;
-  }
-
-  .hero-title {
-    font-size: 4rem;
-    margin-bottom: 24px;
-    color: var(--text);
-  }
-
-  .hero-desc {
-    font-size: 1.15rem;
-    color: var(--text-light);
-    line-height: 1.7;
-    margin-bottom: 40px;
+  .hero-logo {
+    width: 100%;
+    max-width: calc((100vh - 190px) / 9 * 16);
+    height: auto;
+    display: block;
   }
 
   .hero-nav {
     display: flex;
     gap: 24px;
-  }
-
-  .hero-card {
-    text-decoration: none;
-    transition: transform 0.3s, box-shadow 0.3s;
-    flex: 1;
-  }
-
-  .hero-card:hover {
-    transform: translateY(-4px);
-  }
-
-  .hero-card-img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    background-size: cover;
-    background-position: center;
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
     justify-content: center;
-    position: relative;
-    transition: border-color 0.3s;
+    flex-wrap: wrap;
   }
 
-  .hero-card-img::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    transition: background 0.3s;
-  }
-
-  .hero-card:hover .hero-card-img::before {
-    background: rgba(0,0,0,0.25);
-  }
-
-  .hero-card-label {
-    position: relative;
-    z-index: 1;
-    font-family: var(--font-heading);
-    font-size: 2rem;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-  }
-
-  @media (max-width: 768px) {
-    .hero-inner {
-      grid-template-columns: 1fr;
-      text-align: center;
-    }
-    .hero-content {
-      margin: 0 auto;
-    }
-    .hero-title {
-      font-size: 3rem;
-    }
-    .hero-nav {
-      flex-direction: row;
-      justify-content: center;
-      gap: 16px;
-      width: 100%;
-    }
-    .hero-card {
-      flex: 1;
-      max-width: 260px;
-    }
-    .hero-card-img {
-      aspect-ratio: 4 / 3;
-    }
-    .hero-card-label {
-      font-size: 1rem;
-    }
+  .hero-btn {
+    min-width: 200px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 16px 40px;
   }
 
   @media (max-width: 480px) {
-    .hero-title {
-      font-size: 2.2rem;
+    .hero-inner {
+      gap: 32px;
     }
-    .hero-desc {
-      font-size: 1rem;
-      margin-bottom: 24px;
+    .hero-logo {
+      max-width: calc((100vh - 220px) / 9 * 16);
     }
     .hero-nav {
       flex-direction: column;
-      align-items: center;
       width: 100%;
+      max-width: 280px;
     }
-    .hero-card {
-      flex: none;
+    .hero-btn {
       width: 100%;
-      max-width: 260px;
-    }
-    .hero-card-img {
-      aspect-ratio: 4 / 3;
     }
   }
 </style>
-
-<script>
-</script>

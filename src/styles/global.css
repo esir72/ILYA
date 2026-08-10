@@ -62,6 +62,48 @@ a:hover {
   outline-offset: 2px;
 }
 
+.petroglyphs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+main,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+.petroglyph {
+  position: absolute;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(135deg, #E3C584 0%, #C8A96E 40%, #9C7B45 100%);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.12;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  will-change: transform;
+  animation: petro-float var(--dur, 9s) ease-in-out var(--delay, 0s) infinite alternate;
+}
+
+@keyframes petro-float {
+  0% {
+    transform: rotate(var(--r, 0deg)) translate(var(--tx1, 0px), var(--ty1, 0px));
+  }
+  100% {
+    transform: rotate(var(--r, 0deg)) translate(var(--tx2, 0px), var(--ty2, 0px));
+  }
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -259,6 +301,7 @@ button:disabled {
   html { scroll-behavior: auto; }
   .particle, .cursor-glow, .hero-gloss::before, .gloss-overlay::before,
   .flip-front::after, .btn-shimmer::before { display: none; }
+  .petroglyph { animation: none; }
   .carousel-track { transition: none; }
   .flip-inner { transition: none; }
 }
