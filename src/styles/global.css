@@ -43,9 +43,11 @@ body::before {
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  background-image: url('/images/stone_texture.jpg');
-  background-size: 600px;
+  background-image: url('/images/baackcround/pngtree-cave-wall-texture-the-perfect-backdrop-for-an-archeological-concept-background-picture-image_13402452.jpg');
+  background-size: cover;
+  background-position: center;
   mix-blend-mode: soft-light;
+  filter: brightness(0.7);
   pointer-events: none;
 }
 

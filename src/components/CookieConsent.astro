@@ -22,9 +22,10 @@
 <style>
   .cookie-consent {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: max(24px, env(safe-area-inset-bottom));
+    left: 24px;
+    right: 24px;
+    border-radius: 12px;
     background: var(--text);
     color: var(--bg);
     padding: 16px 24px;
@@ -32,8 +33,9 @@
     align-items: center;
     justify-content: center;
     gap: 24px;
-    z-index: 300;
-    transform: translateY(100%);
+    z-index: 9999;
+    transform: translateY(150%);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
@@ -59,12 +61,21 @@
     background: var(--accent-light);
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     .cookie-consent {
       flex-direction: column;
       text-align: center;
       gap: 12px;
       padding: 16px;
+      bottom: auto;
+      top: max(16px, env(safe-area-inset-top));
+      left: 16px;
+      right: 16px;
+      width: auto;
+      transform: translateY(-150%);
+      opacity: 1;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      pointer-events: auto;
     }
     .cookie-text {
       font-size: 0.85rem;
