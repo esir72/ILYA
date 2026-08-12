@@ -30,8 +30,8 @@
               <span data-i18n="payment.phoneLabel">Контакт для связи</span>
             </label>
             <select id="order-contact-type">
-              <option value="phone" selected data-i18n="payment.contactOptPhone">Телефон</option>
-              <option value="tg" data-i18n="payment.contactOptTg">Telegram ник</option>
+              <option value="tg" selected data-i18n="payment.contactOptTg">Ник в соцсетях</option>
+              <option value="phone" data-i18n="payment.contactOptPhone">Телефон</option>
             </select>
             <div id="phone-fields">
               <label for="order-country" data-i18n="payment.phoneRegionLabel">Регион / страна</label>
@@ -79,6 +79,7 @@
               <option value="" disabled selected data-i18n="payment.deliveryPlaceholder">Выберите способ доставки</option>
               <option value="post" data-i18n="payment.deliveryOptPost">Почта России</option>
               <option value="courier" data-i18n="payment.deliveryOptCourier">Курьер (СДЭК)</option>
+              <option value="other" data-i18n="payment.deliveryOptOther">Другое</option>
             </select>
           </div>
           <div class="form-group" id="address-group">
@@ -126,7 +127,7 @@
 
   var FALLBACK = {
     'payment.phoneHint': 'Введите номер в выбранном формате — только цифры',
-    'payment.tgHint': 'Укажите ваш ник в Telegram, например @ilya',
+    'payment.tgHint': 'Укажите ваш ник в соцсетях, например @ilya',
     'payment.phoneErrorShort': 'Номер слишком короткий для выбранной страны',
     'payment.tgError': 'Ник должен содержать 4–32 символа: буквы, цифры или _'
   };
