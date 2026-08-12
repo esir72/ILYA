@@ -5,28 +5,28 @@ const products = [
     title: 'Сумка из дерева',
     desc: 'Ручная работа из натурального дерева. Уникальный дизайн с фактурой древесины.',
     price: 4500,
-    image: '/images/sumka-iz-dereva.jpg',
+    image: '/images/cards/photo_2026-08-12_14-19-01.png',
   },
   {
     id: 1,
     title: 'Сумка малая',
     desc: 'Компактная деревянная сумка на каждый день. Лёгкая, прочная, с надёжной фурнитурой.',
     price: 3800,
-    image: '/images/sumka-iz-dereva2.jpg',
+    image: '/images/cards/photo_2026-08-12_14-19-08.png',
   },
   {
     id: 2,
     title: 'Кошелёк из дерева',
     desc: 'Оригинальный деревянный кошелёк ручной работы. Вместительный и долговечный.',
     price: 2900,
-    image: '/images/koshelek-iz-dereva.jpg',
+    image: '/images/cards/photo_2026-08-12_14-19-10-Photoroom.png',
   },
   {
     id: 3,
     title: 'Картина «Волны»',
     desc: 'Резная картина с морскими волнами из дерева. Авторская работа, подарок в любую коллекцию.',
     price: 5200,
-    image: '/images/kartina-volny-golubye-iz-dereva.jpg',
+    image: '/images/cards/photo_2026-08-12_16-44-54.png',
   },
 ];
 
@@ -42,7 +42,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     </p>
     <div class="products-grid">
       {products.map((product, i) => (
-        <article class="product-card" data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
+        <article class="product-card" style={`--card-mask: url('${product.image}');`} data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
           <div class="flip-inner">
             <div class="face face-front">
               <div class="flip-front">
@@ -123,21 +123,30 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     transition: transform 0.3s ease;
+    will-change: transform;
   }
 
   .face-front {
     position: relative;
+    transform: rotateY(0deg) translateZ(1px);
   }
 
   .face-back {
     position: absolute;
     inset: 0;
-    transform: rotateY(180deg);
+    transform: rotateY(180deg) translateZ(1px);
   }
 
   .flip-front,
   .flip-back {
-    clip-path: polygon(var(--shape--blob-1));
+    -webkit-mask-image: var(--card-mask);
+    mask-image: var(--card-mask);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -160,20 +169,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     }
   }
 
-  .product-card:nth-child(2) .flip-front,
-  .product-card:nth-child(2) .flip-back {
-    clip-path: polygon(var(--shape--blob-2));
-  }
 
-  .product-card:nth-child(3) .flip-front,
-  .product-card:nth-child(3) .flip-back {
-    clip-path: polygon(var(--shape--blob-3));
-  }
-
-  .product-card:nth-child(4) .flip-front,
-  .product-card:nth-child(4) .flip-back {
-    clip-path: polygon(var(--shape--blob-4));
-  }
 
   .flip-front {
     position: relative;
@@ -219,15 +215,12 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   }
 
   .product-image {
-    aspect-ratio: 4 / 3;
     overflow: hidden;
-    background: var(--beige);
   }
 
   .product-image img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     display: block;
   }
 
@@ -279,9 +272,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   }
 
   @media (max-width: 480px) {
-    .product-image {
-      aspect-ratio: 1 / 1;
-    }
+
     .flip-back-content {
       padding: 23%;
     }

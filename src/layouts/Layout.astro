@@ -247,7 +247,10 @@ import CookieConsent from '../components/CookieConsent.astro';
 
           spawnPetroglyphs();
           var petroResizeTimer = null;
+          var lastWidth = window.innerWidth;
           window.addEventListener('resize', function () {
+            if (window.innerWidth === lastWidth) return;
+            lastWidth = window.innerWidth;
             clearTimeout(petroResizeTimer);
             petroResizeTimer = setTimeout(spawnPetroglyphs, 200);
           });
