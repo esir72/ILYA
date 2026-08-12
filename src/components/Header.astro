@@ -5,15 +5,12 @@ import LangSwitcher from './LangSwitcher.astro';
 <header class="header">
   <div class="container header-inner">
     <a href="/" class="logo" aria-label="Илья"><span class="logo-img"></span></a>
-    <button id="menu-toggle" class="menu-toggle" aria-label="Меню" data-i18n-aria="header.menuLabel">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
     <nav class="nav" id="nav">
-      <a href="#about" data-i18n="header.nav.about">Обо мне</a>
       <a href="#products" data-i18n="header.nav.products">Изделия</a>
+      <a href="#about" data-i18n="header.nav.about">Обо мне</a>
       <a href="#payment" data-i18n="header.nav.order">Заказ</a>
+    </nav>
+    <div class="header-actions">
       <LangSwitcher />
       <button id="cart-toggle" class="cart-toggle" aria-label="Корзина" data-i18n-aria="header.cartLabel">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -23,7 +20,12 @@ import LangSwitcher from './LangSwitcher.astro';
         </svg>
         <span id="cart-count" class="cart-count">0</span>
       </button>
-    </nav>
+      <button id="menu-toggle" class="menu-toggle" aria-label="Меню" data-i18n-aria="header.menuLabel">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -31,8 +33,17 @@ import LangSwitcher from './LangSwitcher.astro';
   const toggle = document.getElementById('menu-toggle');
   const nav = document.getElementById('nav');
   if (toggle && nav) {
-    toggle.addEventListener('click', () => nav.classList.toggle('open'));
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      nav.classList.toggle('open');
+    });
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+    
+    document.addEventListener('click', (e) => {
+      if (nav.classList.contains('open') && !nav.contains(e.target) && !toggle.contains(e.target)) {
+        nav.classList.remove('open');
+      }
+    });
   }
 </script>
 
@@ -86,6 +97,12 @@ import LangSwitcher from './LangSwitcher.astro';
     display: flex;
     align-items: center;
     gap: 32px;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
 
   .nav a {
@@ -182,16 +199,6 @@ import LangSwitcher from './LangSwitcher.astro';
 
     .nav a:last-of-type {
       border-bottom: none;
-    }
-
-    .nav #lang-toggle {
-      margin: 16px 0;
-      align-self: flex-start;
-    }
-
-    .cart-toggle {
-      align-self: flex-start;
-      margin-top: 4px;
     }
   }
 
