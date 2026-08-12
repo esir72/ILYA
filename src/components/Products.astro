@@ -381,6 +381,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     letter-spacing: 0.03em;
     overflow-y: auto;
     scrollbar-width: none;
+    min-height: 0; /* Ensures flex item can shrink and actually scroll */
   }
   .product-desc::-webkit-scrollbar {
     display: none;
@@ -431,8 +432,12 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
 
   @media (max-width: 480px) {
     .product-title {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+    .product-desc {
+      font-size: 0.85rem;
+      line-height: 1.4;
     }
     .product-bottom {
       flex-direction: row;
