@@ -58,8 +58,12 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
                   <p class="product-desc" data-i18n={`products.item.${i}.desc`}>{product.desc}</p>
                   <div class="product-bottom">
                     <span class="product-price" data-i18n={`products.item.${i}.price`}>{formatPrice(product.price)}</span>
-                    <button class="btn btn-sm btn-cart" data-id={product.id} data-title={product.title} data-i18n-key={`products.item.${i}.title`} data-price={product.price} data-img={product.image} data-i18n="products.btnCart">
-                      В корзину
+                    <button class="btn btn-sm btn-cart btn-icon-only" data-id={product.id} data-title={product.title} data-i18n-key={`products.item.${i}.title`} data-price={product.price} data-img={product.image} data-i18n-title="products.btnCart" aria-label="В корзину">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                      </svg>
                     </button>
                   </div>
                 </div>
@@ -207,6 +211,11 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     text-align: center;
   }
 
+  /* Специфичный отступ для керамбита (карточка 3) */
+  .product-card:nth-child(3) .flip-back-content {
+    padding: 22% 14% 12% 10%;
+  }
+
   .product-image {
     overflow: hidden;
   }
@@ -254,6 +263,14 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     font-size: 0.85rem;
   }
 
+  .btn-icon-only {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
   .products-more {
     text-align: center;
     padding-top: 40px;
@@ -287,10 +304,10 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
       text-align: left;
       font-size: 1.1rem;
     }
-    .btn-sm {
-      width: auto;
-      padding: 8px 12px;
-      font-size: 0.75rem;
+    .btn-sm.btn-icon-only {
+      padding: 10px;
+      width: 40px;
+      height: 40px;
     }
   }
 </style>
