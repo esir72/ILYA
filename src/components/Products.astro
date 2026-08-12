@@ -66,6 +66,9 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
                       </svg>
                     </button>
                   </div>
+                  <div class="more-photos-wrap">
+                    <button class="more-photos-link" data-gallery="['/images/cards/photo_2026-08-12_14-19-01.png','/images/cards/photo_2026-08-12_14-19-08.png','/images/cards/photo_2026-08-12_14-19-10-Photoroom.png','/images/cards/photo_2026-08-12_16-44-54.png']" data-i18n="products.morePhotos">Больше фото</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -76,6 +79,14 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     <div class="products-more" data-animate>
       <p data-i18n="products.moreText">Хотите что-то особенное? Я делаю изделия на заказ.</p>
       <a href="#payment" class="btn" data-i18n="products.moreBtn">Обсудить заказ</a>
+    </div>
+  </div>
+  <div id="gallery-modal" class="gallery-modal" aria-hidden="true">
+    <div class="gallery-overlay"></div>
+    <div class="gallery-content">
+      <button class="gallery-prev" aria-label="Previous">❮</button>
+      <img id="gallery-image" src="" alt="Gallery Image" />
+      <button class="gallery-next" aria-label="Next">❯</button>
     </div>
   </div>
 </section>
@@ -93,9 +104,139 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
       }
     });
   });
+
+  var modal = document.getElementById('gallery-modal');
+  var modalImg = document.getElementById('gallery-image');
+  var prevBtn = modal.querySelector('.gallery-prev');
+  var nextBtn = modal.querySelector('.gallery-next');
+  var overlay = modal.querySelector('.gallery-overlay');
+  var currentGallery = [];
+  var currentIndex = 0;
+
+  function openGallery(images, startIndex) {
+    currentGallery = images;
+    currentIndex = startIndex || 0;
+    updateGallery();
+    modal.classList.add('open');
+  }
+
+  function closeGallery() {
+    modal.classList.remove('open');
+  }
+
+  function updateGallery() {
+    modalImg.src = currentGallery[currentIndex];
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+      updateGallery();
+    });
+
+    nextBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % currentGallery.length;
+      updateGallery();
+    });
+
+    overlay.addEventListener('click', closeGallery);
+
+    document.querySelectorAll('.more-photos-link').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var images = JSON.parse(link.dataset.gallery.replace(/'/g, '"'));
+        openGallery(images, 0);
+      });
+    });
+  }
 </script>
 
 <style>
+  .more-photos-wrap {
+    margin-top: 4px;
+  }
+  .more-photos-link {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    text-decoration: underline;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 4px;
+    letter-spacing: 0.03em;
+  }
+  .more-photos-link:hover {
+    color: var(--accent);
+  }
+
+  .gallery-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+  .gallery-modal.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+  }
+  .gallery-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gallery-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .gallery-prev, .gallery-next {
+    position: absolute;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: background 0.2s;
+  }
+  .gallery-prev:hover, .gallery-next:hover {
+    background: var(--accent);
+  }
+  .gallery-prev {
+    left: -20px;
+  }
+  .gallery-next {
+    right: -20px;
+  }
+  @media (max-width: 768px) {
+    .gallery-prev { left: 10px; }
+    .gallery-next { right: 10px; }
+  }
+
   .products-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -235,7 +376,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   .product-desc {
     font-size: 0.95rem;
     color: var(--text-light);
-    margin-bottom: 24px;
+    margin-bottom: 8px;
     line-height: 1.5;
     letter-spacing: 0.03em;
     overflow-y: auto;
@@ -298,7 +439,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
       gap: 12px;
       align-items: center;
       justify-content: center;
-      margin-top: 12px;
+      margin-top: 4px;
     }
     .product-price {
       text-align: left;
