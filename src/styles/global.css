@@ -28,17 +28,25 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-image: 
-    url('/images/stone_texture.jpg'),
-    linear-gradient(135deg, var(--bg) 0%, #110d0a 100%);
-  background-blend-mode: soft-light, normal;
-  background-attachment: fixed;
-  background-size: 600px, auto;
-  background-color: var(--bg);
+  background: linear-gradient(135deg, var(--bg) 0%, #110d0a 100%);
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-image: url('/images/stone_texture.jpg');
+  background-size: 600px;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
 }
 
 h1, h2, h3, h4 {
@@ -310,6 +318,13 @@ button:disabled {
   transform: translate(-50%, -50%);
   opacity: 0;
   will-change: left, top;
+}
+
+@media (max-width: 768px) {
+  .cursor-glow {
+    width: 450px;
+    height: 450px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

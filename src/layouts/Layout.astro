@@ -279,6 +279,17 @@ import CookieConsent from '../components/CookieConsent.astro';
       if (glow) {
         var glowTargetX = 0, glowTargetY = 0, glowCurX = 0, glowCurY = 0;
         var glowRaf = null, glowActive = false;
+        
+        if (window.innerWidth <= 768) {
+          glowCurX = window.innerWidth * 0.25;
+          glowCurY = window.innerHeight * (2/3);
+          glowTargetX = glowCurX;
+          glowTargetY = glowCurY;
+          glow.style.left = glowCurX + 'px';
+          glow.style.top = glowCurY + 'px';
+          glow.style.opacity = '1';
+        }
+
         document.addEventListener('mousemove', function (e) {
           glowTargetX = e.clientX;
           glowTargetY = e.clientY;
