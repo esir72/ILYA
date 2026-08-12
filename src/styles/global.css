@@ -28,7 +28,13 @@ html {
 
 body {
   font-family: var(--font-body);
-  background: linear-gradient(135deg, var(--bg) 0%, #110d0a 100%);
+  background-image: 
+    url('/images/stone_texture.jpg'),
+    linear-gradient(135deg, var(--bg) 0%, #110d0a 100%);
+  background-blend-mode: soft-light, normal;
+  background-attachment: fixed;
+  background-size: 600px, auto;
+  background-color: var(--bg);
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;

@@ -224,7 +224,7 @@ import CookieConsent from '../components/CookieConsent.astro';
               var g = document.createElement('div');
               g.className = 'petroglyph';
               var rot = (Math.random() - 0.5) * 90;
-              g.style.width = (big ? 180 + Math.random() * 70 : 80 + Math.random() * 80) + 'px';
+              g.style.width = ((big ? 180 + Math.random() * 70 : 80 + Math.random() * 80) / 1.4) + 'px';
               g.style.left = cell.x + '%';
               g.style.top = cell.y + '%';
               g.style.setProperty('--r', rot.toFixed(1) + 'deg');
