@@ -1,4 +1,11 @@
 ---
+const allImages = [
+  '/images/cards/photo_2026-08-12_14-19-01.png',
+  '/images/cards/photo_2026-08-12_14-19-08.png',
+  '/images/cards/photo_2026-08-12_14-19-10-Photoroom.png',
+  '/images/cards/photo_2026-08-12_16-44-54.png',
+];
+
 const products = [
   {
     id: 0,
@@ -6,6 +13,7 @@ const products = [
     desc: 'Нож и ложкорез, выкованный из высококачественной «марсианской» стали 9ХС — огнём, потом и традициями наших предков. Проверен поколениями: от каменного века до наших дней. Идеально заточен, готов к работе и режет любое дерево.',
     price: 4500,
     image: '/images/cards/photo_2026-08-12_14-19-01.png',
+    gallery: allImages,
   },
   {
     id: 1,
@@ -13,6 +21,7 @@ const products = [
     desc: 'Компактная деревянная сумка на каждый день. Лёгкая, прочная, с надёжной фурнитурой.',
     price: 3800,
     image: '/images/cards/photo_2026-08-12_14-19-08.png',
+    gallery: allImages,
   },
   {
     id: 2,
@@ -20,6 +29,7 @@ const products = [
     desc: 'Оригинальный деревянный кошелёк ручной работы. Вместительный и долговечный.',
     price: 2900,
     image: '/images/cards/photo_2026-08-12_14-19-10-Photoroom.png',
+    gallery: allImages,
   },
   {
     id: 3,
@@ -27,8 +37,20 @@ const products = [
     desc: 'Резная картина с морскими волнами из дерева. Авторская работа, подарок в любую коллекцию.',
     price: 5200,
     image: '/images/cards/photo_2026-08-12_16-44-54.png',
+    gallery: allImages,
   },
 ];
+
+const productData = products.map((p, i) => ({
+  id: p.id,
+  title: p.title,
+  image: p.image,
+  price: p.price,
+  gallery: p.gallery,
+  titleKey: `products.item.${i}.title`,
+  descKey: `products.item.${i}.desc`,
+  i18nKey: `products.item.${i}.title`,
+}));
 
 const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
 ---
@@ -37,7 +59,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   <div class="container">
     <h2 class="section-title" data-animate data-i18n="products.title">Изделия</h2>
     <p class="section-subtitle" data-animate data-delay="1" data-i18n="products.subtitle">
-      Каждое изделие уникально. Фактура дерева и рисунок могут незначительно 
+      Каждое изделие уникально. Фактура дерева и рисунок могут незначительно
       отличаться от фото.
     </p>
     <div class="products-grid">
@@ -66,8 +88,8 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
                       </svg>
                     </button>
                   </div>
-                  <div class="more-photos-wrap">
-                    <button class="more-photos-link" data-gallery="['/images/cards/photo_2026-08-12_14-19-01.png','/images/cards/photo_2026-08-12_14-19-08.png','/images/cards/photo_2026-08-12_14-19-10-Photoroom.png','/images/cards/photo_2026-08-12_16-44-54.png']" data-i18n="products.morePhotos">Больше фото</button>
+                  <div class="product-back-actions">
+                    <button class="details-btn" data-details={i} data-i18n="products.details">Подробнее</button>
                   </div>
                 </div>
               </div>
@@ -81,20 +103,46 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
       <a href="#payment" class="btn" data-i18n="products.moreBtn">Обсудить заказ</a>
     </div>
   </div>
-  <div id="gallery-modal" class="gallery-modal" aria-hidden="true">
-    <div class="gallery-overlay"></div>
-    <div class="gallery-content">
-      <button class="gallery-prev" aria-label="Previous">❮</button>
-      <img id="gallery-image" src="" alt="Gallery Image" />
-      <button class="gallery-next" aria-label="Next">❯</button>
+
+  <div id="detail-modal" class="detail-modal" aria-hidden="true">
+    <div class="detail-overlay"></div>
+    <div class="detail-content" role="dialog" aria-modal="true">
+      <button class="detail-close" id="detail-close" aria-label="Закрыть" data-i18n-aria="products.detailClose">×</button>
+      <h3 class="detail-title" id="detail-title"></h3>
+      <div class="detail-gallery">
+        <button class="detail-prev" aria-label="Previous">❮</button>
+        <img id="detail-image" class="detail-image" src="" alt="" />
+        <button class="detail-next" aria-label="Next">❯</button>
+      </div>
+      <div class="detail-counter" id="detail-counter"></div>
+      <p class="detail-desc" id="detail-desc"></p>
+      <div class="detail-bottom">
+        <span class="detail-price" id="detail-price"></span>
+        <button class="btn btn-cart detail-add" id="detail-add" data-i18n="products.detailAdd">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </section>
 
-<script>
+<script define:vars={{ productData }}>
+  function t(key, fallback) {
+    if (window.i18n && typeof window.i18n.t === 'function') {
+      var v = window.i18n.t(key);
+      if (v && v !== key) return v;
+    }
+    return fallback;
+  }
+
   document.querySelectorAll('.product-card').forEach(function (card) {
     card.addEventListener('click', function (e) {
       if (e.target.closest('.btn-cart')) return;
+      if (e.target.closest('.details-btn')) return;
       card.classList.toggle('flipped');
     });
     card.addEventListener('keydown', function (e) {
@@ -105,76 +153,108 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     });
   });
 
-  var modal = document.getElementById('gallery-modal');
-  var modalImg = document.getElementById('gallery-image');
-  var prevBtn = modal.querySelector('.gallery-prev');
-  var nextBtn = modal.querySelector('.gallery-next');
-  var overlay = modal.querySelector('.gallery-overlay');
+  var modal = document.getElementById('detail-modal');
+  var modalTitle = document.getElementById('detail-title');
+  var modalImg = document.getElementById('detail-image');
+  var modalDesc = document.getElementById('detail-desc');
+  var modalPrice = document.getElementById('detail-price');
+  var counter = document.getElementById('detail-counter');
+  var prevBtn = modal.querySelector('.detail-prev');
+  var nextBtn = modal.querySelector('.detail-next');
+  var overlay = modal.querySelector('.detail-overlay');
+  var closeBtn = document.getElementById('detail-close');
+  var addBtn = document.getElementById('detail-add');
+
   var currentGallery = [];
   var currentIndex = 0;
+  var currentProduct = null;
 
-  function openGallery(images, startIndex) {
-    currentGallery = images;
-    currentIndex = startIndex || 0;
-    updateGallery();
-    modal.classList.add('open');
-  }
-
-  function closeGallery() {
-    modal.classList.remove('open');
-  }
-
-  function updateGallery() {
+  function renderGallery() {
+    if (!currentGallery.length) return;
     modalImg.src = currentGallery[currentIndex];
+    modalImg.alt = modalTitle.textContent;
+    counter.textContent = (currentIndex + 1) + ' / ' + currentGallery.length;
   }
+
+  function openDetail(index) {
+    var p = productData[index];
+    if (!p) return;
+    currentProduct = p;
+    currentGallery = p.gallery && p.gallery.length ? p.gallery : [p.image];
+    currentIndex = 0;
+
+    modalTitle.textContent = t(p.titleKey, p.title);
+    modalDesc.textContent = t(p.descKey, p.desc);
+    modalPrice.textContent = p.price.toLocaleString('ru-RU') + ' ₽';
+
+    addBtn.dataset.id = p.id;
+    addBtn.dataset.title = p.title;
+    addBtn.dataset.i18nKey = p.i18nKey;
+    addBtn.dataset.price = p.price;
+    addBtn.dataset.img = p.image;
+
+    renderGallery();
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDetail() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.details-btn').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      openDetail(parseInt(btn.dataset.details, 10));
+    });
+  });
 
   if (prevBtn) {
-    prevBtn.addEventListener('click', function(e) {
+    prevBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
-      updateGallery();
+      renderGallery();
     });
-
-    nextBtn.addEventListener('click', function(e) {
+    nextBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       currentIndex = (currentIndex + 1) % currentGallery.length;
-      updateGallery();
+      renderGallery();
     });
+    overlay.addEventListener('click', closeDetail);
+    closeBtn.addEventListener('click', closeDetail);
 
-    overlay.addEventListener('click', closeGallery);
-
-    document.querySelectorAll('.more-photos-link').forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var images = JSON.parse(link.dataset.gallery.replace(/'/g, '"'));
-        openGallery(images, 0);
-      });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('open')) closeDetail();
     });
   }
 </script>
 
 <style>
-  .more-photos-wrap {
-    margin-top: 4px;
+  .product-back-actions {
+    margin-top: 8px;
   }
-  .more-photos-link {
+  .details-btn {
     background: none;
-    border: none;
-    color: var(--text-light);
-    text-decoration: underline;
-    font-size: 0.85rem;
-    cursor: pointer;
-    padding: 4px;
-    letter-spacing: 0.03em;
-  }
-  .more-photos-link:hover {
+    border: 1px solid var(--border);
     color: var(--accent);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 8px 18px;
+    border-radius: 999px;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .details-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
   }
 
-  .gallery-modal {
+  .detail-modal {
     position: fixed;
     inset: 0;
-    z-index: 1000;
+    z-index: 1100;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -182,35 +262,83 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
   }
-  .gallery-modal.open {
+  .detail-modal.open {
     opacity: 1;
     visibility: visible;
   }
-  .gallery-overlay {
+  .detail-overlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(5px);
   }
-  .gallery-content {
+  .detail-content {
     position: relative;
-    max-width: 90vw;
+    z-index: 1101;
+    width: min(90vw, 560px);
     max-height: 90vh;
-    z-index: 1001;
+    overflow-y: auto;
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    scrollbar-width: none;
+  }
+  .detail-content::-webkit-scrollbar {
+    display: none;
+  }
+  .detail-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--bg);
+    border: none;
+    color: var(--text);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 0.2s, color 0.2s;
   }
-  .gallery-content img {
+  .detail-close:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+  .detail-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    padding-right: 40px;
+  }
+  .detail-gallery {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .detail-image {
     max-width: 100%;
-    max-height: 90vh;
+    max-height: 56vh;
     object-fit: contain;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
-  .gallery-prev, .gallery-next {
+  .detail-counter {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    margin-top: 8px;
+  }
+  .detail-prev, .detail-next {
     position: absolute;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.45);
     color: #fff;
     border: none;
     width: 40px;
@@ -223,18 +351,38 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     font-size: 1.2rem;
     transition: background 0.2s;
   }
-  .gallery-prev:hover, .gallery-next:hover {
+  .detail-prev:hover, .detail-next:hover {
     background: var(--accent);
   }
-  .gallery-prev {
-    left: -20px;
+  .detail-prev { left: 8px; }
+  .detail-next { right: 8px; }
+  .detail-desc {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--text-light);
+    margin: 16px 0 20px;
   }
-  .gallery-next {
-    right: -20px;
+  .detail-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
   }
-  @media (max-width: 768px) {
-    .gallery-prev { left: 10px; }
-    .gallery-next { right: 10px; }
+  .detail-price {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--accent);
+    font-family: var(--font-heading);
+  }
+  .btn-cart.detail-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 12px 22px;
+    gap: 8px;
   }
 
   .products-grid {
@@ -453,6 +601,15 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
       padding: 10px;
       width: 40px;
       height: 40px;
+    }
+    .detail-content {
+      padding: 20px;
+    }
+    .detail-title {
+      font-size: 1.25rem;
+    }
+    .detail-price {
+      font-size: 1.2rem;
     }
   }
 </style>
