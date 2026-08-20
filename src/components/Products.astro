@@ -261,6 +261,9 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 24px;
   }
   .detail-modal.open {
     opacity: 1;
@@ -276,8 +279,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     position: relative;
     z-index: 1101;
     width: min(92vw, 720px);
-    max-height: 92vh;
-    overflow-y: auto;
+    margin: auto;
     background: transparent;
     border-radius: 16px;
     padding: 28px;
@@ -573,6 +575,9 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   @media (max-width: 768px) {
     .products-grid {
       grid-template-columns: 1fr;
+    }
+    .detail-modal {
+      padding-top: 80px;
     }
   }
 
