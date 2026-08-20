@@ -196,11 +196,13 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     renderGallery();
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
   }
 
   function closeDetail() {
     modal.classList.remove('open');
     document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
   }
 
   document.querySelectorAll('.details-btn').forEach(function (btn) {
@@ -262,6 +264,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
     overflow-y: auto;
+    overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     padding: 24px;
   }
@@ -270,7 +273,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     visibility: visible;
   }
   .detail-overlay {
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(5px);
