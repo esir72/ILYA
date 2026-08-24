@@ -9,35 +9,53 @@ const allImages = [
 const products = [
   {
     id: 0,
-    title: 'Сумка из дерева',
+    title: 'Нож и ложкорез',
     desc: 'Нож и ложкорез, выкованный из высококачественной «марсианской» стали 9ХС — огнём, потом и традициями наших предков. Проверен поколениями: от каменного века до наших дней. Идеально заточен, готов к работе и режет любое дерево.',
+    short: 'Нож и ложкорез ручной работы из «марсианской» стали 9ХС.',
     price: 4500,
     image: '/images/cards/photo_2026-08-12_14-19-01.png',
     gallery: allImages,
   },
   {
     id: 1,
-    title: 'Сумка малая',
-    desc: 'Компактная деревянная сумка на каждый день. Лёгкая, прочная, с надёжной фурнитурой.',
+    title: 'Картина «Волны»',
+    desc: 'Волны, вырезанные вручную из цельного массива дерева — с душой и любовью к морю. Они передают его красоту, силу и бесконечность. Ведь на небесах говорят только о море. А кто на море не был — тот лох.',
+    short: 'Резная картина с морскими волнами из дерева.',
     price: 3800,
     image: '/images/cards/photo_2026-08-12_14-19-08.png',
     gallery: allImages,
   },
   {
     id: 2,
-    title: 'Кошелёк из дерева',
-    desc: 'Оригинальный деревянный кошелёк ручной работы. Вместительный и долговечный.',
+    title: 'Деревянный керамбит',
+    desc: 'Доисторический керамбит — идеальный нож из цельного куска дерева, созданный задолго до появления Counter-Strike. Когда-то о таком оружии только мечтали, а сегодня этот редкий артефакт продолжает жить, передаваясь из поколения в поколение вместе с древними традициями обработки дерева.',
+    short: 'Доисторический деревянный керамбит.',
     price: 2900,
     image: '/images/cards/photo_2026-08-12_14-19-10-Photoroom.png',
     gallery: allImages,
   },
   {
     id: 3,
-    title: 'Картина «Волны»',
-    desc: 'Резная картина с морскими волнами из дерева. Авторская работа, подарок в любую коллекцию.',
+    title: 'Рунический оберег',
+    desc: 'Девять дней и девять ночей висел Один, пронзённый копьём, чтобы добыть для людей мудрость и тайну рун. Этот оберег — дань его подвигу: вырезан вручную из дерева, в нём переплелись древние символы, сила предков и дух северных богов. От кроманьонца до современного человека — знания меняются, но руны остаются.',
+    short: 'Рунический оберег ручной работы из дерева.',
     price: 5200,
     image: '/images/cards/photo_2026-08-12_16-44-54.png',
     gallery: allImages,
+  },
+  {
+    id: 4,
+    title: 'Кукса большая',
+    desc: 'Большая кукса, созданная для неспешного наслаждения любимыми напитками. Вырезана вручную с душой, сохраняя дух и традиции древних мастеров.\n\nЕё форма и сам принцип изготовления уходят корнями в глубокую историю — подобные деревянные сосуды люди создавали и использовали ещё много веков назад.\n\nЭто не просто кружка, а вещь с историей, выполненная в традиционном стиле и полностью готовая к использованию. Идеальна для воды, чая, кофе и других любимых напитков.',
+    short: 'Большая деревянная кукса',
+    price: 28000,
+    image: '/images/cards/kuksa/kuksa-mask.png',
+    mask: '/images/cards/kuksa/kuksa-mask.png',
+    gallery: [
+      '/images/cards/kuksa/photo_2026-08-24_11-41-30.jpg',
+      '/images/cards/kuksa/photo_2026-08-24_11-41-31.jpg',
+      '/images/cards/kuksa/photo_2026-08-24_11-41-33.jpg',
+    ],
   },
 ];
 
@@ -49,6 +67,7 @@ const productData = products.map((p, i) => ({
   gallery: p.gallery,
   titleKey: `products.item.${i}.title`,
   descKey: `products.item.${i}.desc`,
+  priceKey: `products.item.${i}.price`,
   i18nKey: `products.item.${i}.title`,
 }));
 
@@ -64,7 +83,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     </p>
     <div class="products-grid">
       {products.map((product, i) => (
-        <article class="product-card" style={`--card-mask: url('${product.image}');`} data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
+        <article class="product-card" style={`--card-mask: url('${product.mask || product.image}');`} data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
           <div class="flip-inner">
             <div class="face face-front">
               <div class="flip-front">
@@ -77,7 +96,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
               <div class="flip-back">
                 <div class="flip-back-content">
                   <h3 class="product-title" data-i18n={`products.item.${i}.title`}>{product.title}</h3>
-                  <p class="product-desc" data-i18n={`products.item.${i}.desc`}>{product.desc}</p>
+                  <p class="product-desc" data-i18n={`products.item.${i}.short`}>{product.short}</p>
                   <div class="product-bottom">
                     <span class="product-price" data-i18n={`products.item.${i}.price`}>{formatPrice(product.price)}</span>
                     <button class="btn btn-sm btn-cart btn-icon-only" data-id={product.id} data-title={product.title} data-i18n-key={`products.item.${i}.title`} data-price={product.price} data-img={product.image} data-i18n-title="products.btnCart" aria-label="В корзину">
@@ -97,6 +116,9 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
           </div>
         </article>
       ))}
+    </div>
+    <div class="products-showmore">
+      <button id="show-more-btn" class="btn" data-i18n="products.showMore">Показать еще</button>
     </div>
     <div class="products-more" data-animate>
       <p data-i18n="products.moreText">Хотите что-то особенное? Я делаю изделия на заказ.</p>
@@ -153,6 +175,42 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     });
   });
 
+  var grid = document.querySelector('.products-grid');
+  var cards = grid ? Array.prototype.slice.call(grid.querySelectorAll('.product-card')) : [];
+  var showMoreBtn = document.getElementById('show-more-btn');
+
+  function getColumns() {
+    return window.innerWidth <= 768 ? 1 : 3;
+  }
+
+  var extra = 0;
+
+  function applyShowMore() {
+    if (!showMoreBtn) return;
+    var base = 4 * getColumns();
+    var show = base + extra;
+    cards.forEach(function (card, i) {
+      card.style.display = i < show ? '' : 'none';
+    });
+    showMoreBtn.parentElement.style.display = show >= cards.length ? 'none' : 'block';
+  }
+
+  if (showMoreBtn) {
+    showMoreBtn.addEventListener('click', function () {
+      extra += 4 * getColumns();
+      applyShowMore();
+    });
+    var prevWidth = window.innerWidth;
+    window.addEventListener('resize', function () {
+      if (Math.floor(prevWidth / 768) !== Math.floor(window.innerWidth / 768)) {
+        prevWidth = window.innerWidth;
+        extra = 0;
+      }
+      applyShowMore();
+    });
+    applyShowMore();
+  }
+
   var modal = document.getElementById('detail-modal');
   var modalTitle = document.getElementById('detail-title');
   var modalImg = document.getElementById('detail-image');
@@ -185,7 +243,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
 
     modalTitle.textContent = t(p.titleKey, p.title);
     modalDesc.textContent = t(p.descKey, p.desc);
-    modalPrice.textContent = p.price.toLocaleString('ru-RU') + ' ₽';
+    modalPrice.textContent = t(p.priceKey, p.price.toLocaleString('ru-RU') + ' ₽');
 
     addBtn.dataset.id = p.id;
     addBtn.dataset.title = p.title;
@@ -275,8 +333,8 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   .detail-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
   }
   .detail-content {
     position: relative;
@@ -293,15 +351,16 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   }
   .detail-close {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 16px;
+    right: 16px;
+    z-index: 1102;
     background: var(--bg);
     border: none;
     color: var(--text);
-    width: 36px;
-    height: 36px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     line-height: 1;
     cursor: pointer;
     display: flex;
@@ -318,13 +377,18 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     font-size: 1.5rem;
     margin-bottom: 16px;
     padding-right: 40px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+  .detail-desc,
+  .detail-counter {
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
   }
   .detail-gallery {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.15);
     border-radius: 12px;
     padding: 12px;
   }
@@ -342,29 +406,33 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   }
   .detail-prev, .detail-next {
     position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1102;
     background: rgba(0, 0, 0, 0.45);
     color: #fff;
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     transition: background 0.2s;
   }
   .detail-prev:hover, .detail-next:hover {
     background: var(--accent);
   }
-  .detail-prev { left: 8px; }
-  .detail-next { right: 8px; }
+  .detail-prev { left: 14px; }
+  .detail-next { right: 14px; }
   .detail-desc {
     font-size: 0.98rem;
     line-height: 1.6;
     color: var(--text-light);
     margin: 16px 0 20px;
+    white-space: pre-line;
   }
   .detail-bottom {
     display: flex;
@@ -391,7 +459,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
 
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 32px;
     margin-bottom: 60px;
   }
@@ -564,6 +632,12 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     border-radius: 50%;
   }
 
+  .products-showmore {
+    text-align: center;
+    margin-bottom: 40px;
+    display: none;
+  }
+
   .products-more {
     text-align: center;
     padding-top: 40px;
@@ -582,6 +656,21 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     .detail-modal {
       padding-top: 80px;
     }
+    .detail-close {
+      position: fixed;
+      top: 72px;
+      right: 16px;
+      width: 44px;
+      height: 44px;
+    }
+    .detail-prev, .detail-next {
+      position: fixed;
+      width: 44px;
+      height: 44px;
+      font-size: 1.2rem;
+    }
+    .detail-prev { left: 8px; }
+    .detail-next { right: 8px; }
   }
 
   @media (max-width: 480px) {
