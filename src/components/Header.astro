@@ -9,6 +9,12 @@ import LangSwitcher from './LangSwitcher.astro';
       <a href="#products" data-i18n="header.nav.products">Изделия</a>
       <a href="#about" data-i18n="header.nav.about">Обо мне</a>
       <a href="#payment" data-i18n="header.nav.order">Заказ</a>
+      <a href="https://t.me/your_vpn_bot_placeholder" target="_blank" rel="noopener" class="nav-vpn" aria-label="VPN">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <span data-i18n="header.nav.vpn">VPN</span>
+      </a>
     </nav>
     <div class="header-actions">
       <LangSwitcher />
@@ -117,6 +123,27 @@ import LangSwitcher from './LangSwitcher.astro';
     color: var(--text);
   }
 
+  .nav-vpn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 6px 12px;
+    border-radius: 999px;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-vpn:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+  .nav-vpn svg {
+    width: 15px;
+    height: 15px;
+  }
+
   .cart-toggle {
     background: none;
     border: none;
@@ -195,6 +222,13 @@ import LangSwitcher from './LangSwitcher.astro';
       display: block;
       padding: 12px 0;
       border-bottom: 1px solid var(--border);
+    }
+
+    .nav-vpn {
+      align-self: center;
+      width: auto;
+      margin: 12px 0 0;
+      border-bottom: none;
     }
 
     .nav a:last-of-type {
