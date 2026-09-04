@@ -17,6 +17,7 @@
           Заполните форму — я свяжусь с вами в удобном мессенджере
         </p>
       <form id="order-form" class="order-form" action="https://formspree.io/f/xpqvdaed" method="POST">
+          <input type="text" name="_gotcha" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" />
           <div class="form-group">
             <label for="order-name">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -64,6 +65,7 @@
               <option value="telegram" data-i18n="payment.messengerOptTelegram">Telegram</option>
               <option value="whatsapp" data-i18n="payment.messengerOptWhatsApp">WhatsApp</option>
               <option value="viber" data-i18n="payment.messengerOptViber">Viber</option>
+              <option value="max" data-i18n="payment.messengerOptMax">Макс</option>
               <option value="sms" data-i18n="payment.messengerOptSMS">SMS</option>
             </select>
             <p class="form-hint" data-i18n="payment.messengerHint">Убедитесь, что в выбранной соцсети открыт номер для связи</p>
@@ -78,7 +80,7 @@
             <select id="order-delivery" name="delivery" required>
               <option value="" disabled selected data-i18n="payment.deliveryPlaceholder">Выберите способ доставки</option>
               <option value="post" data-i18n="payment.deliveryOptPost">Почта России</option>
-              <option value="courier" data-i18n="payment.deliveryOptCourier">Курьер (СДЭК)</option>
+              <option value="cdek" data-i18n="payment.deliveryOptCDEK">СДЭК (пункт выдачи)</option>
               <option value="other" data-i18n="payment.deliveryOptOther">Другое</option>
             </select>
           </div>
