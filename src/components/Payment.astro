@@ -295,7 +295,8 @@
       if (cartInput && items.length > 0) {
         var lines = items.map(function (item) {
           var sub = (item.price * item.qty).toLocaleString('ru-RU') + ' ₽';
-          return '- ' + item.title + ' x ' + item.qty + ' = ' + sub;
+          var colorPart = item.color ? ' (цвет: ' + item.color + ')' : '';
+          return '- ' + item.title + colorPart + ' x ' + item.qty + ' = ' + sub;
         });
         var total = items.reduce(function (s, item) { return s + item.price * item.qty; }, 0);
         lines.push('');

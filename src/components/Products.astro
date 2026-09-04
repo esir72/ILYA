@@ -15,6 +15,11 @@ const products = [
     price: 4500,
     image: '/images/cards/photo_2026-08-12_14-19-01.png',
     gallery: allImages,
+    colors: [
+      { id: 'black', hex: '#1a1a1a', labelKey: 'products.colorBlack' },
+      { id: 'beige', hex: '#d4c5a9', labelKey: 'products.colorBeige' },
+      { id: 'blue', hex: '#4a6fa5', labelKey: 'products.colorBlue' },
+    ],
   },
   {
     id: 1,
@@ -65,6 +70,7 @@ const productData = products.map((p, i) => ({
   image: p.image,
   price: p.price,
   gallery: p.gallery,
+  colorsJson: p.colors ? JSON.stringify(p.colors) : '',
   titleKey: `products.item.${i}.title`,
   descKey: `products.item.${i}.desc`,
   priceKey: `products.item.${i}.price`,
@@ -138,6 +144,10 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
       </div>
       <div class="detail-counter" id="detail-counter"></div>
       <p class="detail-desc" id="detail-desc"></p>
+      <div class="detail-colors" id="detail-colors" style="display:none;">
+        <span class="detail-colors-label" data-i18n="products.colorLabel">Цвет чехла:</span>
+        <div class="detail-colors-list" id="detail-colors-list"></div>
+      </div>
       <div class="detail-bottom">
         <span class="detail-price" id="detail-price"></span>
         <button class="btn btn-cart detail-add" id="detail-add" data-i18n="products.detailAdd">
@@ -152,7 +162,9 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   </div>
 </section>
 
-<script define:vars={{ productData }}>
+<script is:inline set:html={`window.productData = ${JSON.stringify(productData)};`} />
+
+<script>
   function t(key, fallback) {
     if (window.i18n && typeof window.i18n.t === 'function') {
       var v = window.i18n.t(key);
@@ -160,6 +172,8 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     }
     return fallback;
   }
+
+  var productData = window.productData || [];
 
   document.querySelectorAll('.product-card').forEach(function (card) {
     card.addEventListener('click', function (e) {
@@ -222,10 +236,13 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   var overlay = modal.querySelector('.detail-overlay');
   var closeBtn = document.getElementById('detail-close');
   var addBtn = document.getElementById('detail-add');
+  var colorsBlock = document.getElementById('detail-colors');
+  var colorsList = document.getElementById('detail-colors-list');
 
   var currentGallery = [];
   var currentIndex = 0;
   var currentProduct = null;
+  var selectedColor = null;
 
   function renderGallery() {
     if (!currentGallery.length) return;
@@ -240,6 +257,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     currentProduct = p;
     currentGallery = p.gallery && p.gallery.length ? p.gallery : [p.image];
     currentIndex = 0;
+    selectedColor = null;
 
     modalTitle.textContent = t(p.titleKey, p.title);
     modalDesc.textContent = t(p.descKey, p.desc);
@@ -250,6 +268,31 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     addBtn.dataset.i18nKey = p.i18nKey;
     addBtn.dataset.price = p.price;
     addBtn.dataset.img = p.image;
+    delete addBtn.dataset.color;
+
+    var colors = p.colorsJson ? JSON.parse(p.colorsJson) : null;
+    if (colors && colors.length) {
+      colorsList.innerHTML = '';
+      colors.forEach(function (c) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'detail-color-swatch';
+        btn.style.background = c.hex;
+        btn.setAttribute('aria-label', t(c.labelKey, c.id));
+        btn.title = t(c.labelKey, c.id);
+        btn.dataset.colorId = c.id;
+        btn.addEventListener('click', function () {
+          selectedColor = c.id;
+          addBtn.dataset.color = c.id;
+          colorsList.querySelectorAll('.detail-color-swatch').forEach(function (s) { s.classList.remove('active'); });
+          btn.classList.add('active');
+        });
+        colorsList.appendChild(btn);
+      });
+      colorsBlock.style.display = '';
+    } else {
+      colorsBlock.style.display = 'none';
+    }
 
     renderGallery();
     modal.classList.add('open');
@@ -288,6 +331,10 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
       if (e.key === 'Escape' && modal.classList.contains('open')) closeDetail();
     });
   }
+
+  addBtn.addEventListener('click', function (e) {
+    // Проверка цвета теперь выполняется в обработчике btn-cart в Layout.astro
+  });
 </script>
 
 <style>
@@ -433,6 +480,39 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     color: var(--text-light);
     margin: 16px 0 20px;
     white-space: pre-line;
+  }
+  .detail-colors {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .detail-colors-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    flex-shrink: 0;
+  }
+  .detail-colors-list {
+    display: flex;
+    gap: 10px;
+  }
+  :global(.detail-color-swatch) {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  :global(.detail-color-swatch:hover) {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.25);
+  }
+  :global(.detail-color-swatch.active) {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--accent), 0 4px 10px rgba(0, 0, 0, 0.3);
   }
   .detail-bottom {
     display: flex;

@@ -68,7 +68,7 @@ import CookieConsent from '../components/CookieConsent.astro';
             itemsEl.innerHTML = items.map(function (item, i) { return (
               '<div class="cart-item">' +
                 '<div class="cart-item-info">' +
-                  '<div class="cart-item-title">' + (item.i18nKey ? __t(item.i18nKey, item.title) : item.title) + '</div>' +
+                  '<div class="cart-item-title">' + (item.i18nKey ? __t(item.i18nKey, item.title) : item.title) + (item.color ? ' <span style=\"opacity:0.6\">(' + item.color + ')</span>' : '') + '</div>' +
                   '<div class="cart-item-price">' + fmtPrice(item.price) + '</div>' +
                   '<div class="cart-item-actions">' +
                     '<div class="cart-item-qty">' +
@@ -134,17 +134,43 @@ import CookieConsent from '../components/CookieConsent.astro';
 
         document.querySelectorAll('.btn-cart').forEach(function (btn) {
           btn.addEventListener('click', function () {
+            if (window._colorBlocked) { window._colorBlocked = false; return; }
             var id = parseInt(btn.dataset.id);
+
+            // Если кнопка на карточке (не в модалке detail-add) и продукт требует выбора цвета — открываем модалку
+            var isDetailBtn = btn.id === 'detail-add';
+            if (!isDetailBtn && window.productData) {
+              var pd = window.productData.find(function (p) { return p.id === id; });
+              if (pd && pd.colorsJson) {
+                var detailsBtn = document.querySelector('.details-btn[data-details="' + id + '"]');
+                if (detailsBtn) {
+                  detailsBtn.click();
+                }
+                return;
+              }
+            }
+
             var title = btn.dataset.title;
             var i18nKey = btn.dataset.i18nKey || '';
             var price = parseInt(btn.dataset.price);
             var img = btn.dataset.img || '';
-            var existing = items.find(function (item) { return item.id === id; });
+            var color = btn.dataset.color || '';
+
+            // Кнопка в модалке — проверяем что цвет выбран
+            if (isDetailBtn && window.productData) {
+              var pd2 = window.productData.find(function (p) { return p.id === id; });
+              if (pd2 && pd2.colorsJson && !color) {
+                alert(window.i18n && window.i18n.t ? (window.i18n.t('products.colorRequired') || 'Пожалуйста, выберите цвет чехла') : 'Пожалуйста, выберите цвет чехла');
+                return;
+              }
+            }
+
+            var existing = items.find(function (item) { return item.id === id && item.color === color; });
             if (existing) {
               existing.qty++;
               existing.i18nKey = i18nKey;
             } else {
-              items.push({ id: id, title: title, i18nKey: i18nKey, price: price, qty: 1, img: img });
+              items.push({ id: id, title: title, i18nKey: i18nKey, price: price, qty: 1, img: img, color: color });
             }
             save();
             render();
