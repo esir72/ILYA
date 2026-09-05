@@ -10,7 +10,7 @@
       this._reqId++;
       var id = this._reqId;
       try {
-        const res = await fetch('/translations/' + this.lang + '.json');
+        const res = await fetch((window.__base || '') + '/translations/' + this.lang + '.json');
         const data = await res.json();
         if (id === this._reqId) {
           this.data = data;

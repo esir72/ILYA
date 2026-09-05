@@ -23,8 +23,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <div class="petroglyphs" id="petroglyphs" aria-hidden="true"></div>
     <slot />
     <CookieConsent />
-    <script is:inline src={`${base}/js/i18n.js`}></script>
     <script is:inline set:html={`window.__base = '${base}';`}></script>
+    <script is:inline src={`${base}/js/i18n.js`}></script>
       <script>
       function __t(key, fallback) {
         if (window.i18n && window.i18n.loaded) {
