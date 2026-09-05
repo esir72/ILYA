@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import CookieConsent from '../components/CookieConsent.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <!doctype html>
@@ -8,7 +9,7 @@ import CookieConsent from '../components/CookieConsent.astro';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" href="/images/logo.png" />
+    <link rel="icon" type="image/png" href={`${base}/images/logo.png`} />
     <meta name="generator" content={Astro.generator} />
     <title data-i18n="meta.title">Илья — Резьба по дереву</title>
     <meta name="description" content="Ручная работа. Резьба по дереву от Ильи. Уникальные изделия из натурального дерева." data-i18n-content="meta.desc" />
@@ -22,7 +23,8 @@ import CookieConsent from '../components/CookieConsent.astro';
     <div class="petroglyphs" id="petroglyphs" aria-hidden="true"></div>
     <slot />
     <CookieConsent />
-    <script is:inline src="/js/i18n.js"></script>
+    <script is:inline src={`${base}/js/i18n.js`}></script>
+    <script is:inline set:html={`window.__base = '${base}';`}></script>
       <script>
       function __t(key, fallback) {
         if (window.i18n && window.i18n.loaded) {
@@ -265,8 +267,8 @@ import CookieConsent from '../components/CookieConsent.astro';
               g.style.setProperty('--ty2', (12 + Math.random() * 10).toFixed(0) + 'px');
               g.style.setProperty('--dur', (7 + Math.random() * 5).toFixed(1) + 's');
               g.style.setProperty('--delay', (-Math.random() * 7).toFixed(1) + 's');
-              g.style.maskImage = "url('/images/imgs/petro-" + petroIdx + ".png')";
-              g.style.webkitMaskImage = "url('/images/imgs/petro-" + petroIdx + ".png')";
+              g.style.maskImage = "url('" + (window.__base || '') + "/images/imgs/petro-" + petroIdx + ".png')";
+              g.style.webkitMaskImage = "url('" + (window.__base || '') + "/images/imgs/petro-" + petroIdx + ".png')";
               pg.appendChild(g);
             }
           }
