@@ -1,9 +1,11 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const allImages = [
-  '/images/cards/photo_2026-08-12_14-19-01.png',
-  '/images/cards/photo_2026-08-12_14-19-08.png',
-  '/images/cards/photo_2026-08-12_14-19-10-Photoroom.png',
-  '/images/cards/photo_2026-08-12_16-44-54.png',
+  `${base}/images/cards/photo_2026-08-12_14-19-01.png`,
+  `${base}/images/cards/photo_2026-08-12_14-19-08.png`,
+  `${base}/images/cards/photo_2026-08-12_14-19-10-Photoroom.png`,
+  `${base}/images/cards/photo_2026-08-12_16-44-54.png`,
 ];
 
 const products = [
@@ -13,7 +15,7 @@ const products = [
     desc: 'Нож и ложкорез, выкованный из высококачественной «марсианской» стали 9ХС — огнём, потом и традициями наших предков. Проверен поколениями: от каменного века до наших дней. Идеально заточен, готов к работе и режет любое дерево.',
     short: 'Нож и ложкорез ручной работы из «марсианской» стали 9ХС.',
     price: 4500,
-    image: '/images/cards/photo_2026-08-12_14-19-01.png',
+    image: `${base}/images/cards/photo_2026-08-12_14-19-01.png`,
     gallery: allImages,
     colors: [
       { id: 'black', hex: '#1a1a1a', labelKey: 'products.colorBlack' },
@@ -27,7 +29,7 @@ const products = [
     desc: 'Волны, вырезанные вручную из цельного массива дерева — с душой и любовью к морю. Они передают его красоту, силу и бесконечность. Ведь на небесах говорят только о море. А кто на море не был — тот лох.',
     short: 'Резная картина с морскими волнами из дерева.',
     price: 3800,
-    image: '/images/cards/photo_2026-08-12_14-19-08.png',
+    image: `${base}/images/cards/photo_2026-08-12_14-19-08.png`,
     gallery: allImages,
   },
   {
@@ -36,7 +38,7 @@ const products = [
     desc: 'Доисторический керамбит — идеальный нож из цельного куска дерева, созданный задолго до появления Counter-Strike. Когда-то о таком оружии только мечтали, а сегодня этот редкий артефакт продолжает жить, передаваясь из поколения в поколение вместе с древними традициями обработки дерева.',
     short: 'Доисторический деревянный керамбит.',
     price: 2900,
-    image: '/images/cards/photo_2026-08-12_14-19-10-Photoroom.png',
+    image: `${base}/images/cards/photo_2026-08-12_14-19-10-Photoroom.png`,
     gallery: allImages,
   },
   {
@@ -45,7 +47,7 @@ const products = [
     desc: 'Девять дней и девять ночей висел Один, пронзённый копьём, чтобы добыть для людей мудрость и тайну рун. Этот оберег — дань его подвигу: вырезан вручную из дерева, в нём переплелись древние символы, сила предков и дух северных богов. От кроманьонца до современного человека — знания меняются, но руны остаются.',
     short: 'Рунический оберег ручной работы из дерева.',
     price: 5200,
-    image: '/images/cards/photo_2026-08-12_16-44-54.png',
+    image: `${base}/images/cards/photo_2026-08-12_16-44-54.png`,
     gallery: allImages,
   },
   {
@@ -54,12 +56,12 @@ const products = [
     desc: 'Большая кукса, созданная для неспешного наслаждения любимыми напитками. Вырезана вручную с душой, сохраняя дух и традиции древних мастеров.\n\nЕё форма и сам принцип изготовления уходят корнями в глубокую историю — подобные деревянные сосуды люди создавали и использовали ещё много веков назад.\n\nЭто не просто кружка, а вещь с историей, выполненная в традиционном стиле и полностью готовая к использованию. Идеальна для воды, чая, кофе и других любимых напитков.',
     short: 'Большая деревянная кукса',
     price: 28000,
-    image: '/images/cards/kuksa/kuksa-mask.png',
-    mask: '/images/cards/kuksa/kuksa-mask.png',
+    image: `${base}/images/cards/kuksa/kuksa-mask.png`,
+    mask: `${base}/images/cards/kuksa/kuksa-mask.png`,
     gallery: [
-      '/images/cards/kuksa/photo_2026-08-24_11-41-30.jpg',
-      '/images/cards/kuksa/photo_2026-08-24_11-41-31.jpg',
-      '/images/cards/kuksa/photo_2026-08-24_11-41-33.jpg',
+      `${base}/images/cards/kuksa/photo_2026-08-24_11-41-30.jpg`,
+      `${base}/images/cards/kuksa/photo_2026-08-24_11-41-31.jpg`,
+      `${base}/images/cards/kuksa/photo_2026-08-24_11-41-33.jpg`,
     ],
   },
 ];

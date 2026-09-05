@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const tool = {
   title: 'Набор резцов для резьбы по дереву',
   price: 3800,
@@ -17,7 +19,7 @@ const tool = {
     'Вес': '180 г (набор)',
   },
   images: [
-    '/images/10 Mind-Blowing Wood Carving Techniques You Need To Try Today! - The Table Read Magazine.jpg',
+    `${base}/images/10 Mind-Blowing Wood Carving Techniques You Need To Try Today! - The Table Read Magazine.jpg`,
   ],
 };
 
