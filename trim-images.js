@@ -1,0 +1,1 @@
+const sharp = require('sharp'); async function run() { await sharp('public/images/cards/owl/сова.png').trim().toFile('public/images/cards/owl/сова-trimmed.png'); await sharp('public/images/cards/gandalf/гендальф.png').trim().toFile('public/images/cards/gandalf/гендальф-trimmed.png'); console.log('Done'); } run();

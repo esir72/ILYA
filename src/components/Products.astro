@@ -64,6 +64,52 @@ const products = [
       `${base}/images/cards/kuksa/photo_2026-08-24_11-41-33.jpg`,
     ],
   },
+  {
+    id: 5,
+    title: 'Дед Мухтар',
+    desc: 'Описание скоро появится.',
+    short: 'Описание скоро появится.',
+    price: 150000,
+    image: `${base}/images/cards/muxtar/мухтар.png`,
+    gallery: [
+      `${base}/images/cards/muxtar/photo_2026-09-08_13-09-35.jpg`,
+      `${base}/images/cards/muxtar/photo_2026-09-08_13-09-38.jpg`,
+    ],
+  },
+  {
+    id: 6,
+    title: 'Рагнар',
+    desc: 'Описание скоро появится.',
+    short: 'Описание скоро появится.',
+    price: 200000,
+    image: `${base}/images/cards/ragnar/рагнар.png`,
+    gallery: [
+      `${base}/images/cards/ragnar/photo_2026-09-08_13-09-59.jpg`,
+      `${base}/images/cards/ragnar/photo_2026-09-08_13-10-00.jpg`,
+    ],
+  },
+  {
+    id: 7,
+    title: 'Подвеска «Сова»',
+    desc: 'Описание скоро появится.',
+    short: 'Описание скоро появится.',
+    price: 50000,
+    image: `${base}/images/cards/owl/сова.png`,
+    gallery: [
+      `${base}/images/cards/owl/сова.png`
+    ],
+  },
+  {
+    id: 8,
+    title: 'Гендальф',
+    desc: 'Описание скоро появится.',
+    short: 'Описание скоро появится.',
+    price: 200000,
+    image: `${base}/images/cards/gandalf/гендальф.png`,
+    gallery: [
+      `${base}/images/cards/gandalf/photo_2026-09-08_13-10-16.jpg`,
+    ],
+  },
 ];
 
 const productData = products.map((p, i) => ({
@@ -543,6 +589,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
+    align-items: center;
     margin-bottom: 60px;
   }
 
@@ -657,6 +704,14 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   /* Специфичный отступ для керамбита (карточка 3) */
   .product-card:nth-child(3) .flip-back-content {
     padding: 22% 14% 12% 10%;
+  }
+
+  /* Увеличиваем карточку Совы (карточка 8) в 1.3 раза, но возвращаем текст к нормальному размеру */
+  .product-card:nth-child(8) {
+    transform: scale(1.3);
+  }
+  .product-card:nth-child(8) .flip-back-content {
+    transform: scale(0.77); /* Компенсируем увеличение 1.3x для текста */
   }
 
   .product-image {
