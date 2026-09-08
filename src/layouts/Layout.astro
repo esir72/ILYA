@@ -35,7 +35,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       this._reqId++;
       var id = this._reqId;
       try {
-        const res = await fetch(__translationsBase + '/translations/' + this.lang + '.json');
+        const res = await fetch(__translationsBase + '/translations/' + this.lang + '.json?v=' + Date.now());
         const data = await res.json();
         if (id === this._reqId) { this.data = data; this.loaded = true; }
       } catch (e) {
