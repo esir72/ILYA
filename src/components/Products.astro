@@ -823,4 +823,12 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
       font-size: 1.2rem;
     }
   }
+  @media (max-width: 768px) {
+    .product-card:nth-child(6) {
+      transform: scale(1.1);
+    }
+    .product-card:nth-child(6) .flip-back-content {
+      transform: scale(0.91);
+    }
+  }
 </style>
