@@ -9,6 +9,7 @@
       <div class="footer-text">
         <p class="footer-copy" data-i18n="footer.copyright">© {new Date().getFullYear()} Илья. Резьба по дереву.</p>
         <p class="footer-tag" data-i18n="footer.tagline">Сделано вручную с любовью к дереву</p>
+        <p class="footer-made-by">made by <a href="https://esir72.github.io/about-me/" target="_blank" rel="noopener noreferrer">rise</a></p>
       </div>
     </div>
     <div class="footer-socials">
@@ -93,6 +94,25 @@
     color: var(--accent-light);
     font-size: 0.85rem;
     font-style: italic;
+  }
+
+  .footer-made-by {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 4px;
+    opacity: 0.8;
+  }
+
+  .footer-made-by a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+
+  .footer-made-by a:hover {
+    color: var(--text);
+    opacity: 1;
   }
 
   .footer-socials {
