@@ -374,7 +374,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   .details-btn {
     background: none;
     border: 1px solid var(--border);
-    color: var(--accent);
+    color: #D4BA85; text-shadow: 0 1px 3px rgba(0,0,0,1);
     font-size: 0.9rem;
     cursor: pointer;
     padding: 8px 18px;
@@ -477,7 +477,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   }
   .detail-counter {
     text-align: center;
-    color: var(--text-light);
+    color: #ffffff; font-weight: 500;
     font-size: 0.85rem;
     margin-top: 8px;
   }
@@ -649,7 +649,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
 
   .flip-front {
     position: relative;
-    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), var(--card-bg) center/cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--card-bg) center/cover no-repeat;
   }
 
   .flip-front::after {
@@ -669,7 +669,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   .flip-back {
     position: absolute;
     inset: 0;
-    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), var(--card-bg) center/cover no-repeat, var(--surface);
+    background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--card-bg) center/cover no-repeat, var(--surface);
     display: flex;
     align-items: center;
   }
@@ -682,6 +682,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,1), 0 2px 8px rgba(0,0,0,0.9), 0 4px 12px rgba(0,0,0,0.7);
   }
 
 
@@ -711,7 +712,8 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
 
   .product-desc {
     font-size: 0.95rem;
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 400;
     margin-bottom: 8px;
     line-height: 1.5;
     overflow-y: auto;
@@ -731,8 +733,8 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
 
   .product-price {
     font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--accent);
+    font-weight: 700;
+    color: #fff;
   }
 
   .btn-sm {
