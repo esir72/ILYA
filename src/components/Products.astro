@@ -119,7 +119,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     </p>
     <div class="products-grid">
       {products.map((product, i) => (
-        <article class="product-card" style={`--card-mask: url('${product.mask || product.image}');`} data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
+        <article class="product-card" style={`--card-mask: url('${product.mask || product.image}'); --card-bg: url('${base}/images/cards/BG_stone.jpg');`} data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
           <div class="flip-inner">
             <div class="face face-front">
               <div class="flip-front">
@@ -649,6 +649,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
 
   .flip-front {
     position: relative;
+    background: var(--card-bg) center/cover no-repeat;
   }
 
   .flip-front::after {
@@ -668,7 +669,7 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   .flip-back {
     position: absolute;
     inset: 0;
-    background: var(--surface);
+    background: var(--card-bg) center/cover no-repeat, var(--surface);
     display: flex;
     align-items: center;
   }
