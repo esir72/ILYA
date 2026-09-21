@@ -249,16 +249,15 @@ const formatPrice = (price) => {
   var cards = grid ? Array.prototype.slice.call(grid.querySelectorAll('.product-card')) : [];
   var showMoreBtn = document.getElementById('show-more-btn');
 
-  function getColumns() {
-    return window.innerWidth <= 768 ? 1 : 3;
+  function getBaseCount() {
+    return window.innerWidth <= 768 ? 4 : 100;
   }
 
   var extra = 0;
 
   function applyShowMore() {
     if (!showMoreBtn) return;
-    var base = 4 * getColumns();
-    var show = base + extra;
+    var show = getBaseCount() + extra;
     cards.forEach(function (card, i) {
       card.style.display = i < show ? '' : 'none';
     });
@@ -267,7 +266,7 @@ const formatPrice = (price) => {
 
   if (showMoreBtn) {
     showMoreBtn.addEventListener('click', function () {
-      extra += 4 * getColumns();
+      extra += 100; // Load the rest on mobile
       applyShowMore();
     });
     var prevWidth = window.innerWidth;
