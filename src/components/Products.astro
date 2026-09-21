@@ -1,13 +1,6 @@
 ---
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const allImages = [
-  `${base}/images/cards/photo_2026-08-12_14-19-01.png`,
-  `${base}/images/cards/photo_2026-08-12_14-19-08.png`,
-  `${base}/images/cards/photo_2026-08-12_14-19-10-Photoroom.png`,
-  `${base}/images/cards/photo_2026-08-12_16-44-54.png`,
-];
-
 const products = [
   {
     id: 10,
@@ -56,9 +49,11 @@ const products = [
     title: 'Картина «Волны»',
     desc: 'Волны, вырезанные вручную из цельного массива дерева — с душой и любовью к морю. Они передают его красоту, силу и бесконечность. Ведь на небесах говорят только о море. А кто на море не был — тот лох.',
     short: 'Резная картина с морскими волнами из дерева.',
-    price: 3800,
-    image: `${base}/images/cards/photo_2026-08-12_14-19-08.png`,
-    gallery: allImages,
+    price: 30000,
+    image: `${base}/images/cards/wawes/wawes.png`,
+    gallery: [
+      `${base}/images/cards/wawes/wawes.png`
+    ],
   },
   {
     id: 4,
