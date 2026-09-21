@@ -16,7 +16,7 @@
         <p class="order-subtitle" data-i18n="payment.subtitle">
           Заполните форму — я свяжусь с вами в удобном мессенджере
         </p>
-      <form id="order-form" class="order-form" action="https://formspree.io/f/xpqvdaed" method="POST">
+      <form id="order-form" class="order-form" action="https://formspree.io/itswoodmanoffical@gmail.com" method="POST">
           <input type="text" name="_gotcha" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" />
           <div class="form-group">
             <label for="order-name">
@@ -79,9 +79,9 @@
             </label>
             <select id="order-delivery" name="delivery" required>
               <option value="" disabled selected data-i18n="payment.deliveryPlaceholder">Выберите способ доставки</option>
-              <option value="post" data-i18n="payment.deliveryOptPost">Почта России</option>
-              <option value="cdek" data-i18n="payment.deliveryOptCDEK">СДЭК (пункт выдачи)</option>
-              <option value="other" data-i18n="payment.deliveryOptOther">Другое</option>
+              <option value="Почта России" data-i18n="payment.deliveryOptPost">Почта России</option>
+              <option value="СДЭК" data-i18n="payment.deliveryOptCDEK">СДЭК (до пункта выдачи)</option>
+              <option value="Другое" data-i18n="payment.deliveryOptOther">Другое</option>
             </select>
           </div>
           <div class="form-group" id="address-group">
@@ -285,17 +285,12 @@
   const cartInput = document.getElementById('order-cart');
   let submitting = false;
   if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (submitting) return;
-      submitting = true;
-
-      // build cart text from localStorage
+    form.addEventListener('submit', function (e) {
       var items = JSON.parse(localStorage.getItem('cart') || '[]');
       if (cartInput && items.length > 0) {
         var lines = items.map(function (item) {
           var sub = (item.price * item.qty).toLocaleString('ru-RU') + ' ₽';
-          var colorPart = item.color ? ' (цвет: ' + item.color + ')' : '';
+          var colorPart = item.color ? ' (Цвет: ' + item.color + ')' : '';
           return '- ' + item.title + colorPart + ' x ' + item.qty + ' = ' + sub;
         });
         var total = items.reduce(function (s, item) { return s + item.price * item.qty; }, 0);
@@ -305,27 +300,12 @@
       }
 
       const btn = form.querySelector('.order-btn');
-      btn.disabled = true;
       btn.innerHTML = i18nSendingText();
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' },
-        });
-        if (res.ok) {
-          form.reset();
-          form.style.display = 'none';
-          success.classList.add('show');
-          // clear cart
-          localStorage.removeItem('cart');
-          if (window.initCart) window.initCart();
-        }
-      } finally {
-        submitting = false;
-        btn.disabled = false;
-        btn.innerHTML = '<span>' + i18nBtnText() + '</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
-      }
+
+      setTimeout(function() {
+        localStorage.removeItem('cart');
+        if (window.initCart) window.initCart();
+      }, 500);
     });
   }
 </script>
