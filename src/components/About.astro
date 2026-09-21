@@ -36,10 +36,195 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             <span class="stat-label" data-i18n="stats.woods">Пород дерева</span>
           </div>
         </div>
+
+        <div class="about-more-btn-wrapper" style="margin-top: 40px; text-align: center;">
+          <button class="btn btn-outline" id="about-qna-btn" data-i18n="about.qnaBtn">Познакомиться поближе</button>
+        </div>
+
       </div>
     </div>
   </div>
 </section>
+
+<div id="qna-modal" class="detail-modal qna-modal" aria-hidden="true">
+  <div class="detail-overlay" id="qna-overlay" class="qna-overlay"></div>
+  <div class="detail-content qna-content" role="dialog" aria-modal="true" style="max-width: 600px; padding: 40px 30px;">
+    <button class="qna-close" id="qna-close" aria-label="Закрыть" data-i18n-aria="products.detailClose">×</button>
+    <h3 class="detail-title qna-title" data-i18n="qna.title" style="margin-bottom: 24px;">Блиц-опрос</h3>
+    <div class="qna-list" id="qna-list" style="max-height: 60vh; overflow-y: auto; padding-right: 15px;">
+
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.0.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый цвет</strong>
+          <span data-i18n="qna.0.a" style="color: var(--text-light); line-height: 1.5; display: block;">бежевый</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.1.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый размер</strong>
+          <span data-i18n="qna.1.a" style="color: var(--text-light); line-height: 1.5; display: block;">5</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.2.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимое животное</strong>
+          <span data-i18n="qna.2.a" style="color: var(--text-light); line-height: 1.5; display: block;">обезьяна</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.3.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимая книга</strong>
+          <span data-i18n="qna.3.a" style="color: var(--text-light); line-height: 1.5; display: block;">«Краткая история человечества»</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.4.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый фильм</strong>
+          <span data-i18n="qna.4.a" style="color: var(--text-light); line-height: 1.5; display: block;">любой, который пафосно заканчивается под душевную музыку, желательно американский</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.5.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый киноактёр</strong>
+          <span data-i18n="qna.5.a" style="color: var(--text-light); line-height: 1.5; display: block;">Том Хэнкс</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.6.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимая музыка</strong>
+          <span data-i18n="qna.6.a" style="color: var(--text-light); line-height: 1.5; display: block;">Мачете, Coldplay, Neuro Dubel, Johnny Cash</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.7.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый поэт</strong>
+          <span data-i18n="qna.7.a" style="color: var(--text-light); line-height: 1.5; display: block;">Борис Гребенщиков</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.8.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый художник</strong>
+          <span data-i18n="qna.8.a" style="color: var(--text-light); line-height: 1.5; display: block;">Alec Lacasse</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.9.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый безалкогольный напиток</strong>
+          <span data-i18n="qna.9.a" style="color: var(--text-light); line-height: 1.5; display: block;">томатный сок</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.10.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый алкогольный напиток</strong>
+          <span data-i18n="qna.10.a" style="color: var(--text-light); line-height: 1.5; display: block;">не разбираюсь</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.11.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимая еда</strong>
+          <span data-i18n="qna.11.a" style="color: var(--text-light); line-height: 1.5; display: block;">эльфийский хлеб с ветчиной и сыром</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.12.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый политик</strong>
+          <span data-i18n="qna.12.a" style="color: var(--text-light); line-height: 1.5; display: block;">Конфуций</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.13.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый вид спорта</strong>
+          <span data-i18n="qna.13.a" style="color: var(--text-light); line-height: 1.5; display: block;">теннис</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.14.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимое число</strong>
+          <span data-i18n="qna.14.a" style="color: var(--text-light); line-height: 1.5; display: block;">68</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.15.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимое время суток</strong>
+          <span data-i18n="qna.15.a" style="color: var(--text-light); line-height: 1.5; display: block;">вечер, желательно тёплый</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.16.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимое время года</strong>
+          <span data-i18n="qna.16.a" style="color: var(--text-light); line-height: 1.5; display: block;">лето</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.17.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый праздник</strong>
+          <span data-i18n="qna.17.a" style="color: var(--text-light); line-height: 1.5; display: block;">Йом-Кипур</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.18.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Хобби</strong>
+          <span data-i18n="qna.18.a" style="color: var(--text-light); line-height: 1.5; display: block;">резьба</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.19.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Суеверие</strong>
+          <span data-i18n="qna.19.a" style="color: var(--text-light); line-height: 1.5; display: block;">стричь ногти только по субботам и вторникам</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.20.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Неосуществлённая мечта</strong>
+          <span data-i18n="qna.20.a" style="color: var(--text-light); line-height: 1.5; display: block;">родиться в диком племени Химба и прожить жизнь заново</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.21.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Недостаток</strong>
+          <span data-i18n="qna.21.a" style="color: var(--text-light); line-height: 1.5; display: block;">страшный ленивец</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.22.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Достоинство</strong>
+          <span data-i18n="qna.22.a" style="color: var(--text-light); line-height: 1.5; display: block;">пофигизм и сострадание</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.23.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Мечта</strong>
+          <span data-i18n="qna.23.a" style="color: var(--text-light); line-height: 1.5; display: block;">жить на юге среди чужих, но чтобы они считали меня своим</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.24.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Что бы хотелось в себе изменить</strong>
+          <span data-i18n="qna.24.a" style="color: var(--text-light); line-height: 1.5; display: block;">волосики)</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.25.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый ролик</strong>
+          <span data-i18n="qna.25.a" style="color: var(--text-light); line-height: 1.5; display: block;">не мной снятый</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.26.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый персонаж</strong>
+          <span data-i18n="qna.26.a" style="color: var(--text-light); line-height: 1.5; display: block;">Форрест Гамп</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.27.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимая крылатая фраза</strong>
+          <span data-i18n="qna.27.a" style="color: var(--text-light); line-height: 1.5; display: block;">«Оставь след после себя, ну хотя бы насри.)»</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.28.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимая страна</strong>
+          <span data-i18n="qna.28.a" style="color: var(--text-light); line-height: 1.5; display: block;">Кения</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.29.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимая одежда</strong>
+          <span data-i18n="qna.29.a" style="color: var(--text-light); line-height: 1.5; display: block;">белая рубашка и туфли</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.30.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимая погода</strong>
+          <span data-i18n="qna.30.a" style="color: var(--text-light); line-height: 1.5; display: block;">жара и засуха</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.31.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Нелюбимая рок-группа</strong>
+          <span data-i18n="qna.31.a" style="color: var(--text-light); line-height: 1.5; display: block;">Ария</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.32.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Нелюбимое человеческое качество</strong>
+          <span data-i18n="qna.32.a" style="color: var(--text-light); line-height: 1.5; display: block;">негатив, передаваемый на других</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.33.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимое человеческое качество</strong>
+          <span data-i18n="qna.33.a" style="color: var(--text-light); line-height: 1.5; display: block;">ненавязчивость</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.34.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Вероисповедание</strong>
+          <span data-i18n="qna.34.a" style="color: var(--text-light); line-height: 1.5; display: block;">католик, но верю в камни</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.35.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимый запах</strong>
+          <span data-i18n="qna.35.a" style="color: var(--text-light); line-height: 1.5; display: block;">как пахнет жена</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.36.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Нелюбимый запах</strong>
+          <span data-i18n="qna.36.a" style="color: var(--text-light); line-height: 1.5; display: block;">мёртвая мышь</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.37.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимое зрелище</strong>
+          <span data-i18n="qna.37.a" style="color: var(--text-light); line-height: 1.5; display: block;">смотреть, как люди путешествуют вместо меня</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.38.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Любимое место дома</strong>
+          <span data-i18n="qna.38.a" style="color: var(--text-light); line-height: 1.5; display: block;">ложе</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.39.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Нелюбимая домашняя работа</strong>
+          <span data-i18n="qna.39.a" style="color: var(--text-light); line-height: 1.5; display: block;">подметать</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.40.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Отношение к наркотикам</strong>
+          <span data-i18n="qna.40.a" style="color: var(--text-light); line-height: 1.5; display: block;">хуйня</span>
+        </div>
+        <div class="qna-item" style="margin-bottom: 15px;">
+          <strong data-i18n="qna.41.q" style="display: block; font-family: var(--font-heading); color: var(--accent); margin-bottom: 4px;">Сколько бы хотел иметь детей</strong>
+          <span data-i18n="qna.41.a" style="color: var(--text-light); line-height: 1.5; display: block;">либо толпу, либо ни одного.</span>
+        </div>
+    </div>
+  </div>
+</div>
+
 
 <script>
   var countObserver = new IntersectionObserver(function (entries) {
@@ -67,6 +252,27 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     }
     requestAnimationFrame(step);
   }
+
+  var qnaBtn = document.getElementById('about-qna-btn');
+  var qnaModal = document.getElementById('qna-modal');
+  var qnaOverlay = document.getElementById('qna-overlay');
+  var qnaClose = document.getElementById('qna-close');
+
+  if (qnaBtn && qnaModal) {
+    qnaBtn.addEventListener('click', function() {
+      qnaModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    function closeQna() {
+      qnaModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    
+    qnaClose.addEventListener('click', closeQna);
+    qnaOverlay.addEventListener('click', closeQna);
+  }
+
 </script>
 
 <style>
@@ -141,4 +347,104 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       font-size: 0.95rem;
     }
   }
+
+  .qna-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  .qna-list::-webkit-scrollbar-track {
+    background: var(--bg); 
+    border-radius: 4px;
+  }
+  .qna-list::-webkit-scrollbar-thumb {
+    background: var(--border); 
+    border-radius: 4px;
+  }
+  .qna-list::-webkit-scrollbar-thumb:hover {
+    background: var(--accent); 
+  }
+  .qna-modal.open {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .qna-modal:not(.open) {
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+
+  .qna-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    padding: 24px;
+  }
+  .qna-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .qna-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .qna-content {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    background: rgba(15, 15, 15, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 40px 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    transform: scale(0.9) translateY(30px);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+    opacity: 0;
+  }
+  .qna-modal.open .qna-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  .qna-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--text);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 2;
+  }
+  .qna-close:hover {
+    background: var(--text);
+    color: var(--bg);
+    transform: rotate(90deg);
+  }
+  @media (max-width: 768px) {
+    .qna-content {
+      padding: 30px 20px;
+      max-height: 80vh;
+    }
+  }
+
 </style>
