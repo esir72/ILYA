@@ -28,6 +28,15 @@ const products = [
     gallery: [`${base}/images/cards/knife/knife.png`],
   },
   {
+    id: 11,
+    title: 'Набор для полировки правки инструмента',
+    desc: 'Этот инструмент создан для полировки, правки и поддержания остроты любых ножей — от кухонных и охотничьих до ножей и ложкорезов для резьбы по дереву.\nДостаточно нанести немного полировальной пасты на кожаную поверхность и сделать несколько движений — кожа мягко доведёт режущую кромку, уберёт мельчайшие неровности и поможет вернуть инструменту чистоту и остроту.',
+    short: 'Инструмент для полировки и поддержания остроты ножей и ложкорезов.',
+    price: 3000,
+    image: `${base}/images/cards/polirovka/polrovka.png`,
+    gallery: [`${base}/images/cards/polirovka/polrovka.png`],
+  },
+  {
     id: 1,
     title: 'Картина «Волны»',
     desc: 'Волны, вырезанные вручную из цельного массива дерева — с душой и любовью к морю. Они передают его красоту, силу и бесконечность. Ведь на небесах говорят только о море. А кто на море не был — тот лох.',
@@ -111,7 +120,10 @@ const productData = products.map((p, i) => ({
   i18nKey: `products.item.${i}.title`,
 }));
 
-const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
+const formatPrice = (price) => {
+  if (price === 0) return 'Цена по запросу';
+  return price.toLocaleString('ru-RU') + ' ₽';
+};
 ---
 
 <section class="section" id="products">
@@ -691,10 +703,10 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
 
 
   /* Увеличиваем карточку Совы (карточка 6) в 1.3 раза, но возвращаем текст к нормальному размеру */
-  .product-card:nth-child(7) {
+  .product-card:nth-child(8) {
     transform: scale(1.1);
   }
-  .product-card:nth-child(7) .flip-back-content {
+  .product-card:nth-child(8) .flip-back-content {
     transform: scale(0.9);
   }
 
@@ -833,12 +845,12 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
   }
   @media (max-width: 768px) {
 
-    .product-card:nth-child(7) {
+    .product-card:nth-child(8) {
       width: 90%;
       margin: 0 auto;
       transform: none;
     }
-    .product-card:nth-child(7) .flip-back-content {
+    .product-card:nth-child(8) .flip-back-content {
       transform: none;
     }
   }

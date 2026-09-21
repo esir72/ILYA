@@ -131,6 +131,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         }
 
         function fmtPrice(p) {
+          if (window.i18n.lang === 'en') {
+            if (p === 0) return 'Price on request';
+            return '$' + Math.ceil(p / 100).toLocaleString('en-US');
+          }
+          if (p === 0) return 'Цена по запросу';
           return p.toLocaleString('ru-RU') + ' ₽';
         }
 
