@@ -147,7 +147,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             itemsEl.innerHTML = items.map(function (item, i) { return (
               '<div class="cart-item">' +
                 '<div class="cart-item-info">' +
-                  '<div class="cart-item-title">' + (item.i18nKey ? __t(item.i18nKey, item.title) : item.title) + (item.color ? ' <span style=\"opacity:0.6\">(' + item.color + ')</span>' : '') + '</div>' +
+                  '<div class="cart-item-title">' + (item.i18nKey ? __t(item.i18nKey, item.title) : item.title) + (item.color ? ' <span style=\"opacity:0.6\">(' + __t(item.colorKey || (item.color === 'Черный' ? 'colors.black' : item.color === 'Белый' ? 'colors.white' : item.color === 'Коричневый' ? 'colors.brown' : ''), item.color) + ')</span>' : '') + '</div>' +
                   '<div class="cart-item-price">' + fmtPrice(item.price) + '</div>' +
                   '<div class="cart-item-actions">' +
                     '<div class="cart-item-qty">' +
@@ -234,6 +234,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             var price = parseInt(btn.dataset.price);
             var img = btn.dataset.img || '';
             var color = btn.dataset.color || '';
+            var colorKey = btn.dataset.colorKey || '';
 
             // Кнопка в модалке — проверяем что цвет выбран
             if (isDetailBtn && window.productData) {
@@ -249,7 +250,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
               existing.qty++;
               existing.i18nKey = i18nKey;
             } else {
-              items.push({ id: id, title: title, i18nKey: i18nKey, price: price, qty: 1, img: img, color: color });
+              items.push({ id: id, title: title, i18nKey: i18nKey, price: price, qty: 1, img: img, color: color, colorKey: colorKey });
             }
             save();
             render();

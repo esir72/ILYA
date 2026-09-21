@@ -29,6 +29,11 @@ const products = [
     desc: 'Инструмент старого ремесла.\nКогда-то человеку было достаточно ножа, куска дерева и собственного воображения, чтобы создавать вещи, которые переживали поколения.\nЭтот нож продолжает ту же традицию.\n90 мм кованой стали, закалённой до 60 HRC, деревянная рукоять и ручная заточка — всё готово для строгания, резьбы и самых разных работ, где нужен точный и послушный инструмент.\nВ комплекте — чехол из натуральной кожи на выбор.\nОн не говорит, что именно вам вырезать.\nОн просто даёт возможность начать или продолжить.',
     short: 'Кованый нож ручной работы с лезвием 90 мм для любых задач.',
     price: 7500,
+    colors: [
+      { id: 'Черный', hex: '#222222', labelKey: 'colors.black' },
+      { id: 'Белый', hex: '#FFFFFF', labelKey: 'colors.white' },
+      { id: 'Коричневый', hex: '#8B4513', labelKey: 'colors.brown' }
+    ],
     image: `${base}/images/cards/knife/knife.png`,
     gallery: [
       `${base}/images/cards/knife/knife.png`,
@@ -339,6 +344,7 @@ const formatPrice = (price) => {
         btn.addEventListener('click', function () {
           selectedColor = c.id;
           addBtn.dataset.color = c.id;
+            addBtn.dataset.colorKey = c.labelKey;
           colorsList.querySelectorAll('.detail-color-swatch').forEach(function (s) { s.classList.remove('active'); });
           btn.classList.add('active');
         });
