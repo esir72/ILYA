@@ -11,21 +11,31 @@ const allImages = [
 const products = [
   {
     id: 10,
-    title: 'Набор',
-    desc: 'Описание скоро появится.',
-    short: 'Описание скоро появится.',
-    price: 0,
+    title: '«ПЕРВЫЙ СЛЕД» Набор для резьбы по дереву',
+    desc: 'Всё необходимое, чтобы сделать первый шаг в древнее ремесло и почувствовать дерево в своих руках.\nВ комплекте: брусок мягкой липы для первого изделия, Богородский нож 50 мм для точной резьбы и ложкорез для глубоких выборок и аккуратных углублений.\nНебольшой набор — чтобы начать резать, создать первое изделие и открыть для себя мир резьбы по дереву.\n\nВсё собрано в подарочной коробке и дополнено тёплым напутствием от Илуи.\nПолностью заточен и готов к работе.\n\nПервый рез. Первое изделие. Первый след, который останется в дереве.',
+    short: 'Всё необходимое для первого шага в резьбу: липа, нож и ложкорез.',
+    price: 11900,
     image: `${base}/images/cards/set/set.png`,
-    gallery: [`${base}/images/cards/set/set.png`],
+    gallery: [
+      `${base}/images/cards/set/set.png`,
+      `${base}/images/cards/set/photo_2026-09-21_16-18-23.jpg`,
+      `${base}/images/cards/set/photo_2026-09-21_16-18-31.jpg`,
+      `${base}/images/cards/set/photo_2026-09-21_16-18-33.jpg`
+    ],
   },
   {
     id: 9,
-    title: 'Нож',
-    desc: 'Описание скоро появится.',
-    short: 'Описание скоро появится.',
-    price: 4500,
+    title: 'Универсальный нож',
+    desc: 'Инструмент старого ремесла.\nКогда-то человеку было достаточно ножа, куска дерева и собственного воображения, чтобы создавать вещи, которые переживали поколения.\nЭтот нож продолжает ту же традицию.\n90 мм кованой стали, закалённой до 60 HRC, деревянная рукоять и ручная заточка — всё готово для строгания, резьбы и самых разных работ, где нужен точный и послушный инструмент.\nВ комплекте — чехол из натуральной кожи на выбор.\nОн не говорит, что именно вам вырезать.\nОн просто даёт возможность начать или продолжить.',
+    short: 'Кованый нож ручной работы с лезвием 90 мм для любых задач.',
+    price: 7500,
     image: `${base}/images/cards/knife/knife.png`,
-    gallery: [`${base}/images/cards/knife/knife.png`],
+    gallery: [
+      `${base}/images/cards/knife/knife.png`,
+      `${base}/images/cards/knife/photo_2026-09-21_16-19-32.jpg`,
+      `${base}/images/cards/knife/photo_2026-09-21_16-19-34.jpg`,
+      `${base}/images/cards/knife/photo_2026-09-21_16-19-36.jpg`
+    ],
   },
   {
     id: 11,
@@ -112,7 +122,7 @@ const productData = products.map((p, i) => ({
   title: p.title,
   image: p.image,
   price: p.price,
-  gallery: p.gallery,
+  gallery: p.gallery ? [...p.gallery, `${base}/images/cards/ending.jpg`] : [`${base}/images/cards/ending.jpg`],
   colorsJson: p.colors ? JSON.stringify(p.colors) : '',
   titleKey: `products.item.${i}.title`,
   descKey: `products.item.${i}.desc`,
@@ -724,6 +734,7 @@ const formatPrice = (price) => {
     font-family: var(--font-heading);
     font-size: 1.3rem;
     margin-bottom: 12px;
+    white-space: pre-line;
   }
 
   .product-desc {
