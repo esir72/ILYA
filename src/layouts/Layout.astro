@@ -9,20 +9,46 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" href={`${base}/images/logo-light.png`} />
+    <link rel="icon" type="image/png" href={`${base}/images/favicon.png`} />
     <meta name="generator" content={Astro.generator} />
     <title data-i18n="meta.title">Илья — Резьба по дереву</title>
     <meta name="description" content="Ручная работа. Резьба по дереву от Ильи. Уникальные изделия из натурального дерева." data-i18n-content="meta.desc" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Neucha&display=swap" rel="stylesheet" />
+    <link rel="preload" as="image" imageSrcSet={`${base}/images/logo-light.png`} fetchpriority="high" />
   </head>
-  <body>
+  <body class="site-loading">
+    <div id="site-loader" class="site-loader" aria-hidden="true">
+      <div class="site-loader-inner">
+        <div class="site-loader-logo"></div>
+        <div class="site-loader-bar"><span></span></div>
+      </div>
+    </div>
     <div class="particles" id="particles"></div>
     <div class="cursor-glow" id="cursorGlow"></div>
     <div class="petroglyphs" id="petroglyphs" aria-hidden="true"></div>
     <slot />
     <CookieConsent />
+    <script is:inline set:html={`
+(function () {
+  var done = false;
+  var loader = document.getElementById('site-loader');
+  function hideLoader() {
+    if (done || !loader) return;
+    done = true;
+    document.body.classList.remove('site-loading');
+    loader.classList.add('site-loader--done');
+    setTimeout(function () { if (loader && loader.parentNode) loader.parentNode.removeChild(loader); }, 800);
+  }
+  if (document.readyState === 'complete') {
+    setTimeout(hideLoader, 350);
+  } else {
+    window.addEventListener('load', function () { setTimeout(hideLoader, 350); });
+    setTimeout(hideLoader, 4000);
+  }
+})();
+`}></script>
     <script is:inline set:html={`
 (function () {
   var __translationsBase = '${base}';

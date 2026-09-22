@@ -52,6 +52,99 @@ body::before {
   pointer-events: none;
 }
 
+body.site-loading {
+  overflow: hidden;
+}
+
+.site-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #241E0F 0%, #1A130A 45%, #241E0F 100%);
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.site-loader::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-image: url('/images/baackcround/pngtree-cave-wall-texture-the-perfect-backdrop-for-an-archeological-concept-background-picture-image_13402452.jpg');
+  background-size: cover;
+  background-position: center;
+  mix-blend-mode: soft-light;
+  filter: brightness(0.6);
+  opacity: 0.4;
+}
+
+.site-loader--done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.site-loader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.site-loader-logo {
+  width: 220px;
+  height: 180px;
+  background: linear-gradient(135deg, #E3C584 0%, #C8A96E 40%, #9C7B45 100%);
+  mask-image: url('/images/logo-light-mask.png');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url('/images/logo-light-mask.png');
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  animation: loader-breathe 2.2s ease-in-out infinite;
+}
+
+@keyframes loader-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+.site-loader-bar {
+  width: 160px;
+  height: 3px;
+  background: rgba(200, 169, 110, 0.18);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.site-loader-bar span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, #C8A96E, #E3C584, #C8A96E, transparent);
+  animation: loader-slide 1.4s ease-in-out infinite;
+}
+
+@keyframes loader-slide {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(320%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-loader-logo,
+  .site-loader-bar span {
+    animation: none;
+  }
+}
+
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
   font-weight: 400;
@@ -491,4 +584,11 @@ button:disabled {
 .toast.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+  .site-loader-logo {
+    width: 170px;
+    height: 139px;
+  }
 }

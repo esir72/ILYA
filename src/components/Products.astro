@@ -146,7 +146,7 @@ const formatPrice = (price) => {
     <div class="products-grid">
       {products.map((product, i) => (
         <article class="product-card" style={`--card-mask: url('${product.mask || product.image}'); --card-bg: url('${base}/images/cards/BG_stone.webp');`} data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
-          <div class="card-glow" aria-hidden="true"></div>
+          <div class="card-glow" aria-hidden="true"><span class="glow-ring"><span class="glow-runner"></span></span></div>
           <div class="flip-inner">
             <div class="face face-front">
               <div class="flip-front">
@@ -623,7 +623,7 @@ const formatPrice = (price) => {
     inset: 0;
     z-index: 3;
     pointer-events: none;
-    filter: blur(3px);
+    filter: blur(4px);
     opacity: 0;
   }
 
@@ -631,12 +631,28 @@ const formatPrice = (price) => {
     opacity: 1;
   }
 
-  .product-card:first-child .card-glow::before {
-    content: '';
+  .glow-ring {
+    display: block;
     position: absolute;
     inset: 0;
+    -webkit-mask-image: var(--card-mask), var(--card-mask);
+    mask-image: var(--card-mask), var(--card-mask);
+    -webkit-mask-size: 100% 100%, calc(100% - 8px) auto;
+    mask-size: 100% 100%, calc(100% - 8px) auto;
+    -webkit-mask-position: center, center;
+    mask-position: center, center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .glow-runner {
+    display: block;
+    position: absolute;
+    inset: -50%;
     background: conic-gradient(
-      from var(--glow-angle),
+      from 0deg,
       transparent 0deg,
       transparent 60deg,
       rgba(200, 169, 110, 0) 80deg,
@@ -649,28 +665,12 @@ const formatPrice = (price) => {
       transparent 160deg,
       transparent 360deg
     );
-    -webkit-mask-image: var(--card-mask), var(--card-mask);
-    mask-image: var(--card-mask), var(--card-mask);
-    -webkit-mask-size: 100% 100%, calc(100% - 8px) auto;
-    mask-size: 100% 100%, calc(100% - 8px) auto;
-    -webkit-mask-position: center, center;
-    mask-position: center, center;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    animation: card-glow-run 3.6s linear infinite;
+    animation: glow-spin 3.6s linear infinite;
   }
 
-  @property --glow-angle {
-    syntax: '<angle>';
-    inherits: false;
-    initial-value: 0deg;
-  }
-
-  @keyframes card-glow-run {
-    from { --glow-angle: 0deg; }
-    to { --glow-angle: 360deg; }
+  @keyframes glow-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
   .flip-inner {
