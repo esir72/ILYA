@@ -63,14 +63,14 @@
   inset: 0;
   -webkit-mask-image: var(--card-mask), var(--card-mask);
   mask-image: var(--card-mask), var(--card-mask);
-  -webkit-mask-size: 100% 100%, calc(100% - 8px) auto;
-  mask-size: 100% 100%, calc(100% - 8px) auto;
+  -webkit-mask-size: 100% 100%, calc(100% - 8px) calc(100% - 8px);
+  mask-size: 100% 100%, calc(100% - 8px) calc(100% - 8px);
   -webkit-mask-position: center, center;
   mask-position: center, center;
   -webkit-mask-repeat: no-repeat, no-repeat;
   mask-repeat: no-repeat, no-repeat;
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+  mask-composite: subtract;
 }
 
 .glow-runner {
