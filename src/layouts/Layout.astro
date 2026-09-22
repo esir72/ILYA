@@ -221,23 +221,26 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           if (e.key === 'Escape') close();
         });
 
-        document.querySelectorAll('.btn-cart').forEach(function (btn) {
-          btn.addEventListener('click', function () {
+        document.querySelectorAll(".btn-cart").forEach(function (btn) {
+            btn.onclick = function (e) {
+              e.preventDefault();
             if (window._colorBlocked) { window._colorBlocked = false; return; }
             var id = parseInt(btn.dataset.id);
 
             // Если кнопка на карточке (не в модалке detail-add) и продукт требует выбора цвета — открываем модалку
             var isDetailBtn = btn.id === 'detail-add';
             if (!isDetailBtn && window.productData) {
-              var pd = window.productData.find(function (p) { return p.id === id; });
-              if (pd && pd.colorsJson) {
-                var detailsBtn = document.querySelector('.details-btn[data-details="' + id + '"]');
-                if (detailsBtn) {
-                  detailsBtn.click();
+                var pd = window.productData.find(function (p) { return p.id === id; });
+                if (pd && pd.colorsJson) {
+                  window.showToast(window.i18n && window.i18n.t ? (window.i18n.t("products.colorRequired") || "Пожалуйста, выберите цвет чехла") : "Пожалуйста, выберите цвет чехла");
+                  var pIndex = window.productData.findIndex(function (p) { return p.id === id; });
+                  var detailsBtn = document.querySelector('.details-btn[data-details="' + pIndex + '"]');
+                  if (detailsBtn) {
+                    setTimeout(function() { detailsBtn.click(); }, 10);
+                  }
+                  return;
                 }
-                return;
               }
-            }
 
             var title = btn.dataset.title;
             var i18nKey = btn.dataset.i18nKey || '';
@@ -250,7 +253,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             if (isDetailBtn && window.productData) {
               var pd2 = window.productData.find(function (p) { return p.id === id; });
               if (pd2 && pd2.colorsJson && !color) {
-                alert(window.i18n && window.i18n.t ? (window.i18n.t('products.colorRequired') || 'Пожалуйста, выберите цвет чехла') : 'Пожалуйста, выберите цвет чехла');
+                window.showToast(window.i18n && window.i18n.t ? (window.i18n.t("products.colorRequired") || "Пожалуйста, выберите цвет чехла") : "Пожалуйста, выберите цвет чехла");
                 return;
               }
             }
@@ -263,15 +266,34 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
               items.push({ id: id, title: title, i18nKey: i18nKey, price: price, qty: 1, img: img, color: color, colorKey: colorKey });
             }
             save();
-            render();
-            open();
+              render();
+              open();
+            };
           });
-        });
 
         render();
       }
 
       window.initCart = initCart;
+
+        window.showToast = function(msg) {
+          const container = document.getElementById('toast-container');
+          if (!container) return;
+          const toast = document.createElement('div');
+          toast.className = 'toast';
+          toast.textContent = msg;
+          container.appendChild(toast);
+          
+          requestAnimationFrame(() => {
+            toast.classList.add('show');
+          });
+          
+          setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 500); // Wait for transition
+          }, 3000); // 3 seconds display
+        };
+  
 
       document.addEventListener('DOMContentLoaded', function () {
         var observer = new IntersectionObserver(function (entries) {
@@ -441,5 +463,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         }
       }
     </script>
+    <div id="toast-container" class="toast-container"></div>
   </body>
 </html>
