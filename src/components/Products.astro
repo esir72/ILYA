@@ -146,7 +146,7 @@ const formatPrice = (price) => {
     <div class="products-grid">
       {products.map((product, i) => (
         <article class="product-card" style={`--card-mask: url('${product.mask || product.image}'); --card-bg: url('${base}/images/cards/BG_stone.webp');`} data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
-          <div class="card-glow" aria-hidden="true"><span class="glow-mask"><span class="glow-static"></span><span class="glow-ring"><span class="glow-runner"></span></span></span></div>
+          <div class="card-glow" aria-hidden="true"><span class="glow-static"></span><span class="glow-ring"><span class="glow-runner"></span></span></div>
           <div class="flip-inner">
             <div class="face face-front">
               <div class="flip-front">
