@@ -362,6 +362,7 @@ const formatPrice = (price) => {
     document.body.style.overflow = '';
     document.documentElement.style.overflow = '';
   }
+  window.closeDetailModal = closeDetail;
 
   document.querySelectorAll('.details-btn').forEach(function (btn) {
     btn.addEventListener('click', function (e) {

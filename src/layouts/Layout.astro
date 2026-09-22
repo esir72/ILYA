@@ -242,7 +242,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         if (toggle) toggle.addEventListener('click', open);
         if (closeBtn) closeBtn.addEventListener('click', close);
         if (overlay) overlay.addEventListener('click', close);
-        if (checkoutBtn) checkoutBtn.addEventListener('click', close);
+        if (checkoutBtn) checkoutBtn.addEventListener('click', function () {
+          close();
+          // Закрываем модалку «Подробнее», если была открыта (снимет блокировку скролла)
+          if (window.closeDetailModal) window.closeDetailModal();
+        });
 
         document.addEventListener('keydown', function (e) {
           if (e.key === 'Escape') close();
@@ -294,6 +298,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             }
             save();
               render();
+
+              // Если добавляли из модалки «Подробнее» — закрываем её, чтобы корзина была видна
+              if (isDetailBtn && window.closeDetailModal) {
+                window.closeDetailModal();
+              }
               open();
             };
           });
