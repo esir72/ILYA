@@ -631,6 +631,38 @@ const formatPrice = (price) => {
     opacity: 1;
   }
 
+  .card-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 50%,
+        rgba(200, 169, 110, 0) 52%,
+        rgba(200, 169, 110, 0.08) 74%,
+        rgba(212, 186, 133, 0.2) 86%,
+        rgba(224, 200, 160, 0.38) 93%,
+        rgba(224, 200, 160, 0.5) 97%,
+        rgba(224, 200, 160, 0.32) 99%)
+      , conic-gradient(
+        from 0deg,
+        rgba(212, 186, 133, 0.14) 0deg,
+        rgba(224, 200, 160, 0.2) 90deg,
+        rgba(200, 169, 110, 0.14) 180deg,
+        rgba(224, 200, 160, 0.2) 270deg,
+        rgba(212, 186, 133, 0.14) 360deg
+      );
+    -webkit-mask-image: var(--card-mask), radial-gradient(circle at 50% 50%, transparent 58%, rgba(0, 0, 0, 0.55) 80%, rgba(0, 0, 0, 0.85) 94%);
+    mask-image: var(--card-mask), radial-gradient(circle at 50% 50%, transparent 58%, rgba(0, 0, 0, 0.55) 80%, rgba(0, 0, 0, 0.85) 94%);
+    -webkit-mask-size: 100% 100%, 110% 110%;
+    mask-size: 100% 100%, 110% 110%;
+    -webkit-mask-position: center, center;
+    mask-position: center, center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
   .glow-ring {
     display: block;
     position: absolute;
