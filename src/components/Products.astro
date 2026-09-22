@@ -436,7 +436,7 @@ const formatPrice = (price) => {
   .detail-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(2px);
   }
   .detail-content {
@@ -444,8 +444,10 @@ const formatPrice = (price) => {
     z-index: 1101;
     width: min(92vw, 720px);
     margin: auto;
-    background: transparent;
-    border-radius: 16px;
+    background: rgba(18, 18, 18, 0.93);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 28px;
     scrollbar-width: none;
   }
