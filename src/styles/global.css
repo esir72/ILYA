@@ -37,19 +37,16 @@ body {
 }
 
 body::before {
-  content: "";
+  content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   z-index: -1;
-  background-image: url('/images/baackcround/pngtree-cave-wall-texture-the-perfect-backdrop-for-an-archeological-concept-background-picture-image_13402452.jpg');
+  pointer-events: none;
+  background-image: url('/images/baackcround/BG-desktop-main.jpg');
   background-size: cover;
   background-position: center;
-  mix-blend-mode: soft-light;
-  filter: brightness(0.7);
-  pointer-events: none;
+  background-repeat: no-repeat;
+  filter: brightness(1) saturate(1.05);
 }
 
 body.site-loading {
@@ -75,12 +72,10 @@ body.site-loading {
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  background-image: url('/images/baackcround/pngtree-cave-wall-texture-the-perfect-backdrop-for-an-archeological-concept-background-picture-image_13402452.jpg');
+  background-image: url('/images/baackcround/BG-desktop-main.jpg');
   background-size: cover;
   background-position: center;
-  mix-blend-mode: soft-light;
-  filter: brightness(0.6);
-  opacity: 0.4;
+  opacity: 0.5;
 }
 
 .site-loader--done {
@@ -290,7 +285,10 @@ button:disabled {
     background: linear-gradient(135deg, #2F2620 0%, #1E1611 100%);
   }
   body::before {
-    filter: brightness(0.8);
+    background-image: url('/images/baackcround/BG-phone-main.jpg');
+  }
+  .site-loader::before {
+    background-image: url('/images/baackcround/BG-phone-main.jpg');
   }
   .section {
     padding: 60px 0;

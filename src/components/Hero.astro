@@ -18,7 +18,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: flex;
     align-items: center;
     padding-top: 64px;
-    background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 45%, transparent) 0%, color-mix(in srgb, var(--beige) 45%, transparent) 100%);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(/images/baackcround/BG-desctop.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     position: relative;
     overflow: hidden;
   }
@@ -94,6 +97,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   }
 
   @media (max-width: 768px) {
+    .hero {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(/images/baackcround/BG-phone.jpg);
+    }
     .hero-slogan {
       font-size: 1.1rem;
       letter-spacing: 0.16em;
