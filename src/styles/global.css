@@ -193,6 +193,12 @@ button:disabled {
 }
 
 @media (max-width: 768px) {
+  body {
+    background: linear-gradient(135deg, #2F2620 0%, #1E1611 100%);
+  }
+  body::before {
+    filter: brightness(0.8);
+  }
   .section {
     padding: 60px 0;
   }
