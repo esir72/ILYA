@@ -5,7 +5,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 <section class="hero gloss-overlay">
   <div class="hero-gloss"></div>
   <div class="container hero-inner">
-    <img class="hero-logo" src={`${base}/images/logo.png`} alt="Илья — мастер резьбы по дереву" data-animate="fade" />
+    <img class="hero-logo" src={`${base}/images/logo-light.png`} alt="Илья — мастер резьбы по дереву" data-animate="fade" />
     <p class="hero-slogan" data-animate="fade" data-delay="1" data-i18n="hero.slogan">
       Мастерство, переданное через года, и любовь к природе в каждом изделии.
     </p>
@@ -76,7 +76,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   .hero-logo {
     width: 100%;
-    max-width: calc((100vh - 140px) / 9 * 16);
+    max-width: calc((100vh - 140px) / 1047 * 1280);
     height: auto;
     display: block;
   }
@@ -105,7 +105,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       gap: 28px;
     }
     .hero-logo {
-      max-width: calc((100vh - 180px) / 9 * 16);
+      max-width: calc((100vh - 180px) / 1047 * 1280);
     }
     .hero-slogan {
       font-size: 0.95rem;
