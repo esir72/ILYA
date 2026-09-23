@@ -70,6 +70,19 @@ const products = [
     ],
   },
   {
+    id: 12,
+    title: 'Кукса натуральная маленькая',
+    desc: 'Кружка изготовлена вручную из натурального дерева и сочетает традиции древнего ремесла с историческими мотивами. Полностью функциональна — из неё можно пить и использовать в повседневной жизни.',
+    short: 'Маленькая деревянная кукса',
+    price: 20000,
+    image: `${base}/images/cards/kuksa-malaya/kuksa-malaya.png`,
+    gallery: [
+      `${base}/images/cards/kuksa-malaya/photo_2026-09-23_22-08-42.jpg`,
+      `${base}/images/cards/kuksa-malaya/photo_2026-09-23_22-08-44.jpg`,
+      `${base}/images/cards/kuksa-malaya/photo_2026-09-23_22-08-46.jpg`,
+    ],
+  },
+  {
     id: 7,
     title: 'Подвеска «Сова»',
     desc: 'Элегантная подвеска в виде совы, вырезанная вручную из цельного куска дуба. Её можно носить как кулон или использовать как необычный брелок.\n\nИзделие можно повторить на заказ и немного изменить под ваши пожелания, сохранив характер и уникальность ручной работы.',
@@ -716,11 +729,11 @@ const formatPrice = (price) => {
   }
 
 
-  /* Увеличиваем карточку Совы (карточка 6) в 1.3 раза, но возвращаем текст к нормальному размеру */
-  .product-card:nth-child(6) {
+  /* Увеличиваем карточку Совы (карточка 7) в 1.3 раза, но возвращаем текст к нормальному размеру */
+  .product-card:nth-child(7) {
     transform: scale(1.1);
   }
-  .product-card:nth-child(6) .flip-back-content {
+  .product-card:nth-child(7) .flip-back-content {
     transform: scale(0.9);
   }
 
@@ -860,12 +873,12 @@ const formatPrice = (price) => {
   }
   @media (max-width: 768px) {
 
-    .product-card:nth-child(6) {
+    .product-card:nth-child(7) {
       width: 90%;
       margin: 0 auto;
       transform: none;
     }
-    .product-card:nth-child(6) .flip-back-content {
+    .product-card:nth-child(7) .flip-back-content {
       transform: none;
     }
   }

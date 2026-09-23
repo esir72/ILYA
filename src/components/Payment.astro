@@ -91,6 +91,13 @@
             </label>
             <input type="text" id="order-address" name="address" placeholder="Город, улица, дом, квартира / индекс" data-i18n-placeholder="payment.addressPlaceholder" />
           </div>
+          <div class="form-group">
+            <label for="order-comment">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span data-i18n="payment.commentLabel">Комментарий к заказу</span>
+            </label>
+            <textarea id="order-comment" name="comment" rows="4" placeholder="Пожелания, уточнения, размеры, материалы и т.д." data-i18n-placeholder="payment.commentPlaceholder"></textarea>
+          </div>
           <button type="submit" class="order-btn">
             <span data-i18n="payment.btnSubmit">Отправить</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -380,7 +387,8 @@
   }
 
   .form-group input,
-  .form-group select {
+  .form-group select,
+  .form-group textarea {
     padding: 14px 16px;
     border: 1px solid var(--border);
     background: var(--bg);
@@ -392,12 +400,19 @@
     border-radius: 0;
   }
 
-  .form-group input::placeholder {
+  .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
     color: var(--border);
   }
 
   .form-group input:focus,
-  .form-group select:focus {
+  .form-group select:focus,
+  .form-group textarea:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.35);
   }
