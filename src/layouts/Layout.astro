@@ -227,7 +227,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           });
         }
 
+        function closeAllModals() {
+          document.querySelectorAll('.detail-modal').forEach(function (m) { m.classList.remove('open'); });
+          if (window.closeDetailModal) window.closeDetailModal();
+          document.body.style.overflow = '';
+          document.documentElement.style.overflow = '';
+        }
+
         function open() {
+          closeAllModals();
           overlay.classList.add('open');
           cart.classList.add('open');
           document.body.style.overflow = 'hidden';
@@ -243,9 +251,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         if (closeBtn) closeBtn.addEventListener('click', close);
         if (overlay) overlay.addEventListener('click', close);
         if (checkoutBtn) checkoutBtn.addEventListener('click', function () {
+          closeAllModals();
           close();
-          // Закрываем модалку «Подробнее», если была открыта (снимет блокировку скролла)
-          if (window.closeDetailModal) window.closeDetailModal();
         });
 
         document.addEventListener('keydown', function (e) {
