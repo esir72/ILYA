@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# vercel
+.vercel/
+
 # generated types
 .astro/
 
@@ -24,3 +27,4 @@ pnpm-debug.log*
 .idea/
 
 *.md
+.vercel
