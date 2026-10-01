@@ -1,1 +1,16 @@
-{"projectId":"prj_rXTasCWVOPtU0QeWAYyEdUUKje1d","orgId":"team_7mIbIXyeNU0XjyC6zyd2whIb","projectName":"ilua"}
+{
+  "projectId": "prj_AxthzaRJNMvO3vutHYwqQMZaQMG2",
+  "orgId": "team_7mIbIXyeNU0XjyC6zyd2whIb",
+  "projectName": "ilya-wood",
+  "settings": {
+    "createdAt": 1784359839534,
+    "framework": null,
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "24.x"
+  }
+}
