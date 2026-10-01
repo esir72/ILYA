@@ -1,16 +1,50 @@
 ---
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+type ProductColorOption = {
+  id: string;
+  hex: string;
+  labelKey: string;
+};
 
-const products = [
+type ProductImage = {
+  small: string;
+  medium: string;
+  large: string;
+  width: number;
+  height: number;
+};
+
+type Product = {
+  id: number;
+  title: string;
+  desc: string;
+  short: string;
+  price: number;
+  image: ProductImage;
+  gallery: string[];
+  colors?: ProductColorOption[];
+};
+
+function productImage(path: string, width: number, height: number): ProductImage {
+  return {
+    small: path.replace(/(\.[^.]+)$/, '-360$1'),
+    medium: path.replace(/(\.[^.]+)$/, '-540$1'),
+    large: path,
+    width,
+    height
+  };
+}
+
+const base: string = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const products: Product[] = [
   {
     id: 10,
     title: '«ПЕРВЫЙ СЛЕД» Набор для резьбы по дереву',
     desc: 'Всё необходимое, чтобы сделать первый шаг в древнее ремесло и почувствовать дерево в своих руках.\nВ комплекте: брусок мягкой липы для первого изделия, Богородский нож 50 мм для точной резьбы и ложкорез для глубоких выборок и аккуратных углублений.\nНебольшой набор — чтобы начать резать, создать первое изделие и открыть для себя мир резьбы по дереву.\n\nВсё собрано в подарочной коробке и дополнено тёплым напутствием от Илуи.\nПолностью заточен и готов к работе.\n\nПервый рез. Первое изделие. Первый след, который останется в дереве.',
     short: 'Всё необходимое для первого шага в резьбу: липа, нож и ложкорез.',
     price: 11900,
-    image: `${base}/images/cards/set/set.webp`,
+    image: productImage(`${base}/images/cards/set/set.webp`, 900, 884),
     gallery: [
-      `${base}/images/cards/set/set.webp`,
       `${base}/images/cards/set/photo_2026-09-21_16-18-23.webp`,
       `${base}/images/cards/set/photo_2026-09-21_16-18-31.webp`,
       `${base}/images/cards/set/photo_2026-09-21_16-18-33.webp`
@@ -27,9 +61,8 @@ const products = [
       { id: 'Белый', hex: '#FFFFFF', labelKey: 'colors.white' },
       { id: 'Коричневый', hex: '#8B4513', labelKey: 'colors.brown' }
     ],
-    image: `${base}/images/cards/knife/knife.webp`,
+    image: productImage(`${base}/images/cards/knife/knife.webp`, 900, 959),
     gallery: [
-      `${base}/images/cards/knife/knife.webp`,
       `${base}/images/cards/knife/photo_2026-09-21_16-19-32.webp`,
       `${base}/images/cards/knife/photo_2026-09-21_16-19-34.webp`,
       `${base}/images/cards/knife/photo_2026-09-21_16-19-36.webp`
@@ -41,8 +74,8 @@ const products = [
     desc: 'Этот инструмент создан для полировки, правки и поддержания остроты любых ножей — от кухонных и охотничьих до ножей и ложкорезов для резьбы по дереву.\nДостаточно нанести немного полировальной пасты на кожаную поверхность и сделать несколько движений — кожа мягко доведёт режущую кромку, уберёт мельчайшие неровности и поможет вернуть инструменту чистоту и остроту.',
     short: 'Инструмент для полировки и поддержания остроты ножей и ложкорезов.',
     price: 3000,
-    image: `${base}/images/cards/polirovka/polrovka.webp`,
-    gallery: [`${base}/images/cards/polirovka/polrovka.webp`],
+    image: productImage(`${base}/images/cards/polirovka/polrovka.webp`, 900, 699),
+    gallery: [],
   },
   {
     id: 1,
@@ -50,10 +83,8 @@ const products = [
     desc: 'Волны, вырезанные вручную из цельного массива дерева — с душой и любовью к морю. Они передают его красоту, силу и бесконечность. Ведь на небесах говорят только о море. А кто на море не был — тот лох.',
     short: 'Резная картина с морскими волнами из дерева.',
     price: 30000,
-    image: `${base}/images/cards/wawes/wawes.webp`,
-    gallery: [
-      `${base}/images/cards/wawes/wawes.webp`
-    ],
+    image: productImage(`${base}/images/cards/wawes/wawes.webp`, 900, 982),
+    gallery: [],
   },
   {
     id: 4,
@@ -61,8 +92,7 @@ const products = [
     desc: 'Большая кукса, созданная для неспешного наслаждения любимыми напитками. Вырезана вручную с душой, сохраняя дух и традиции древних мастеров.\n\nЕё форма и сам принцип изготовления уходят корнями в глубокую историю — подобные деревянные сосуды люди создавали и использовали ещё много веков назад.\n\nЭто не просто кружка, а вещь с историей, выполненная в традиционном стиле и полностью готовая к использованию. Идеальна для воды, чая, кофе и других любимых напитков.',
     short: 'Большая деревянная кукса',
     price: 28000,
-    image: `${base}/images/cards/kuksa/kuksa-mask.webp`,
-    mask: `${base}/images/cards/kuksa/kuksa-mask.webp`,
+    image: productImage(`${base}/images/cards/kuksa/kuksa-mask.webp`, 900, 964),
     gallery: [
       `${base}/images/cards/kuksa/photo_2026-08-24_11-41-30.webp`,
       `${base}/images/cards/kuksa/photo_2026-08-24_11-41-31.webp`,
@@ -75,7 +105,7 @@ const products = [
     desc: 'Кружка изготовлена вручную из натурального дерева и сочетает традиции древнего ремесла с историческими мотивами. Полностью функциональна — из неё можно пить и использовать в повседневной жизни.',
     short: 'Маленькая деревянная кукса',
     price: 20000,
-    image: `${base}/images/cards/kuksa-malaya/kuksa-malaya.png`,
+    image: productImage(`${base}/images/cards/kuksa-malaya/kuksa-malaya.webp`, 900, 794),
     gallery: [
       `${base}/images/cards/kuksa-malaya/photo_2026-09-23_22-08-42.jpg`,
       `${base}/images/cards/kuksa-malaya/photo_2026-09-23_22-08-44.jpg`,
@@ -88,10 +118,8 @@ const products = [
     desc: 'Элегантная подвеска в виде совы, вырезанная вручную из цельного куска дуба. Её можно носить как кулон или использовать как необычный брелок.\n\nИзделие можно повторить на заказ и немного изменить под ваши пожелания, сохранив характер и уникальность ручной работы.',
     short: 'Подвеска в виде совы, вырезанная вручную из дуба.',
     price: 50000,
-    image: `${base}/images/cards/owl/сова.webp`,
-    gallery: [
-      `${base}/images/cards/owl/сова.webp`
-    ],
+    image: productImage(`${base}/images/cards/owl/сова.webp`, 869, 752),
+    gallery: [],
   },
   {
     id: 6,
@@ -99,7 +127,7 @@ const products = [
     desc: 'Ручная деревянная фигурка высотой 30 см вместе с подставкой, выполненная из нескольких пород натурального дерева.\nОбраз вдохновлён Рагнаром Лодброком и скандинавской мифологией, сочетая характер легендарного викинга с чертами бога Тора.\nКаждая деталь вырезана вручную, поэтому каждая фигурка имеет свой уникальный характер.',
     short: 'Ручная деревянная фигурка викинга высотой 30 см из натурального дерева.',
     price: 300000,
-    image: `${base}/images/cards/ragnar/рагнар.webp`,
+    image: productImage(`${base}/images/cards/ragnar/рагнар.webp`, 900, 1316),
     gallery: [
       `${base}/images/cards/ragnar/photo_2026-09-08_13-09-59.webp`,
       `${base}/images/cards/ragnar/photo_2026-09-08_13-10-00.webp`,
@@ -111,7 +139,7 @@ const products = [
     desc: 'Маска, выполненная полностью вручную из дерева и созданная на заказ. Её можно использовать как оригинальный элемент интерьера и повесить на стену или носить на лице.\n\nКаждая маска уникальна, а стоимость зависит от сложности и объёма работы.',
     short: 'Деревянная маска ручной работы для интерьера или ношения.',
     price: 150000,
-    image: `${base}/images/cards/muxtar/мухтар.webp`,
+    image: productImage(`${base}/images/cards/muxtar/мухтар.webp`, 900, 1224),
     gallery: [
       `${base}/images/cards/muxtar/photo_2026-09-08_13-09-35.webp`,
       `${base}/images/cards/muxtar/photo_2026-09-08_13-09-38.webp`,
@@ -123,19 +151,20 @@ const products = [
     desc: 'Ручная деревянная фигурка Гэндальфа из «Властелина колец», высотой 30 см.\nВыполнена из липы, вручную вырезана и окрашена натуральными морилками. Шляпа и подставка съёмные.\nФигурка изготавливается на заказ, но одна уже готова и есть в наличии.',
     short: 'Ручная деревянная фигурка Гэндальфа из липы, высотой 30 см.',
     price: 200000,
-    image: `${base}/images/cards/gandalf/гендальф.webp`,
+    image: productImage(`${base}/images/cards/gandalf/гендальф.webp`, 789, 1276),
     gallery: [
       `${base}/images/cards/gandalf/photo_2026-09-08_13-10-16.webp`,
     ],
   },
 ];
 
-const productData = products.map((p, i) => ({
+const productData: ProductDataItem[] = products.map((p: Product, i: number): ProductDataItem => ({
   id: p.id,
   title: p.title,
-  image: p.image,
+  desc: p.desc,
+  image: p.image.large,
   price: p.price,
-  gallery: p.gallery ? [...p.gallery, `${base}/images/cards/ending.webp`] : [`${base}/images/cards/ending.webp`],
+  gallery: [p.image.large, ...p.gallery, `${base}/images/cards/ending.webp`],
   colorsJson: p.colors ? JSON.stringify(p.colors) : '',
   titleKey: `products.item.${i}.title`,
   descKey: `products.item.${i}.desc`,
@@ -143,7 +172,7 @@ const productData = products.map((p, i) => ({
   i18nKey: `products.item.${i}.title`,
 }));
 
-const formatPrice = (price) => {
+const formatPrice = (price: number): string => {
   if (price === 0) return 'Цена по запросу';
   return price.toLocaleString('ru-RU') + ' ₽';
 };
@@ -158,13 +187,13 @@ const formatPrice = (price) => {
     </p>
     <div class="products-grid">
       {products.map((product, i) => (
-        <article class="product-card" style={`--card-mask: url('${product.mask || product.image}'); --card-bg: url('${base}/images/cards/BG_stone.webp');`} data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
+        <article class="product-card" style={`--card-bg: url('${base}/images/cards/BG_stone.webp');`} data-mask={product.image.small} data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
           <div class="card-glow" aria-hidden="true"><span class="glow-static"></span><span class="glow-ring"><span class="glow-runner"></span></span></div>
           <div class="flip-inner">
             <div class="face face-front">
               <div class="flip-front">
                 <div class="product-image">
-                  <img src={product.image} alt={product.title} loading="lazy" />
+                  <img src={product.image.large} srcset={`${product.image.small} 360w, ${product.image.medium} 540w, ${product.image.large} ${product.image.width}w`} sizes="(max-width: 768px) calc(100vw - 32px), (max-width: 1200px) calc((100vw - 96px) / 3), 380px" width={product.image.width} height={product.image.height} alt={product.title} loading="lazy" decoding="async" />
                 </div>
               </div>
             </div>
@@ -175,7 +204,7 @@ const formatPrice = (price) => {
                   <p class="product-desc" data-i18n={`products.item.${i}.short`}>{product.short}</p>
                   <div class="product-bottom">
                     <span class="product-price" data-i18n={`products.item.${i}.price`}>{formatPrice(product.price)}</span>
-                    <button class="btn btn-sm btn-cart btn-icon-only" data-id={product.id} data-title={product.title} data-i18n-key={`products.item.${i}.title`} data-price={product.price} data-img={product.image} data-i18n-title="products.btnCart" aria-label="В корзину">
+                    <button class="btn btn-sm btn-cart btn-icon-only" data-id={product.id} data-title={product.title} data-i18n-key={`products.item.${i}.title`} data-price={product.price} data-img={product.image.large} data-i18n-title="products.btnCart" aria-label="В корзину">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="9" cy="21" r="1"></circle>
                         <circle cx="20" cy="21" r="1"></circle>
@@ -235,56 +264,89 @@ const formatPrice = (price) => {
 <script is:inline set:html={`window.productData = ${JSON.stringify(productData)};`} />
 
 <script>
-  function t(key, fallback) {
+  interface ProductColor {
+    id: string;
+    hex: string;
+    labelKey: string;
+  }
+
+  function t(key: string, fallback: string): string {
     if (window.i18n && typeof window.i18n.t === 'function') {
-      var v = window.i18n.t(key);
-      if (v && v !== key) return v;
+      const translated: string = window.i18n.t(key);
+      if (translated && translated !== key) return translated;
     }
     return fallback;
   }
 
-  var productData = window.productData || [];
+  const productData: ProductDataItem[] = window.productData ?? [];
 
-  document.querySelectorAll('.product-card').forEach(function (card) {
-    card.addEventListener('click', function (e) {
-      if (e.target.closest('.btn-cart')) return;
-      if (e.target.closest('.details-btn')) return;
+  document.querySelectorAll<HTMLElement>('.product-card').forEach((card: HTMLElement): void => {
+    card.addEventListener('click', (event: MouseEvent): void => {
+      const target: EventTarget | null = event.target;
+      if (target instanceof Element && target.closest('.btn-cart')) return;
+      if (target instanceof Element && target.closest('.details-btn')) return;
       card.classList.toggle('flipped');
     });
-    card.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
+    card.addEventListener('keydown', (event: KeyboardEvent): void => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
         card.classList.toggle('flipped');
       }
     });
   });
 
-  var grid = document.querySelector('.products-grid');
-  var cards = grid ? Array.prototype.slice.call(grid.querySelectorAll('.product-card')) : [];
-  var showMoreBtn = document.getElementById('show-more-btn');
+  const grid = document.querySelector<HTMLElement>('.products-grid');
+  const cards: HTMLElement[] = grid
+    ? Array.from(grid.querySelectorAll<HTMLElement>('.product-card'))
+    : [];
 
-  function getBaseCount() {
+  function activateCardMask(card: HTMLElement): void {
+    const mask = card.dataset.mask;
+    if (!mask) return;
+    card.style.setProperty('--card-mask', `url("${mask}")`);
+    card.classList.add('mask-ready');
+  }
+
+  if ('IntersectionObserver' in window) {
+    const maskObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const card = entry.target;
+        if (!(card instanceof HTMLElement)) return;
+        activateCardMask(card);
+        maskObserver.unobserve(card);
+      });
+    }, { rootMargin: '320px 0px' });
+    cards.forEach((card) => maskObserver.observe(card));
+  } else {
+    cards.forEach(activateCardMask);
+  }
+
+  const showMoreBtn = document.querySelector<HTMLButtonElement>('#show-more-btn');
+  const showMoreParent: HTMLElement | null = showMoreBtn ? showMoreBtn.parentElement : null;
+
+  function getBaseCount(): number {
     return window.innerWidth <= 768 ? 4 : 100;
   }
 
-  var extra = 0;
+  let extra: number = 0;
 
-  function applyShowMore() {
-    if (!showMoreBtn) return;
-    var show = getBaseCount() + extra;
-    cards.forEach(function (card, i) {
-      card.style.display = i < show ? '' : 'none';
+  function applyShowMore(): void {
+    if (!showMoreBtn || !showMoreParent) return;
+    const show: number = getBaseCount() + extra;
+    cards.forEach((card: HTMLElement, index: number): void => {
+      card.style.display = index < show ? '' : 'none';
     });
-    showMoreBtn.parentElement.style.display = show >= cards.length ? 'none' : 'block';
+    showMoreParent.style.display = show >= cards.length ? 'none' : 'block';
   }
 
-  if (showMoreBtn) {
-    showMoreBtn.addEventListener('click', function () {
-      extra += 100; // Load the rest on mobile
+  if (showMoreBtn && showMoreParent) {
+    showMoreBtn.addEventListener('click', (): void => {
+      extra += 100;
       applyShowMore();
     });
-    var prevWidth = window.innerWidth;
-    window.addEventListener('resize', function () {
+    let prevWidth: number = window.innerWidth;
+    window.addEventListener('resize', (): void => {
       if (Math.floor(prevWidth / 768) !== Math.floor(window.innerWidth / 768)) {
         prevWidth = window.innerWidth;
         extra = 0;
@@ -294,118 +356,168 @@ const formatPrice = (price) => {
     applyShowMore();
   }
 
-  var modal = document.getElementById('detail-modal');
-  var modalTitle = document.getElementById('detail-title');
-  var modalImg = document.getElementById('detail-image');
-  var modalDesc = document.getElementById('detail-desc');
-  var modalPrice = document.getElementById('detail-price');
-  var counter = document.getElementById('detail-counter');
-  var prevBtn = modal.querySelector('.detail-prev');
-  var nextBtn = modal.querySelector('.detail-next');
-  var overlay = modal.querySelector('.detail-overlay');
-  var closeBtn = document.getElementById('detail-close');
-  var addBtn = document.getElementById('detail-add');
-  var colorsBlock = document.getElementById('detail-colors');
-  var colorsList = document.getElementById('detail-colors-list');
+  (function setupDetailModal(): void {
+    const modal = document.querySelector<HTMLDivElement>('#detail-modal');
+    const modalTitle = document.querySelector<HTMLHeadingElement>('#detail-title');
+    const modalImg = document.querySelector<HTMLImageElement>('#detail-image');
+    const modalDesc = document.querySelector<HTMLParagraphElement>('#detail-desc');
+    const modalPrice = document.querySelector<HTMLSpanElement>('#detail-price');
+    const counter = document.querySelector<HTMLDivElement>('#detail-counter');
+    const prevBtn = document.querySelector<HTMLButtonElement>('#detail-modal .detail-prev');
+    const nextBtn = document.querySelector<HTMLButtonElement>('#detail-modal .detail-next');
+    const overlay = document.querySelector<HTMLDivElement>('#detail-modal .detail-overlay');
+    const closeBtn = document.querySelector<HTMLButtonElement>('#detail-close');
+    const addBtn = document.querySelector<HTMLButtonElement>('#detail-add');
+    const colorsBlock = document.querySelector<HTMLDivElement>('#detail-colors');
+    const colorsList = document.querySelector<HTMLDivElement>('#detail-colors-list');
 
-  var currentGallery = [];
-  var currentIndex = 0;
-  var currentProduct = null;
-  var selectedColor = null;
+    if (
+      !modal ||
+      !modalTitle ||
+      !modalImg ||
+      !modalDesc ||
+      !modalPrice ||
+      !counter ||
+      !addBtn ||
+      !colorsBlock ||
+      !colorsList
+    ) return;
 
-  function renderGallery() {
-    if (!currentGallery.length) return;
-    modalImg.src = currentGallery[currentIndex];
-    modalImg.alt = modalTitle.textContent;
-    counter.textContent = (currentIndex + 1) + ' / ' + currentGallery.length;
-  }
+    const detailModal: HTMLDivElement = modal;
+    const detailTitle: HTMLHeadingElement = modalTitle;
+    const detailImage: HTMLImageElement = modalImg;
+    const detailDescription: HTMLParagraphElement = modalDesc;
+    const detailPrice: HTMLSpanElement = modalPrice;
+    const detailCounter: HTMLDivElement = counter;
+    const detailAdd: HTMLButtonElement = addBtn;
+    const detailColors: HTMLDivElement = colorsBlock;
+    const detailColorsList: HTMLDivElement = colorsList;
 
-  function openDetail(index) {
-    var p = productData[index];
-    if (!p) return;
-    currentProduct = p;
-    currentGallery = p.gallery && p.gallery.length ? p.gallery : [p.image];
-    currentIndex = 0;
-    selectedColor = null;
+    let currentGallery: string[] = [];
+    let currentIndex: number = 0;
 
-    modalTitle.textContent = t(p.titleKey, p.title);
-    modalDesc.textContent = t(p.descKey, p.desc);
-    modalPrice.textContent = t(p.priceKey, p.price.toLocaleString('ru-RU') + ' ₽');
-
-    addBtn.dataset.id = p.id;
-    addBtn.dataset.title = p.title;
-    addBtn.dataset.i18nKey = p.i18nKey;
-    addBtn.dataset.price = p.price;
-    addBtn.dataset.img = p.image;
-    delete addBtn.dataset.color;
-
-    var colors = p.colorsJson ? JSON.parse(p.colorsJson) : null;
-    if (colors && colors.length) {
-      colorsList.innerHTML = '';
-      colors.forEach(function (c) {
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'detail-color-swatch';
-        btn.style.background = c.hex;
-        btn.setAttribute('aria-label', t(c.labelKey, c.id));
-        btn.title = t(c.labelKey, c.id);
-        btn.dataset.colorId = c.id;
-        btn.addEventListener('click', function () {
-          selectedColor = c.id;
-          addBtn.dataset.color = c.id;
-            addBtn.dataset.colorKey = c.labelKey;
-          colorsList.querySelectorAll('.detail-color-swatch').forEach(function (s) { s.classList.remove('active'); });
-          btn.classList.add('active');
-        });
-        colorsList.appendChild(btn);
-      });
-      colorsBlock.style.display = '';
-    } else {
-      colorsBlock.style.display = 'none';
+    function isProductColor(value: unknown): value is ProductColor {
+      if (typeof value !== 'object' || value === null) return false;
+      const color = value as Record<string, unknown>;
+      return typeof color.id === 'string' &&
+        typeof color.hex === 'string' &&
+        typeof color.labelKey === 'string';
     }
 
-    renderGallery();
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-  }
+    function parseProductColors(colorsJson: string): ProductColor[] {
+      if (!colorsJson) return [];
+      const parsed: unknown = JSON.parse(colorsJson);
+      if (!Array.isArray(parsed)) return [];
+      const values: unknown[] = parsed;
+      const colors: ProductColor[] = [];
+      for (const value of values) {
+        if (isProductColor(value)) colors.push(value);
+      }
+      return colors;
+    }
 
-  function closeDetail() {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
-  }
-  window.closeDetailModal = closeDetail;
+    function renderGallery(): void {
+      if (!currentGallery.length) return;
+      const image: string | undefined = currentGallery[currentIndex];
+      if (image === undefined) return;
+      detailImage.src = image;
+      detailImage.alt = detailTitle.textContent ?? '';
+      detailCounter.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
+    }
 
-  document.querySelectorAll('.details-btn').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      openDetail(parseInt(btn.dataset.details, 10));
-    });
-  });
+    function openDetail(index: number): void {
+      const p: ProductDataItem | undefined = productData[index];
+      if (!p) return;
+      currentGallery = p.gallery && p.gallery.length ? p.gallery : [p.image];
+      currentIndex = 0;
 
-  if (prevBtn) {
-    prevBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+      detailTitle.textContent = t(p.titleKey, p.title);
+      detailDescription.textContent = t(p.descKey, p.desc);
+      detailPrice.textContent = t(p.priceKey, p.price.toLocaleString('ru-RU') + ' ₽');
+
+      detailAdd.dataset.id = String(p.id);
+      detailAdd.dataset.title = p.title;
+      detailAdd.dataset.i18nKey = p.i18nKey;
+      detailAdd.dataset.price = String(p.price);
+      detailAdd.dataset.img = p.image;
+      detailAdd.removeAttribute('data-color');
+
+      const colors: ProductColor[] = parseProductColors(p.colorsJson);
+      if (colors.length) {
+        detailColorsList.innerHTML = '';
+        colors.forEach((color: ProductColor): void => {
+          const btn: HTMLButtonElement = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'detail-color-swatch';
+          btn.style.background = color.hex;
+          btn.setAttribute('aria-label', t(color.labelKey, color.id));
+          btn.title = t(color.labelKey, color.id);
+          btn.dataset.colorId = color.id;
+          btn.addEventListener('click', (): void => {
+            detailAdd.dataset.color = color.id;
+            detailAdd.dataset.colorKey = color.labelKey;
+            detailColorsList.querySelectorAll<HTMLButtonElement>('.detail-color-swatch').forEach((swatch: HTMLButtonElement): void => {
+              swatch.classList.remove('active');
+            });
+            btn.classList.add('active');
+          });
+          detailColorsList.appendChild(btn);
+        });
+        detailColors.style.display = '';
+      } else {
+        detailColors.style.display = 'none';
+      }
+
       renderGallery();
-    });
-    nextBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      currentIndex = (currentIndex + 1) % currentGallery.length;
-      renderGallery();
-    });
-    overlay.addEventListener('click', closeDetail);
-    closeBtn.addEventListener('click', closeDetail);
+      detailModal.classList.add('open');
+      detailModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (closeBtn) closeBtn.focus();
+    }
 
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && modal.classList.contains('open')) closeDetail();
-    });
-  }
+    function closeDetail(): void {
+      detailModal.classList.remove('open');
+      detailModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    window.closeDetailModal = closeDetail;
 
-  addBtn.addEventListener('click', function (e) {
-    // Проверка цвета теперь выполняется в обработчике btn-cart в Layout.astro
-  });
+    document.querySelectorAll<HTMLButtonElement>('.details-btn').forEach((btn: HTMLButtonElement): void => {
+      btn.addEventListener('click', (event: MouseEvent): void => {
+        event.stopPropagation();
+        const details: string | undefined = btn.dataset.details;
+        if (details === undefined) return;
+        openDetail(Number.parseInt(details, 10));
+      });
+    });
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (event: MouseEvent): void => {
+        event.stopPropagation();
+        if (!currentGallery.length) return;
+        currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+        renderGallery();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (event: MouseEvent): void => {
+        event.stopPropagation();
+        if (!currentGallery.length) return;
+        currentIndex = (currentIndex + 1) % currentGallery.length;
+        renderGallery();
+      });
+    }
+
+    if (overlay) overlay.addEventListener('click', closeDetail);
+    if (closeBtn) closeBtn.addEventListener('click', closeDetail);
+
+    document.addEventListener('keydown', (event: KeyboardEvent): void => {
+      if (event.key === 'Escape' && detailModal.classList.contains('open')) closeDetail();
+    });
+  })();
 </script>
 
 <style>
@@ -656,8 +768,8 @@ const formatPrice = (price) => {
     transform: rotateY(180deg) translateZ(1px);
   }
 
-  .flip-front,
-  .flip-back {
+  .product-card.mask-ready .flip-front,
+  .product-card.mask-ready .flip-back {
     -webkit-mask-image: var(--card-mask);
     mask-image: var(--card-mask);
     -webkit-mask-size: 100% 100%;

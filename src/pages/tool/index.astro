@@ -1,35 +1,56 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Cart from '../../components/Cart.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const homeHref = `${base}/`;
 
 const tool = {
-  title: 'Набор резцов для резьбы по дереву',
-  price: 3800,
-  desc: 'Собственноручно изготовленный набор из трёх резцов для геометрической и контурной резьбы. Каждый инструмент пройден от ковки до финальной заточки.',
+  id: 10,
+  title: '«ПЕРВЫЙ СЛЕД» Набор для резьбы по дереву',
+  price: 11900,
+  desc: 'Всё необходимое, чтобы сделать первый шаг в древнее ремесло и почувствовать дерево в своих руках. Набор полностью заточен и готов к работе, а всё вместе собрано в подарочной коробке с напутствием от Илуи.',
   details: [
-    'Нож-косяк — универсальный инструмент для геометрической резьбы, подрезки контура.',
-    'Стамеска-клюкарза — изогнутое лезвие для выборки фона и создания углублений.',
-    'Полукруглая стамеска — для плавных линий, лепестков и орнаментов.',
+    'Брусок мягкой липы — материал для вашего первого изделия.',
+    'Богородский нож 50 мм — для точной резьбы и мелких деталей.',
+    'Ложкорез — для глубоких выборок и аккуратных углублений.',
   ],
   specs: {
-    'Сталь': 'У8, закалка 58-60 HRC',
+    'Сталь': 'Нож и ложкорез, закалка 58-60 HRC',
     'Ручки': 'Кап берёзы, льняное масло',
-    'Чехол': 'Натуральная кожа, ручная прошивка',
-    'Вес': '180 г (набор)',
+    'Чехол': 'Подарочная коробка',
+    'Вес': '1,6 кг (набор)',
   },
   images: [
-    `${base}/images/10 Mind-Blowing Wood Carving Techniques You Need To Try Today! - The Table Read Magazine.jpg`,
+    `${base}/images/cards/set/set.webp`,
+    `${base}/images/cards/set/photo_2026-09-21_16-18-23.webp`,
+    `${base}/images/cards/set/photo_2026-09-21_16-18-31.webp`,
+    `${base}/images/cards/set/photo_2026-09-21_16-18-33.webp`,
   ],
 };
 
-const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
+const imageSizes = [
+  { width: 900, height: 884 },
+  { width: 1280, height: 853 },
+  { width: 1280, height: 960 },
+  { width: 1280, height: 960 }
+];
+
+const formatPrice = (price: number): string => `${price.toLocaleString('ru-RU')} ₽`;
 ---
 
-<Layout>
+<Layout title={tool.title} titleKey="toolPage.title" description={tool.desc} descriptionKey="toolPage.metaDesc">
   <header class="detail-header">
-    <div class="container">
-      <a href="/" class="detail-back" data-i18n="toolPage.back">← На главную</a>
+    <div class="container detail-header-inner">
+      <a href={homeHref} class="detail-back" data-i18n="toolPage.back">← На главную</a>
+      <button id="cart-toggle" class="cart-toggle" aria-label="Корзина" data-i18n-aria="header.cartLabel">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/>
+          <circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span id="cart-count" class="cart-count">0</span>
+      </button>
     </div>
   </header>
   <main>
@@ -39,13 +60,13 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
           <div class="detail-gallery" data-animate="left">
             <div class="gallery-main" id="detail-gallery">
               {tool.images.map((src, i) => (
-                <img src={src} alt={`${tool.title} — фото ${i + 1}`} class="gallery-img" data-index={i} />
+                 <img src={src} width={imageSizes[i]?.width} height={imageSizes[i]?.height} alt={`${tool.title} — фото ${i + 1}`} class="gallery-img" data-index={i} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
               ))}
             </div>
             <div class="gallery-thumbs">
               {tool.images.map((src, i) => (
                 <button class="thumb-btn" data-index={i}>
-                  <img src={src} alt="" />
+                   <img src={src} width={imageSizes[i]?.width} height={imageSizes[i]?.height} alt="" loading="lazy" decoding="async" />
                 </button>
               ))}
             </div>
@@ -60,13 +81,13 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
               {Object.entries(tool.specs).map(([key, val]) => (
                 <div class="spec-row">
                   <span class="spec-key" data-i18n={`toolPage.specKey.${key}`}>{key}</span>
-                  <span class="spec-val">{val}</span>
+                  <span class="spec-val" data-i18n={`toolPage.specValue.${key}`}>{val}</span>
                 </div>
               ))}
             </div>
             <div class="detail-bottom">
               <span class="detail-price" data-i18n="toolPage.price">{formatPrice(tool.price)}</span>
-              <button class="btn btn-cart" data-id="10" data-title={tool.title} data-i18n-key="toolPage.title" data-price={tool.price} data-img={tool.images[0]} data-i18n="toolPage.btnCart">
+              <button class="btn btn-cart" data-id={tool.id} data-title={tool.title} data-i18n-key="toolPage.title" data-price={tool.price} data-img={tool.images[0]} data-i18n="toolPage.btnCart">
                 В корзину
               </button>
             </div>
@@ -76,20 +97,26 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
     </section>
   </main>
 
-  <script>
-    const images = document.querySelectorAll('#detail-gallery .gallery-img');
-    const thumbs = document.querySelectorAll('.thumb-btn');
-    let current = 0;
+  <Cart checkoutHref={`${homeHref}#payment`} />
 
-    function show(index) {
+  <script>
+    const images = document.querySelectorAll<HTMLImageElement>('#detail-gallery .gallery-img');
+    const thumbs = document.querySelectorAll<HTMLButtonElement>('.thumb-btn');
+
+    function show(index: number): void {
       images.forEach((img, i) => img.classList.toggle('active', i === index));
       thumbs.forEach((btn, i) => btn.classList.toggle('active', i === index));
-      current = index;
     }
 
     if (images.length > 0) show(0);
 
-    thumbs.forEach(btn => btn.addEventListener('click', () => show(parseInt(btn.dataset.index))));
+    thumbs.forEach(btn => btn.addEventListener('click', () => {
+      const rawIndex = btn.dataset.index;
+      if (rawIndex === undefined) return;
+      const index = parseInt(rawIndex, 10);
+      if (Number.isNaN(index)) return;
+      show(index);
+    }));
   </script>
 </Layout>
 
@@ -115,6 +142,43 @@ const formatPrice = (p) => `${p.toLocaleString('ru-RU')} ₽`;
 
   .detail-back:hover {
     color: var(--text);
+  }
+
+  .detail-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .cart-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+    padding: 4px;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  .cart-toggle:hover {
+    color: var(--text);
+  }
+
+  .cart-count {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 400;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .detail {

@@ -1,4 +1,6 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const privacyHref = `${base}/privacy`;
 ---
 
 <section class="section" id="payment">
@@ -103,7 +105,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
           <p class="form-agreement">
-            <span data-i18n="payment.agreement">Нажимая «Отправить», вы соглашаетесь с</span><span> </span><a href="/privacy" data-i18n="payment.agreementLink">обработкой персональных данных</a>
+            <span data-i18n="payment.agreement">Нажимая «Отправить», вы соглашаетесь с</span><span> </span><a href={privacyHref} data-i18n="payment.agreementLink">обработкой персональных данных</a>
           </p>
           <div id="form-success" class="form-success">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -116,202 +118,266 @@
 </section>
 
 <script>
-  var COUNTRIES = {
-    ru:    { mask: '+7 (___) ___-__-__',   min: 11 },
-    by:    { mask: '+375 (__) ___-__-__',  min: 12 },
-    kz:    { mask: '+7 (___) ___-__-__',   min: 11 },
-    ua:    { mask: '+380 (__) ___-__-__',  min: 12 },
-    am:    { mask: '+374 (__) ___-__-__',  min: 11 },
-    ge:    { mask: '+995 (___) ___-__-__', min: 12 },
-    md:    { mask: '+373 (__) ___-__-__',  min: 12 },
-    uz:    { mask: '+998 (__) ___-__-__',  min: 12 },
-    kg:    { mask: '+996 (___) ___-__-__', min: 12 },
-    tj:    { mask: '+992 (__) ___-__-__',  min: 12 },
-    az:    { mask: '+994 (__) ___-__-__',  min: 12 },
-    other: { mask: '+___ ___ ___ ____',    min: 7 }
-  };
-  Object.keys(COUNTRIES).forEach(function (k) {
-    COUNTRIES[k].max = (COUNTRIES[k].mask.match(/_/g) || []).length;
-  });
+  interface CountryConfig {
+    mask: string;
+    min: number;
+    max: number;
+  }
 
-  var FALLBACK = {
+  const FALLBACK_COUNTRY: CountryConfig = {
+    mask: '+___ ___ ___ ____',
+    min: 7,
+    max: 13
+  };
+
+  const COUNTRIES: Record<string, CountryConfig> = {
+    ru: { mask: '+7 (___) ___-__-__', min: 11, max: 10 },
+    by: { mask: '+375 (__) ___-__-__', min: 12, max: 9 },
+    kz: { mask: '+7 (___) ___-__-__', min: 11, max: 10 },
+    ua: { mask: '+380 (__) ___-__-__', min: 12, max: 9 },
+    am: { mask: '+374 (__) ______', min: 11, max: 8 },
+    ge: { mask: '+995 (___) __-__-__', min: 12, max: 9 },
+    md: { mask: '+373 (__) ___-__', min: 11, max: 8 },
+    uz: { mask: '+998 (__) ___-__-__', min: 12, max: 9 },
+    kg: { mask: '+996 (___) __-__-__', min: 12, max: 9 },
+    tj: { mask: '+992 (___) __-__-__', min: 12, max: 9 },
+    az: { mask: '+994 (___) __-__-__', min: 12, max: 9 },
+    other: FALLBACK_COUNTRY
+  };
+
+  const FALLBACK: Record<string, string> = {
     'payment.phoneHint': 'Введите номер в выбранном формате — только цифры',
     'payment.tgHint': 'Укажите ваш ник в соцсетях, например @ilya',
     'payment.phoneErrorShort': 'Номер слишком короткий для выбранной страны',
-    'payment.tgError': 'Ник должен содержать 4–32 символа: буквы, цифры или _'
+    'payment.tgError': 'Ник должен содержать 4–32 символа: буквы, цифры или _',
+    'payment.btnSending': 'Отправка...'
   };
 
-  var contactTypeSelect = document.getElementById('order-contact-type');
-  var countrySelect = document.getElementById('order-country');
-  var phoneInput = document.getElementById('order-phone');
-  var tgInput = document.getElementById('order-tg');
-  var contactHint = document.getElementById('contact-hint');
-
-  function t(key) {
-    if (window.i18n && window.i18n.loaded) return window.i18n.t(key);
-    return FALLBACK[key] || key;
+  function t(key: string): string {
+    const i18n: I18n | undefined = window.i18n;
+    if (i18n?.loaded) return i18n.t(key);
+    return FALLBACK[key] ?? key;
   }
 
-  function maskPhone(digits, mask) {
-    var out = '', d = 0;
-    for (var i = 0; i < mask.length && d < digits.length; i++) {
-      out += mask[i] === '_' ? digits[d++] : mask[i];
+  function getCountryConfig(country: string): CountryConfig {
+    return COUNTRIES[country] ?? FALLBACK_COUNTRY;
+  }
+
+  const contactTypeSelect = document.querySelector<HTMLSelectElement>('#order-contact-type');
+  const countrySelect = document.querySelector<HTMLSelectElement>('#order-country');
+  const phoneInput = document.querySelector<HTMLInputElement>('#order-phone');
+  const tgInput = document.querySelector<HTMLInputElement>('#order-tg');
+  const contactHint = document.querySelector<HTMLElement>('#contact-hint');
+
+  function maskPhone(digits: string, mask: string): string {
+    let out = '';
+    let digitIndex = 0;
+    for (let index = 0; index < mask.length && digitIndex < digits.length; index++) {
+      out += mask[index] === '_' ? digits[digitIndex++] : mask[index];
     }
     return out;
   }
 
-  function applyContact() {
-    if (!contactTypeSelect || !phoneInput || !tgInput) return;
-    var isTg = contactTypeSelect.value === 'tg';
-    var group = document.getElementById('contact-group');
-    if (group) group.classList.toggle('tg-mode', isTg);
-    countrySelect.disabled = isTg;
-    phoneInput.disabled = isTg;
-    phoneInput.required = !isTg;
-    tgInput.disabled = !isTg;
-    tgInput.required = isTg;
-    if (isTg) {
-      phoneInput.value = '';
-      phoneInput.setCustomValidity('');
-      contactHint.textContent = t('payment.tgHint');
-      validateTg();
-    } else {
-      tgInput.value = '';
-      tgInput.setCustomValidity('');
-      var cfg = COUNTRIES[countrySelect.value] || COUNTRIES.other;
-      phoneInput.placeholder = cfg.mask;
-      contactHint.textContent = t('payment.phoneHint');
-      validatePhone();
-    }
-  }
+  if (contactTypeSelect && countrySelect && phoneInput && tgInput && contactHint) {
+    const contactType = contactTypeSelect;
+    const country = countrySelect;
+    const phone = phoneInput;
+    const telegram = tgInput;
+    const hint = contactHint;
 
-  function validatePhone() {
-    if (!countrySelect || !phoneInput || !contactHint) return;
-    if (contactTypeSelect && contactTypeSelect.value === 'tg') return;
-    var cfg = COUNTRIES[countrySelect.value] || COUNTRIES.other;
-    var digits = phoneInput.value.replace(/\D/g, '');
-    var empty = digits.length === 0;
-    var ok = empty || digits.length >= cfg.min;
-    phoneInput.setCustomValidity(ok ? '' : t('payment.phoneErrorShort'));
-    contactHint.classList.toggle('error', !empty && !ok);
-    contactHint.textContent = ok ? t('payment.phoneHint') : t('payment.phoneErrorShort');
-  }
-
-  function validateTg() {
-    if (!tgInput || !contactHint) return;
-    var v = tgInput.value.replace(/^@/, '');
-    var empty = v.length === 0;
-    var ok = empty || /^[A-Za-z0-9_]{4,32}$/.test(v);
-    tgInput.setCustomValidity(ok ? '' : t('payment.tgError'));
-    contactHint.classList.toggle('error', !empty && !ok);
-    contactHint.textContent = ok ? t('payment.tgHint') : t('payment.tgError');
-  }
-
-  function countDigits(s) {
-    return s.replace(/\D/g, '').length;
-  }
-
-  function caretAfterDigits(value, prefixLen, n) {
-    if (n <= 0) return prefixLen;
-    var seen = 0;
-    for (var i = prefixLen; i < value.length; i++) {
-      if (/\d/.test(value[i]) && ++seen === n) return i + 1;
-    }
-    return value.length;
-  }
-
-  function applyPhoneEdit(type, data, start, end) {
-    var cfg = COUNTRIES[countrySelect.value] || COUNTRIES.other;
-    var prefixLen = cfg.mask.indexOf('_');
-    var oldVal = phoneInput.value;
-    var digits = oldVal.slice(prefixLen).replace(/\D/g, '');
-    var digitsBeforeSel = countDigits(oldVal.slice(prefixLen, start));
-    var selDigits = countDigits(oldVal.slice(Math.max(start, prefixLen), end));
-    var arr = digits.split('');
-    var n;
-    if (type === 'deleteContentBackward') {
-      if (selDigits === 0) {
-        if (start <= prefixLen || !/\d/.test(oldVal.slice(start - 1, start)) || digitsBeforeSel === 0) return null;
-        arr.splice(digitsBeforeSel - 1, 1);
-        n = digitsBeforeSel - 1;
+    function applyContact(): void {
+      const isTelegram = contactType.value === 'tg';
+      const group = document.getElementById('contact-group');
+      if (group) group.classList.toggle('tg-mode', isTelegram);
+      country.disabled = isTelegram;
+      phone.disabled = isTelegram;
+      phone.required = !isTelegram;
+      telegram.disabled = !isTelegram;
+      telegram.required = isTelegram;
+      if (isTelegram) {
+        phone.value = '';
+        phone.setCustomValidity('');
+        hint.textContent = t('payment.tgHint');
+        validateTelegram();
       } else {
-        arr.splice(digitsBeforeSel, selDigits);
-        n = digitsBeforeSel;
+        telegram.value = '';
+        telegram.setCustomValidity('');
+        phone.placeholder = getCountryConfig(country.value).mask;
+        hint.textContent = t('payment.phoneHint');
+        validatePhone();
       }
-    } else if (type === 'deleteContentForward' || type === 'deleteByCut') {
-      if (selDigits === 0) {
-        if (start < prefixLen || !/\d/.test(oldVal.slice(start, start + 1)) || digitsBeforeSel >= arr.length) return null;
-        arr.splice(digitsBeforeSel, 1);
-        n = digitsBeforeSel;
-      } else {
-        arr.splice(digitsBeforeSel, selDigits);
-        n = digitsBeforeSel;
-      }
-    } else if (type.indexOf('insert') === 0) {
-      var ins = (data || '').replace(/\D/g, '').split('');
-      arr.splice.apply(arr, [digitsBeforeSel, selDigits].concat(ins));
-      n = digitsBeforeSel + ins.length;
-    } else {
-      return undefined;
     }
-    var newVal = maskPhone(arr.slice(0, cfg.max).join(''), cfg.mask);
-    return { value: newVal, pos: caretAfterDigits(newVal, prefixLen, n) };
-  }
 
-  if (countrySelect && phoneInput && tgInput) {
-    contactTypeSelect.addEventListener('change', applyContact);
-    countrySelect.addEventListener('change', applyContact);
-    phoneInput.addEventListener('beforeinput', function (e) {
-      var res = applyPhoneEdit(e.inputType, e.data, phoneInput.selectionStart, phoneInput.selectionEnd);
-      if (res === undefined) return;
-      e.preventDefault();
-      if (res !== null) {
-        phoneInput.value = res.value;
-        try { phoneInput.setSelectionRange(res.pos, res.pos); } catch (err) {}
+    function validatePhone(): void {
+      if (contactType.value === 'tg') return;
+      const config = getCountryConfig(country.value);
+      const digits = phone.value.replace(/\D/g, '');
+      const empty = digits.length === 0;
+      const valid = empty || digits.length >= config.min;
+      phone.setCustomValidity(valid ? '' : t('payment.phoneErrorShort'));
+      hint.classList.toggle('error', !empty && !valid);
+      hint.textContent = valid ? t('payment.phoneHint') : t('payment.phoneErrorShort');
+    }
+
+    function validateTelegram(): void {
+      const username = telegram.value.replace(/^@/, '');
+      const empty = username.length === 0;
+      const valid = empty || /^[A-Za-z0-9_]{4,32}$/.test(username);
+      telegram.setCustomValidity(valid ? '' : t('payment.tgError'));
+      hint.classList.toggle('error', !empty && !valid);
+      hint.textContent = valid ? t('payment.tgHint') : t('payment.tgError');
+    }
+
+    function countDigits(value: string): number {
+      return value.replace(/\D/g, '').length;
+    }
+
+    function caretAfterDigits(value: string, prefixLength: number, digitCount: number): number {
+      if (digitCount <= 0) return prefixLength;
+      let seen = 0;
+      for (let index = prefixLength; index < value.length; index++) {
+        if (/\d/.test(value[index]) && ++seen === digitCount) return index + 1;
+      }
+      return value.length;
+    }
+
+    function applyPhoneEdit(type: string, data: string | null, start: number | null, end: number | null): { value: string; pos: number } | null | undefined {
+      if (start === null || end === null) return undefined;
+      const config = getCountryConfig(country.value);
+      const prefixLength = config.mask.indexOf('_');
+      const oldValue = phone.value;
+      const digits = oldValue.slice(prefixLength).replace(/\D/g, '');
+      const digitsBeforeSelection = countDigits(oldValue.slice(prefixLength, start));
+      const selectedDigits = countDigits(oldValue.slice(Math.max(start, prefixLength), end));
+      const nextDigits = digits.split('');
+      let caretDigits: number;
+      if (type === 'deleteContentBackward') {
+        if (selectedDigits === 0) {
+          if (start <= prefixLength || !/\d/.test(oldValue.slice(start - 1, start)) || digitsBeforeSelection === 0) return null;
+          nextDigits.splice(digitsBeforeSelection - 1, 1);
+          caretDigits = digitsBeforeSelection - 1;
+        } else {
+          nextDigits.splice(digitsBeforeSelection, selectedDigits);
+          caretDigits = digitsBeforeSelection;
+        }
+      } else if (type === 'deleteContentForward' || type === 'deleteByCut') {
+        if (selectedDigits === 0) {
+          if (start < prefixLength || !/\d/.test(oldValue.slice(start, start + 1)) || digitsBeforeSelection >= nextDigits.length) return null;
+          nextDigits.splice(digitsBeforeSelection, 1);
+          caretDigits = digitsBeforeSelection;
+        } else {
+          nextDigits.splice(digitsBeforeSelection, selectedDigits);
+          caretDigits = digitsBeforeSelection;
+        }
+      } else if (type.startsWith('insert')) {
+        const insertedDigits = (data ?? '').replace(/\D/g, '').split('');
+        nextDigits.splice(digitsBeforeSelection, selectedDigits, ...insertedDigits);
+        caretDigits = digitsBeforeSelection + insertedDigits.length;
+      } else {
+        return undefined;
+      }
+      const value = maskPhone(nextDigits.slice(0, config.max).join(''), config.mask);
+      return { value, pos: caretAfterDigits(value, prefixLength, caretDigits) };
+    }
+
+    contactType.addEventListener('change', applyContact);
+    country.addEventListener('change', applyContact);
+    phone.addEventListener('beforeinput', function (event: InputEvent) {
+      const result = applyPhoneEdit(event.inputType, event.data, phone.selectionStart, phone.selectionEnd);
+      if (result === undefined) return;
+      event.preventDefault();
+      if (result !== null) {
+        phone.value = result.value;
+        try {
+          phone.setSelectionRange(result.pos, result.pos);
+        } catch {}
       }
       validatePhone();
     });
-    tgInput.addEventListener('input', validateTg);
+    telegram.addEventListener('input', validateTelegram);
     document.addEventListener('langchange', applyContact);
-    var orderForm = document.getElementById('order-form');
+    const orderForm = document.querySelector<HTMLFormElement>('#order-form');
     if (orderForm) orderForm.addEventListener('reset', applyContact);
     applyContact();
   }
 
-  const i18nBtnText = function () {
-    if (window.i18n && window.i18n.loaded) return window.i18n.t('payment.btnSubmit');
-    return 'Отправить';
-  };
-  const i18nSendingText = function () {
-    if (window.i18n && window.i18n.loaded) return window.i18n.t('payment.btnSending');
-    return 'Отправка...';
-  };
+  function isCartItem(value: unknown): value is CartItem {
+    if (typeof value !== 'object' || value === null) return false;
+    const item = value as Record<string, unknown>;
+    return (
+      typeof item.id === 'number' &&
+      Number.isFinite(item.id) &&
+      typeof item.title === 'string' &&
+      typeof item.i18nKey === 'string' &&
+      typeof item.price === 'number' &&
+      Number.isFinite(item.price) &&
+      typeof item.qty === 'number' &&
+      Number.isInteger(item.qty) &&
+      item.qty > 0 &&
+      typeof item.img === 'string' &&
+      typeof item.color === 'string' &&
+      typeof item.colorKey === 'string'
+    );
+  }
 
-  const form = document.getElementById('order-form');
-  const success = document.getElementById('form-success');
-  const cartInput = document.getElementById('order-cart');
+  function readCart(): CartItem[] {
+    try {
+      const storedCart = localStorage.getItem('cart');
+      if (storedCart === null) return [];
+      const parsedCart: unknown = JSON.parse(storedCart);
+      return Array.isArray(parsedCart) ? parsedCart.filter(isCartItem) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function getItemPrice(item: CartItem): number {
+    if (window.i18n.lang !== 'en') return item.price;
+    if (item.id === 9) return 110;
+    if (item.id === 10) return 170;
+    if (item.id === 11) return 50;
+    return Math.ceil(item.price / 100);
+  }
+
+  function formatPrice(price: number): string {
+    if (window.i18n.lang === 'en') {
+      if (price === 0) return 'Price on request';
+      return '$' + price.toLocaleString('en-US');
+    }
+    return price.toLocaleString('ru-RU') + ' ₽';
+  }
+
+  const form = document.querySelector<HTMLFormElement>('#order-form');
+  const cartInput = document.querySelector<HTMLInputElement>('#order-cart');
   let submitting = false;
   if (form) {
-    form.addEventListener('submit', function (e) {
-      var items = JSON.parse(localStorage.getItem('cart') || '[]');
+    form.addEventListener('submit', function (event) {
+      if (submitting) {
+        event.preventDefault();
+        return;
+      }
+      const button = form.querySelector<HTMLButtonElement>('.order-btn');
+      if (!button) return;
+      submitting = true;
+      const items = readCart();
       if (cartInput && items.length > 0) {
-        var lines = items.map(function (item) {
-          var sub = (item.price * item.qty).toLocaleString('ru-RU') + ' ₽';
-          var colorPart = item.color ? ' (Цвет: ' + item.color + ')' : '';
-          return '- ' + item.title + colorPart + ' x ' + item.qty + ' = ' + sub;
+        const lines = items.map(function (item) {
+          const subtotal = formatPrice(getItemPrice(item) * item.qty);
+          const colorPart = item.color ? ' (Цвет: ' + item.color + ')' : '';
+          return '- ' + item.title + colorPart + ' x ' + item.qty + ' = ' + subtotal;
         });
-        var total = items.reduce(function (s, item) { return s + item.price * item.qty; }, 0);
+        const total = items.reduce(function (sum, item) {
+          return sum + getItemPrice(item) * item.qty;
+        }, 0);
         lines.push('');
-        lines.push('Итого: ' + total.toLocaleString('ru-RU') + ' ₽');
+        lines.push('Итого: ' + formatPrice(total));
         cartInput.value = lines.join('\n');
       }
-
-      const btn = form.querySelector('.order-btn');
-      btn.innerHTML = i18nSendingText();
-
-      setTimeout(function() {
+      button.disabled = true;
+      button.innerHTML = t('payment.btnSending');
+      setTimeout(function () {
         localStorage.removeItem('cart');
-        if (window.initCart) window.initCart();
+        if (typeof window.initCart === 'function') window.initCart();
       }, 500);
     });
   }

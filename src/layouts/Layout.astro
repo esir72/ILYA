@@ -1,7 +1,22 @@
 ---
 import '../styles/global.css';
 import CookieConsent from '../components/CookieConsent.astro';
+
+interface Props {
+  title?: string;
+  titleKey?: string;
+  description?: string;
+  descriptionKey?: string;
+}
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const {
+  title = 'Илья — Резьба по дереву',
+  titleKey = 'meta.title',
+  description = 'Ручная работа. Резьба по дереву от Ильи. Уникальные изделия из натурального дерева.',
+  descriptionKey = 'meta.desc'
+} = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 ---
 
 <!doctype html>
@@ -11,61 +26,75 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href={`${base}/images/favicon.png`} />
     <meta name="generator" content={Astro.generator} />
-    <title data-i18n="meta.title">Илья — Резьба по дереву</title>
-    <meta name="description" content="Ручная работа. Резьба по дереву от Ильи. Уникальные изделия из натурального дерева." data-i18n-content="meta.desc" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta name="theme-color" content="#221C18" />
+    <title data-i18n={titleKey}>{title}</title>
+    <meta name="description" content={description} data-i18n-content={descriptionKey} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Илья — Резьба по дереву" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} data-i18n-content={titleKey} />
+    <meta property="og:description" content={description} data-i18n-content={descriptionKey} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} data-i18n-content={titleKey} />
+    <meta name="twitter:description" content={description} data-i18n-content={descriptionKey} />
     <link rel="stylesheet" href={`${base}/glow.css`} />
-    <!-- Yandex.Metrika counter -->
-    <script is:inline type="text/javascript">
-      (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=113018443', 'ym');
-
-      ym(113018443, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/113018443" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Neucha&display=swap" rel="stylesheet" />
-    <link rel="preload" as="image" imageSrcSet={`${base}/images/logo-light.png`} fetchpriority="high" />
   </head>
-  <body class="site-loading">
-    <div id="site-loader" class="site-loader" aria-hidden="true">
-      <div class="site-loader-inner">
-        <div class="site-loader-logo"></div>
-        <div class="site-loader-bar"><span></span></div>
-      </div>
-    </div>
+  <body>
     <div class="particles" id="particles"></div>
     <div class="cursor-glow" id="cursorGlow"></div>
     <div class="petroglyphs" id="petroglyphs" aria-hidden="true"></div>
     <slot />
     <CookieConsent />
-    <script is:inline set:html={`
-(function () {
-  var done = false;
-  var loader = document.getElementById('site-loader');
-  function hideLoader() {
-    if (done || !loader) return;
-    done = true;
-    document.body.classList.remove('site-loading');
-    loader.classList.add('site-loader--done');
-    setTimeout(function () { if (loader && loader.parentNode) loader.parentNode.removeChild(loader); }, 800);
-  }
-  if (document.readyState === 'complete') {
-    setTimeout(hideLoader, 350);
-  } else {
-    window.addEventListener('load', function () { setTimeout(hideLoader, 350); });
-    setTimeout(hideLoader, 4000);
-  }
-})();
-`}></script>
-    <script is:inline set:html={`
+    <script>
+      const metrikaId = 113018443;
+      let metrikaStarted = false;
+
+      function hasAnalyticsConsent(): boolean {
+        const consent = localStorage.getItem('cookieConsent');
+        return consent === 'accepted' || consent === 'true';
+      }
+
+      function loadExternalFonts(): void {
+        if (document.querySelector('link[data-external-fonts]')) return;
+        const fonts = document.createElement('link');
+        fonts.rel = 'stylesheet';
+        fonts.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Neucha&display=swap';
+        fonts.dataset.externalFonts = '';
+        document.head.appendChild(fonts);
+      }
+
+      function initializeConsentServices(): void {
+        if (!hasAnalyticsConsent()) return;
+        loadExternalFonts();
+        if (metrikaStarted) return;
+        metrikaStarted = true;
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://mc.yandex.ru/metrika/tag.js?id=${metrikaId}`;
+        script.addEventListener('load', function (): void {
+          const initialize = window.ym;
+          if (!initialize) return;
+          initialize(metrikaId, 'init', {
+            webvisor: true,
+            clickmap: true,
+            ecommerce: 'dataLayer',
+            referrer: document.referrer,
+            url: window.location.href,
+            accurateTrackBounce: true,
+            trackLinks: true
+          });
+        }, { once: true });
+        document.head.appendChild(script);
+      }
+
+      window.addEventListener('cookie-consent', initializeConsentServices);
+      initializeConsentServices();
+    </script>
+     <script is:inline set:html={`
 (function () {
   var __translationsBase = '${base}';
+  window.__base = __translationsBase;
   window.i18n = {
     lang: localStorage.getItem('lang') || 'ru',
     data: null,
@@ -75,7 +104,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       this._reqId++;
       var id = this._reqId;
       try {
-        const res = await fetch(__translationsBase + '/translations/' + this.lang + '.json?v=' + Date.now());
+        const res = await fetch(__translationsBase + '/translations/' + this.lang + '.json');
         const data = await res.json();
         if (id === this._reqId) { this.data = data; this.loaded = true; }
       } catch (e) {
@@ -138,7 +167,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 })();
 `}></script>
       <script>
-      function __t(key, fallback) {
+      function __t(key: string, fallback: string): string {
         if (window.i18n && window.i18n.loaded) {
           var val = window.i18n.t(key);
           if (val !== key) return val;
@@ -146,55 +175,83 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         return fallback;
       }
 
-      function initCart() {
-        const overlay = document.getElementById('cart-overlay');
-        const cart = document.getElementById('cart');
-        const toggle = document.getElementById('cart-toggle');
-        const closeBtn = document.getElementById('cart-close');
-        const itemsEl = document.getElementById('cart-items');
-        const totalEl = document.getElementById('cart-total');
-        const countEl = document.getElementById('cart-count');
-        const checkoutBtn = document.getElementById('cart-checkout');
+      function isCartItem(value: unknown): value is CartItem {
+        if (typeof value !== 'object' || value === null) return false;
+        const item = value as Record<string, unknown>;
+        return (
+          typeof item.id === 'number' && Number.isFinite(item.id) &&
+          typeof item.title === 'string' &&
+          typeof item.i18nKey === 'string' &&
+          typeof item.price === 'number' && Number.isFinite(item.price) &&
+          typeof item.qty === 'number' && Number.isInteger(item.qty) && item.qty > 0 &&
+          typeof item.img === 'string' &&
+          typeof item.color === 'string' &&
+          typeof item.colorKey === 'string'
+        );
+      }
 
-        let items = JSON.parse(localStorage.getItem('cart') || '[]');
+      function loadCart(): CartItem[] {
+        try {
+          const storedCart = localStorage.getItem('cart');
+          if (storedCart === null) return [];
+          const parsedCart: unknown = JSON.parse(storedCart);
+          if (!Array.isArray(parsedCart)) return [];
+          const storedItems: unknown[] = parsedCart;
+          return storedItems.filter(isCartItem);
+        } catch {
+          return [];
+        }
+      }
 
-        function save() {
+      function initCart(): void {
+        const overlay = document.querySelector<HTMLElement>('#cart-overlay');
+        const cart = document.querySelector<HTMLElement>('#cart');
+        const toggle = document.querySelector<HTMLButtonElement>('#cart-toggle');
+        const closeBtn = document.querySelector<HTMLButtonElement>('#cart-close');
+        const itemsEl = document.querySelector<HTMLElement>('#cart-items');
+        const totalEl = document.querySelector<HTMLElement>('#cart-total');
+        const countEl = document.querySelector<HTMLElement>('#cart-count');
+        const checkoutBtn = document.querySelector<HTMLAnchorElement>('#cart-checkout');
+
+        const items: CartItem[] = loadCart();
+
+        function save(): void {
           localStorage.setItem('cart', JSON.stringify(items));
         }
 
-        function getItemPrice(item) {
-            if (window.i18n.lang === 'en') {
-              if (item.id == 10) return 170;
-              if (item.id == 9) return 110;
-              if (item.id == 11) return 50;
-              return Math.ceil(item.price / 100);
-            }
-            return item.price;
+        function getItemPrice(item: CartItem): number {
+          if (window.i18n.lang === 'en') {
+            if (item.id == 10) return 170;
+            if (item.id == 9) return 110;
+            if (item.id == 11) return 50;
+            return Math.ceil(item.price / 100);
           }
+          return item.price;
+        }
 
-          function total() {
-            return items.reduce((sum, item) => sum + getItemPrice(item) * item.qty, 0);
+        function total(): number {
+          return items.reduce((sum: number, item: CartItem): number => sum + getItemPrice(item) * item.qty, 0);
+        }
+
+        function count(): number {
+          return items.reduce((s: number, item: CartItem): number => s + item.qty, 0);
+        }
+
+        function fmtVal(val: number): string {
+          if (window.i18n.lang === 'en') {
+            if (val === 0) return 'Price on request';
+            return '$' + val.toLocaleString('en-US');
           }
+          if (val === 0) return 'Цена по запросу';
+          return val.toLocaleString('ru-RU') + ' ₽';
+        }
 
-          function count() {
-            return items.reduce((s, item) => s + item.qty, 0);
-          }
-
-          function fmtVal(val) {
-            if (window.i18n.lang === 'en') {
-              if (val === 0) return 'Price on request';
-              return '$' + val.toLocaleString('en-US');
-            }
-            if (val === 0) return 'Цена по запросу';
-            return val.toLocaleString('ru-RU') + ' ₽';
-          }
-
-        function render() {
+        function render(): void {
           if (!itemsEl) return;
           if (items.length === 0) {
             itemsEl.innerHTML = '<div class="cart-empty"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>' + __t('cart.empty', 'Корзина пуста') + '</p></div>';
           } else {
-            itemsEl.innerHTML = items.map(function (item, i) { return (
+            itemsEl.innerHTML = items.map(function (item: CartItem, i: number): string { return (
               '<div class="cart-item">' +
                 '<div class="cart-item-info">' +
                   '<div class="cart-item-title">' + (item.i18nKey ? __t(item.i18nKey, item.title) : item.title) + (item.color ? ' <span style=\"opacity:0.6\">(' + __t(item.colorKey || (item.color === 'Черный' ? 'colors.black' : item.color === 'Белый' ? 'colors.white' : item.color === 'Коричневый' ? 'colors.brown' : ''), item.color) + ')</span>' : '') + '</div>' +
@@ -215,46 +272,52 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             }).join('');
           }
 
-          totalEl.textContent = fmtVal(total());
-          countEl.textContent = count();
-          var badgeEl = document.getElementById('cart-count-badge');
-          if (badgeEl) badgeEl.textContent = count();
+          if (totalEl) totalEl.textContent = fmtVal(total());
+          if (countEl) countEl.textContent = String(count());
+          const badgeEl = document.querySelector<HTMLElement>('#cart-count-badge');
+          if (badgeEl) badgeEl.textContent = String(count());
 
-          itemsEl.querySelectorAll('.cart-qty-btn').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-              var idx = parseInt(btn.dataset.index);
-              var dir = parseInt(btn.dataset.dir);
-              items[idx].qty += dir;
-              if (items[idx].qty <= 0) items.splice(idx, 1);
+          itemsEl.querySelectorAll<HTMLButtonElement>('.cart-qty-btn').forEach(function (btn: HTMLButtonElement): void {
+            btn.addEventListener('click', function (): void {
+              const idx = Number.parseInt(btn.dataset.index ?? '', 10);
+              const dir = Number.parseInt(btn.dataset.dir ?? '', 10);
+              const item = items[idx];
+              if (!Number.isInteger(idx) || !Number.isInteger(dir) || !item) return;
+              item.qty += dir;
+              if (item.qty <= 0) items.splice(idx, 1);
               save();
               render();
             });
           });
 
-          itemsEl.querySelectorAll('.cart-item-remove').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-              items.splice(parseInt(btn.dataset.index), 1);
+          itemsEl.querySelectorAll<HTMLButtonElement>('.cart-item-remove').forEach(function (btn: HTMLButtonElement): void {
+            btn.addEventListener('click', function (): void {
+              const idx = Number.parseInt(btn.dataset.index ?? '', 10);
+              if (!Number.isInteger(idx) || idx < 0 || idx >= items.length) return;
+              items.splice(idx, 1);
               save();
               render();
             });
           });
         }
 
-        function closeAllModals() {
-          document.querySelectorAll('.detail-modal').forEach(function (m) { m.classList.remove('open'); });
+        function closeAllModals(): void {
+          document.querySelectorAll<HTMLElement>('.detail-modal').forEach(function (modal: HTMLElement): void { modal.classList.remove('open'); });
           if (window.closeDetailModal) window.closeDetailModal();
           document.body.style.overflow = '';
           document.documentElement.style.overflow = '';
         }
 
-        function open() {
+        function open(): void {
+          if (!overlay || !cart) return;
           closeAllModals();
           overlay.classList.add('open');
           cart.classList.add('open');
           document.body.style.overflow = 'hidden';
         }
 
-        function close() {
+        function close(): void {
+          if (!overlay || !cart) return;
           overlay.classList.remove('open');
           cart.classList.remove('open');
           document.body.style.overflow = '';
@@ -263,53 +326,54 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         if (toggle) toggle.addEventListener('click', open);
         if (closeBtn) closeBtn.addEventListener('click', close);
         if (overlay) overlay.addEventListener('click', close);
-        if (checkoutBtn) checkoutBtn.addEventListener('click', function () {
+        if (checkoutBtn) checkoutBtn.addEventListener('click', function (): void {
           closeAllModals();
           close();
         });
 
-        document.addEventListener('keydown', function (e) {
+        document.addEventListener('keydown', function (e: KeyboardEvent): void {
           if (e.key === 'Escape') close();
         });
 
-        document.querySelectorAll(".btn-cart").forEach(function (btn) {
-            btn.onclick = function (e) {
-              e.preventDefault();
-            if (window._colorBlocked) { window._colorBlocked = false; return; }
-            var id = parseInt(btn.dataset.id);
+        document.querySelectorAll<HTMLButtonElement>('.btn-cart').forEach(function (btn: HTMLButtonElement): void {
+          btn.onclick = function (e: MouseEvent): void {
+            e.preventDefault();
+            const id = Number.parseInt(btn.dataset.id ?? '', 10);
+            if (!Number.isInteger(id)) return;
 
             // Если кнопка на карточке (не в модалке detail-add) и продукт требует выбора цвета — открываем модалку
-            var isDetailBtn = btn.id === 'detail-add';
+            const isDetailBtn = btn.id === 'detail-add';
             if (!isDetailBtn && window.productData) {
-                var pd = window.productData.find(function (p) { return p.id === id; });
-                if (pd && pd.colorsJson) {
-                  window.showToast(window.i18n && window.i18n.t ? (window.i18n.t("products.colorRequired") || "Пожалуйста, выберите цвет чехла") : "Пожалуйста, выберите цвет чехла");
-                  var pIndex = window.productData.findIndex(function (p) { return p.id === id; });
-                  var detailsBtn = document.querySelector('.details-btn[data-details="' + pIndex + '"]');
-                  if (detailsBtn) {
-                    setTimeout(function() { detailsBtn.click(); }, 10);
-                  }
-                  return;
+              const pd = window.productData.find(function (product: ProductDataItem): boolean { return product.id === id; });
+              if (pd && pd.colorsJson) {
+                window.showToast(window.i18n && window.i18n.t ? (window.i18n.t("products.colorRequired") || "Пожалуйста, выберите цвет чехла") : "Пожалуйста, выберите цвет чехла");
+                const pIndex = window.productData.findIndex(function (product: ProductDataItem): boolean { return product.id === id; });
+                const detailsBtn = document.querySelector<HTMLButtonElement>('.details-btn[data-details="' + pIndex + '"]');
+                if (detailsBtn) {
+                  setTimeout(function (): void { detailsBtn.click(); }, 10);
                 }
+                return;
               }
+            }
 
-            var title = btn.dataset.title;
-            var i18nKey = btn.dataset.i18nKey || '';
-            var price = parseInt(btn.dataset.price);
-            var img = btn.dataset.img || '';
-            var color = btn.dataset.color || '';
-            var colorKey = btn.dataset.colorKey || '';
+            const title = btn.dataset.title ?? '';
+            const i18nKey = btn.dataset.i18nKey ?? '';
+            const price = Number.parseInt(btn.dataset.price ?? '', 10);
+            const img = btn.dataset.img ?? '';
+            const color = btn.dataset.color ?? '';
+            const colorKey = btn.dataset.colorKey ?? '';
+            if (!Number.isFinite(price)) return;
 
             // Кнопка в модалке — проверяем что цвет выбран
             if (isDetailBtn && window.productData) {
-              var pd2 = window.productData.find(function (p) { return p.id === id; });
+              const pd2 = window.productData.find(function (product: ProductDataItem): boolean { return product.id === id; });
               if (pd2 && pd2.colorsJson && !color) {
                 window.showToast(window.i18n && window.i18n.t ? (window.i18n.t("products.colorRequired") || "Пожалуйста, выберите цвет чехла") : "Пожалуйста, выберите цвет чехла");
                 return;
               }
             }
 
-            var existing = items.find(function (item) { return item.id === id && item.color === color; });
+            const existing = items.find(function (item: CartItem): boolean { return item.id === id && item.color === color; });
             if (existing) {
               existing.qty++;
               existing.i18nKey = i18nKey;
@@ -317,54 +381,54 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
               items.push({ id: id, title: title, i18nKey: i18nKey, price: price, qty: 1, img: img, color: color, colorKey: colorKey });
             }
             save();
-              render();
+            render();
 
-              // Если добавляли из модалки «Подробнее» — закрываем её, чтобы корзина была видна
-              if (isDetailBtn && window.closeDetailModal) {
-                window.closeDetailModal();
-              }
-              open();
-            };
-          });
+            // Если добавляли из модалки «Подробнее» — закрываем её, чтобы корзина была видна
+            if (isDetailBtn && window.closeDetailModal) {
+              window.closeDetailModal();
+            }
+            open();
+          };
+        });
 
         render();
       }
 
       window.initCart = initCart;
 
-        window.showToast = function(msg) {
-          const container = document.getElementById('toast-container');
-          if (!container) return;
-          const toast = document.createElement('div');
-          toast.className = 'toast';
-          toast.textContent = msg;
-          container.appendChild(toast);
-          
-          requestAnimationFrame(() => {
-            toast.classList.add('show');
-          });
-          
-          setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 500); // Wait for transition
-          }, 3000); // 3 seconds display
-        };
-  
+      window.showToast = function(msg: string): void {
+        const container = document.querySelector<HTMLElement>('#toast-container');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = msg;
+        container.appendChild(toast);
 
-      document.addEventListener('DOMContentLoaded', function () {
-        var observer = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
+        requestAnimationFrame(function (): void {
+          toast.classList.add('show');
+        });
+
+        setTimeout(function (): void {
+          toast.classList.remove('show');
+          setTimeout(function (): void { toast.remove(); }, 500); // Wait for transition
+        }, 3000); // 3 seconds display
+      };
+
+
+      document.addEventListener('DOMContentLoaded', function (): void {
+        const observer = new IntersectionObserver(function (entries: IntersectionObserverEntry[]): void {
+          entries.forEach(function (entry: IntersectionObserverEntry): void {
             if (entry.isIntersecting) {
               entry.target.classList.add('animated');
             }
           });
         }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-        document.querySelectorAll('[data-animate]').forEach(function (el) { observer.observe(el); });
+        document.querySelectorAll<HTMLElement>('[data-animate]').forEach(function (el: HTMLElement): void { observer.observe(el); });
 
         initCart();
 
-        var pc = document.getElementById('particles');
+        const pc = document.querySelector<HTMLElement>('#particles');
         if (pc) {
           for (var i = 0; i < 30; i++) {
             var p = document.createElement('div');
@@ -380,9 +444,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           }
         }
 
-        var pg = document.getElementById('petroglyphs');
+        const pg = document.querySelector<HTMLElement>('#petroglyphs');
         if (pg) {
-          function shuffle(arr) {
+          function shuffle<T>(arr: T[]): T[] {
             for (var i = arr.length - 1; i > 0; i--) {
               var j = Math.floor(Math.random() * (i + 1));
               var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
@@ -390,7 +454,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             return arr;
           }
 
-          function spawnPetroglyphs() {
+          function spawnPetroglyphs(): void {
+            if (!pg) return;
             pg.innerHTML = '';
             var w = window.innerWidth;
             var numItems = w < 480 ? 5 : (w < 768 ? 8 : (w < 1024 ? 12 : 18));
@@ -398,11 +463,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             var petroList = fullList.slice(0, numItems);
             var cols = w < 480 ? 2 : (w < 768 ? 3 : (w < 1024 ? 4 : 6));
             var rows = w < 480 ? 3 : (w < 768 ? 4 : (w < 1024 ? 4 : 3));
-            var side = [];
-            var inner = [];
+            var side: { x: number; y: number }[] = [];
+            var inner: { x: number; y: number }[] = [];
             for (var pr = 0; pr < rows; pr++) {
               for (var pc = 0; pc < cols; pc++) {
-                var cell = { x: pc * (100 / cols) + 3 + Math.random() * 14, y: pr * (100 / rows) + 3 + Math.random() * 14 };
+                const cell = { x: pc * (100 / cols) + 3 + Math.random() * 14, y: pr * (100 / rows) + 3 + Math.random() * 14 };
                 if (pc === 0 || pc === cols - 1) side.push(cell); else inner.push(cell);
               }
             }
@@ -419,7 +484,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             for (var pi = 0; pi < petroList.length; pi++) {
               var petroIdx = petroList[pi];
               var big = petroIdx >= 7;
-              var cell = big ? bigCells[bigIdx++] : smallCells[smallIdx++];
+              const cell = big ? bigCells[bigIdx++] : smallCells[smallIdx++];
               var g = document.createElement('div');
               g.className = 'petroglyph';
               var rot = (Math.random() - 0.5) * 90;
@@ -433,16 +498,17 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
               g.style.setProperty('--ty2', (12 + Math.random() * 10).toFixed(0) + 'px');
               g.style.setProperty('--dur', (7 + Math.random() * 5).toFixed(1) + 's');
               g.style.setProperty('--delay', (-Math.random() * 7).toFixed(1) + 's');
-              g.style.maskImage = "url('" + (window.__base || '') + "/images/imgs/petro-" + petroIdx + ".png')";
-              g.style.webkitMaskImage = "url('" + (window.__base || '') + "/images/imgs/petro-" + petroIdx + ".png')";
+              const maskImage = "url('" + (window.__base || '') + "/images/imgs/petro-" + petroIdx + ".png')";
+              g.style.maskImage = maskImage;
+              g.style.setProperty('-webkit-mask-image', maskImage);
               pg.appendChild(g);
             }
           }
 
           spawnPetroglyphs();
-          var petroResizeTimer = null;
+          let petroResizeTimer: number | undefined;
           var lastWidth = window.innerWidth;
-          window.addEventListener('resize', function () {
+          window.addEventListener('resize', function (): void {
             if (window.innerWidth === lastWidth) return;
             lastWidth = window.innerWidth;
             clearTimeout(petroResizeTimer);
@@ -451,23 +517,24 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         }
       });
 
-      document.addEventListener('langchange', function () {
-        var cart = document.getElementById('cart-items');
+      document.addEventListener('langchange', function (): void {
+        const cart = document.querySelector<HTMLElement>('#cart-items');
         if (cart) {
           initCart();
         }
-        document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
-          if (window.i18n && window.i18n.loaded) {
-            el.title = window.i18n.t(el.dataset.i18nTitle);
+        document.querySelectorAll<HTMLElement>('[data-i18n-title]').forEach(function (el: HTMLElement): void {
+          const key = el.dataset.i18nTitle;
+          if (key && window.i18n && window.i18n.loaded) {
+            el.title = window.i18n.t(key);
           }
         });
       });
 
-      var ticking = false;
-      document.addEventListener('scroll', function () {
+      let ticking = false;
+      document.addEventListener('scroll', function (): void {
         if (!ticking) {
-          requestAnimationFrame(function () {
-            var header = document.querySelector('.header');
+          requestAnimationFrame(function (): void {
+            const header = document.querySelector<HTMLElement>('.header');
             if (header) {
               header.classList.toggle('scrolled', window.scrollY > 100);
             }
@@ -477,11 +544,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         }
       });
 
-      var glow = document.getElementById('cursorGlow');
+      const glow = document.querySelector<HTMLElement>('#cursorGlow');
       if (glow) {
-        var glowTargetX = 0, glowTargetY = 0, glowCurX = 0, glowCurY = 0;
-        var glowRaf = null, glowActive = false;
-        
+        let glowTargetX = 0, glowTargetY = 0, glowCurX = 0, glowCurY = 0;
+        let glowActive = false;
+
         if (window.innerWidth <= 768) {
           glowCurX = window.innerWidth * 0.25;
           glowCurY = window.innerHeight * (2/3);
@@ -492,7 +559,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           glow.style.opacity = '1';
         }
 
-        document.addEventListener('mousemove', function (e) {
+        document.addEventListener('mousemove', function (e: MouseEvent): void {
           glowTargetX = e.clientX;
           glowTargetY = e.clientY;
           if (!glowActive) {
@@ -502,18 +569,18 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
               glowCurY = glowTargetY;
               glow.style.opacity = '1';
             }
-            glowRaf = requestAnimationFrame(glowLoop);
+            requestAnimationFrame(glowLoop);
           }
         });
-        function glowLoop() {
+        function glowLoop(): void {
+          if (!glow) return;
           glowCurX += (glowTargetX - glowCurX) * 0.05;
           glowCurY += (glowTargetY - glowCurY) * 0.05;
           glow.style.left = glowCurX + 'px';
           glow.style.top = glowCurY + 'px';
           if (Math.abs(glowTargetX - glowCurX) > 0.5 || Math.abs(glowTargetY - glowCurY) > 0.5) {
-            glowRaf = requestAnimationFrame(glowLoop);
+            requestAnimationFrame(glowLoop);
           } else {
-            glowRaf = null;
             glowActive = false;
           }
         }

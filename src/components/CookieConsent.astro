@@ -1,18 +1,28 @@
 <div id="cookie-consent" class="cookie-consent">
   <p class="cookie-text" data-i18n="cookie.text">
-    Этот сайт использует файлы cookie для улучшения работы. Продолжая использование сайта, вы соглашаетесь с этим.
+    Мы сохраняем корзину, выбранный язык и настройки согласия. С вашего разрешения подключаем Google Fonts и Яндекс.Метрику.
   </p>
-  <button id="cookie-accept" class="btn cookie-btn" data-i18n="cookie.btn">Принять</button>
+  <div class="cookie-actions">
+    <button id="cookie-accept" class="btn cookie-btn" data-i18n="cookie.btn">Принять</button>
+    <button id="cookie-reject" class="btn cookie-btn cookie-btn-reject" data-i18n="cookie.btnReject">Только необходимые</button>
+  </div>
 </div>
 
 <script>
-  if (localStorage.getItem('cookieConsent') !== 'true') {
+  const consent = localStorage.getItem('cookieConsent');
+  if (consent !== 'accepted' && consent !== 'true' && consent !== 'essential') {
     const banner = document.getElementById('cookie-consent');
     const accept = document.getElementById('cookie-accept');
-    if (banner && accept) {
+    const reject = document.getElementById('cookie-reject');
+    if (banner && accept && reject) {
       setTimeout(() => banner.classList.add('show'), 500);
       accept.addEventListener('click', () => {
-        localStorage.setItem('cookieConsent', 'true');
+        localStorage.setItem('cookieConsent', 'accepted');
+        banner.classList.remove('show');
+        window.dispatchEvent(new Event('cookie-consent'));
+      });
+      reject.addEventListener('click', () => {
+        localStorage.setItem('cookieConsent', 'essential');
         banner.classList.remove('show');
       });
     }
@@ -49,6 +59,13 @@
     line-height: 1.5;
   }
 
+  .cookie-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
   .cookie-btn {
     flex-shrink: 0;
     background: var(--accent);
@@ -59,6 +76,17 @@
 
   .cookie-btn:hover {
     background: var(--accent-light);
+  }
+
+  .cookie-btn-reject {
+    color: var(--bg);
+    background: transparent;
+    border: 1px solid currentColor;
+  }
+
+  .cookie-btn-reject:hover {
+    color: var(--bg);
+    background: rgba(255, 255, 255, 0.12);
   }
 
   @media (max-width: 768px) {

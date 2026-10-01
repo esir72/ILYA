@@ -39,8 +39,10 @@ import LangSwitcher from './LangSwitcher.astro';
     });
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
     
-    document.addEventListener('click', (e) => {
-      if (nav.classList.contains('open') && !nav.contains(e.target) && !toggle.contains(e.target)) {
+    document.addEventListener('click', (e: MouseEvent) => {
+      const target = e.target;
+      if (!(target instanceof Node)) return;
+      if (nav.classList.contains('open') && !nav.contains(target) && !toggle.contains(target)) {
         nav.classList.remove('open');
       }
     });
