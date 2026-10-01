@@ -1,12 +1,12 @@
 :root {
-  --bg: #221C18;
-  --text: #F5EDE4;
-  --text-light: #C4B5A4;
-  --accent: #C8A96E;
-  --accent-light: #D4BA85;
-  --surface: #261F1A;
-  --border: #3D322A;
-  --beige: #2A2219;
+  --bg: #FCECDC;
+  --text: #2B1E14;
+  --text-light: #6B5546;
+  --accent: #8A5A2B;
+  --accent-light: #A9722F;
+  --surface: #FFF7EF;
+  --border: #E3CBB3;
+  --beige: #F6E1CE;
   --font-heading: 'Neucha', 'Oranienbaum', Georgia, serif;
   --font-body: 'Neucha', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --shape--blob-1: 97.686% 33.617%, 98.392% 36.152%, 98.96% 38.721%, 99.398% 41.315%, 99.712% 43.928%, 99.909% 46.552%, 99.995% 49.182%, 99.974% 51.813%, 99.852% 54.441%, 99.63% 57.063%, 99.311% 59.675%, 98.897% 62.274%, 98.389% 64.856%, 97.787% 67.417%, 97.091% 69.955%, 96.299% 72.464%, 95.411% 74.941%, 94.422% 77.379%, 93.329% 79.773%, 92.127% 82.114%, 90.812% 84.393%, 89.377% 86.598%, 87.813% 88.714%, 86.114% 90.723%, 84.272% 92.6%, 82.279% 94.317%, 80.125% 95.828%, 77.832% 97.117%, 75.423% 98.172%, 72.92% 98.983%, 70.352% 99.552%, 67.743% 99.887%, 65.115% 100%, 62.485% 99.907%, 59.869% 99.627%, 57.277% 99.176%, 54.717% 98.571%, 52.193% 97.825%, 49.711% 96.954%, 47.271% 95.967%, 44.877% 94.876%, 42.529% 93.689%, 40.227% 92.414%, 37.972% 91.058%, 35.764% 89.626%, 33.604% 88.123%, 31.491% 86.555%, 29.426% 84.924%, 27.41% 83.234%, 25.441% 81.487%, 23.522% 79.687%, 21.651% 77.836%, 19.832% 75.935%, 18.064% 73.986%, 16.35% 71.99%, 14.691% 69.947%, 13.09% 67.859%, 11.549% 65.726%, 10.073% 63.547%, 8.665% 61.324%, 7.331% 59.056%, 6.076% 56.744%, 4.907% 54.386%, 3.832% 51.984%, 2.861% 49.539%, 2.006% 47.05%, 1.28% 44.521%, .699% 41.955%, .28% 39.358%, .044% 36.738%, .014% 34.107%, .212% 31.484%, .66% 28.892%, 1.371% 26.359%, 2.338% 23.913%, 3.54% 21.574%, 4.951% 19.354%, 6.546% 17.261%, 8.3% 15.3%, 10.191% 13.471%, 12.199% 11.771%, 14.307% 10.197%, 16.502% 8.746%, 18.771% 7.414%, 21.104% 6.198%, 23.493% 5.094%, 25.93% 4.101%, 28.408% 3.217%, 30.922% 2.439%, 33.466% 1.768%, 36.036% 1.203%, 38.627% .744%, 41.235% .394%, 43.855% .152%, 46.483% .023%, 49.114% .008%, 51.744% .103%, 54.366% .315%, 56.977% .648%, 59.569% 1.1%, 62.137% 1.672%, 64.676% 2.363%, 67.179% 3.173%, 69.642% 4.101%, 72.056% 5.147%, 74.416% 6.31%, 76.715% 7.59%, 78.946% 8.985%, 81.102% 10.494%, 83.174% 12.115%, 85.156% 13.846%, 87.039% 15.684%, 88.815% 17.625%, 90.477% 19.664%, 92.017% 21.797%, 93.429% 24.017%, 94.707% 26.318%, 95.844% 28.69%, 96.838% 31.126%, 97.686% 33.617%;
@@ -28,28 +28,12 @@ html {
 
 body {
   font-family: var(--font-body);
-  background: linear-gradient(135deg, var(--bg) 0%, #110d0a 100%);
+  background: var(--bg);
   color: var(--text);
   line-height: 1.6;
   letter-spacing: 0.12em;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  background-image: url('/images/baackcround/pngtree-cave-wall-texture-the-perfect-backdrop-for-an-archeological-concept-background-picture-image_13402452.jpg');
-  background-size: cover;
-  background-position: center;
-  mix-blend-mode: soft-light;
-  filter: brightness(0.7);
-  pointer-events: none;
 }
 
 h1, h2, h3, h4 {
@@ -98,11 +82,11 @@ footer {
   position: absolute;
   height: auto;
   aspect-ratio: 1 / 1;
-  background: linear-gradient(135deg, #E3C584 0%, #C8A96E 40%, #9C7B45 100%);
+  background: linear-gradient(135deg, #B08A50 0%, #8A5A2B 40%, #6B4420 100%);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: 0.12;
+  opacity: 0.16;
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;
@@ -177,9 +161,9 @@ footer {
 }
 
 .btn:hover {
-  background: linear-gradient(135deg, var(--accent-light), var(--text));
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
   color: #fff;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
 }
 
 .btn:active {
@@ -193,12 +177,6 @@ button:disabled {
 }
 
 @media (max-width: 768px) {
-  body {
-    background: linear-gradient(135deg, #2F2620 0%, #1E1611 100%);
-  }
-  body::before {
-    filter: brightness(0.8);
-  }
   .section {
     padding: 60px 0;
   }
@@ -316,26 +294,6 @@ button:disabled {
   100% { opacity: 0; transform: translateY(-80px) scale(0); }
 }
 
-.cursor-glow {
-  position: fixed;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(200, 169, 110, 0.16) 0%, rgba(200, 169, 110, 0.06) 45%, transparent 70%);
-  pointer-events: none;
-  z-index: 999;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  will-change: left, top;
-}
-
-@media (max-width: 768px) {
-  .cursor-glow {
-    width: 450px;
-    height: 450px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -343,7 +301,7 @@ button:disabled {
     transition-duration: 0.01ms !important;
   }
   html { scroll-behavior: auto; }
-  .particle, .cursor-glow, .hero-gloss::before, .gloss-overlay::before,
+  .particle, .hero-gloss::before, .gloss-overlay::before,
   .flip-front::after, .btn-shimmer::before { display: none; }
   .petroglyph { animation: none; }
   .carousel-track { transition: none; }
@@ -471,10 +429,10 @@ button:disabled {
 }
 
 .toast {
-  background: rgba(18, 18, 18, 0.93);
+  background: rgba(255, 250, 244, 0.93);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
   color: var(--text);
   padding: 14px 28px;
   border-radius: 999px;

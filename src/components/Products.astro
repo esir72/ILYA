@@ -143,6 +143,14 @@ const formatPrice = (price) => {
       Каждое изделие уникально. Фактура дерева и рисунок могут незначительно
       отличаться от фото.
     </p>
+    <div class="products-hint" data-animate data-delay="2">
+      <span class="products-hint-label" data-i18n="products.hint">Нажмите, чтобы узнать подробнее</span>
+      <span class="products-hint-row">
+        <span class="products-hint-rule" aria-hidden="true"></span>
+        <span class="products-hint-icon" aria-hidden="true"></span>
+        <span class="products-hint-rule" aria-hidden="true"></span>
+      </span>
+    </div>
     <div class="products-grid">
       {products.map((product, i) => (
         <article class="product-card" style={`--card-mask: url('${product.mask || product.image}'); --card-bg: url('${base}/images/cards/BG_stone.webp');`} data-animate="scale" data-delay={i + 1} tabindex="0" role="button">
@@ -401,7 +409,7 @@ const formatPrice = (price) => {
   .details-btn {
     background: none;
     border: 1px solid var(--border);
-    color: #D4BA85; text-shadow: 0 1px 3px rgba(0,0,0,1);
+    color: var(--accent);
     font-size: 0.9rem;
     cursor: pointer;
     padding: 8px 18px;
@@ -437,7 +445,7 @@ const formatPrice = (price) => {
   .detail-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(43, 30, 20, 0.55);
     backdrop-filter: blur(2px);
   }
   .detail-content {
@@ -445,10 +453,10 @@ const formatPrice = (price) => {
     z-index: 1101;
     width: min(92vw, 720px);
     margin: auto;
-    background: rgba(18, 18, 18, 0.93);
+    background: rgba(255, 250, 244, 0.96);
       backdrop-filter: blur(12px);
       border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
     padding: 28px;
     scrollbar-width: none;
   }
@@ -483,18 +491,17 @@ const formatPrice = (price) => {
     font-size: 1.5rem;
     margin-bottom: 16px;
     padding-right: 40px;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   }
   .detail-desc,
   .detail-counter {
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+    color: var(--text-light);
   }
   .detail-gallery {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(43, 30, 20, 0.06);
     border-radius: 12px;
     padding: 12px;
   }
@@ -506,7 +513,7 @@ const formatPrice = (price) => {
   }
   .detail-counter {
     text-align: center;
-    color: #ffffff; font-weight: 500;
+    color: var(--text-light); font-weight: 500;
     font-size: 0.85rem;
     margin-top: 8px;
   }
@@ -596,6 +603,58 @@ const formatPrice = (price) => {
     gap: 8px;
   }
 
+  .products-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    margin: -36px auto 56px;
+    color: var(--text-light);
+  }
+
+  .products-hint-icon {
+    display: block;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    background-color: var(--accent);
+    -webkit-mask: url('/images/free-icon-press-11889475.png') center / contain no-repeat;
+    mask: url('/images/free-icon-press-11889475.png') center / contain no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    animation: hint-tap 1.8s ease-in-out infinite;
+    transform-origin: 55% 60%;
+  }
+
+  @keyframes hint-tap {
+    0%, 55%, 100% { transform: translateY(0) scale(1); }
+    25% { transform: translateY(2px) scale(0.9); }
+  }
+
+  .products-hint-label {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .products-hint-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .products-hint-rule {
+    display: block;
+    width: 72px;
+    height: 2px;
+    background-color: var(--accent);
+    opacity: 0.6;
+    -webkit-mask: url('/images/icons8-line.png') center / 100% 100% no-repeat;
+    mask: url('/images/icons8-line.png') center / 100% 100% no-repeat;
+  }
+
   .products-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -610,7 +669,7 @@ const formatPrice = (price) => {
     position: relative;
     touch-action: manipulation;
     overflow: clip;
-    overflow-clip-margin: 30px;
+    overflow-clip-margin: 80px;
   }
 
   .product-card:first-child {
@@ -675,6 +734,7 @@ const formatPrice = (price) => {
 
   .flip-inner {
     position: relative;
+    z-index: 1;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform-style: preserve-3d;
   }
@@ -714,6 +774,11 @@ const formatPrice = (price) => {
     mask-position: center;
   }
 
+  .face-front,
+  .face-back {
+    filter: drop-shadow(0 10px 12px rgba(38, 24, 10, 0.52)) drop-shadow(0 26px 32px rgba(38, 24, 10, 0.36));
+  }
+
   @media (hover: hover) and (pointer: fine) {
     .product-card:hover .face-front {
       transform: translateY(-8px);
@@ -723,14 +788,14 @@ const formatPrice = (price) => {
       transform: rotateY(180deg) translateY(-8px);
     }
 
-    .flip-front,
-    .flip-back {
+    .face-front,
+    .face-back {
       transition: filter 0.3s ease;
     }
 
-    .product-card:hover .flip-front,
-    .product-card:hover .flip-back {
-      filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.45));
+    .product-card:hover .face-front,
+    .product-card:hover .face-back {
+      filter: drop-shadow(0 16px 19px rgba(38, 24, 10, 0.62)) drop-shadow(0 40px 48px rgba(38, 24, 10, 0.42));
     }
   }
 

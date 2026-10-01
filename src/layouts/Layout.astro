@@ -19,7 +19,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </head>
   <body>
     <div class="particles" id="particles"></div>
-    <div class="cursor-glow" id="cursorGlow"></div>
     <div class="petroglyphs" id="petroglyphs" aria-hidden="true"></div>
     <slot />
     <CookieConsent />
@@ -421,48 +420,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         }
       });
 
-      var glow = document.getElementById('cursorGlow');
-      if (glow) {
-        var glowTargetX = 0, glowTargetY = 0, glowCurX = 0, glowCurY = 0;
-        var glowRaf = null, glowActive = false;
-        
-        if (window.innerWidth <= 768) {
-          glowCurX = window.innerWidth * 0.25;
-          glowCurY = window.innerHeight * (2/3);
-          glowTargetX = glowCurX;
-          glowTargetY = glowCurY;
-          glow.style.left = glowCurX + 'px';
-          glow.style.top = glowCurY + 'px';
-          glow.style.opacity = '1';
-        }
-
-        document.addEventListener('mousemove', function (e) {
-          glowTargetX = e.clientX;
-          glowTargetY = e.clientY;
-          if (!glowActive) {
-            glowActive = true;
-            if (glow.style.opacity !== '1') {
-              glowCurX = glowTargetX;
-              glowCurY = glowTargetY;
-              glow.style.opacity = '1';
-            }
-            glowRaf = requestAnimationFrame(glowLoop);
-          }
-        });
-        function glowLoop() {
-          glowCurX += (glowTargetX - glowCurX) * 0.05;
-          glowCurY += (glowTargetY - glowCurY) * 0.05;
-          glow.style.left = glowCurX + 'px';
-          glow.style.top = glowCurY + 'px';
-          if (Math.abs(glowTargetX - glowCurX) > 0.5 || Math.abs(glowTargetY - glowCurY) > 0.5) {
-            glowRaf = requestAnimationFrame(glowLoop);
-          } else {
-            glowRaf = null;
-            glowActive = false;
-          }
-        }
-      }
-    </script>
+      </script>
     <div id="toast-container" class="toast-container"></div>
   </body>
 </html>
