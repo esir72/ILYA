@@ -9,13 +9,13 @@ const faqs = Array.from({ length: 6 }, (_, i) => ({ q: `faq.q${i}`, a: `faq.a${i
     <div class="faq-list" data-animate data-delay="2">
       {faqs.map((faq, i) => (
         <div class="faq-item">
-          <button class="faq-question" data-index={i}>
+          <button class="faq-question" data-index={i} aria-expanded="false" aria-controls={`faq-answer-${i}`}>
             <span data-i18n={faq.q}></span>
             <svg class="faq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"/>
             </svg>
           </button>
-          <div class="faq-answer" data-index={i}>
+          <div class="faq-answer" id={`faq-answer-${i}`} data-index={i}>
             <p data-i18n={faq.a}></p>
           </div>
         </div>
@@ -25,12 +25,24 @@ const faqs = Array.from({ length: 6 }, (_, i) => ({ q: `faq.q${i}`, a: `faq.a${i
 </section>
 
 <script>
-  document.querySelectorAll('.faq-question').forEach(function (btn) {
+  const questions = document.querySelectorAll<HTMLButtonElement>('.faq-question');
+
+  function syncExpandedState(): void {
+    questions.forEach(function (question) {
+      const item = question.closest('.faq-item');
+      const expanded = item !== null && item.classList.contains('open');
+      question.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    });
+  }
+
+  questions.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var item = btn.closest('.faq-item');
-      var wasOpen = item.classList.contains('open');
+      const item = btn.closest('.faq-item');
+      if (!item) return;
+      const wasOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item.open').forEach(function (el) { el.classList.remove('open'); });
       if (!wasOpen) item.classList.add('open');
+      syncExpandedState();
     });
   });
 </script>

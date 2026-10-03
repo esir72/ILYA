@@ -1,3 +1,11 @@
+---
+interface Props {
+  checkoutHref?: string;
+}
+
+const { checkoutHref = '#payment' } = Astro.props;
+---
+
 <div id="cart-overlay" class="cart-overlay"></div>
 <aside id="cart" class="cart">
   <div class="cart-header">
@@ -32,7 +40,7 @@
       <span class="cart-total-label" data-i18n="cart.total">Итого</span>
       <span id="cart-total" class="cart-total-value">0 ₽</span>
     </div>
-    <a href="#payment" id="cart-checkout" class="btn cart-checkout" data-i18n="cart.checkout">Оформить заказ</a>
+    <a href={checkoutHref} id="cart-checkout" class="btn cart-checkout" data-i18n="cart.checkout">Оформить заказ</a>
   </div>
 </aside>
 

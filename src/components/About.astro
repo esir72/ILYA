@@ -6,7 +6,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <div class="container">
     <div class="about-grid">
       <div class="about-image" data-animate="left">
-        <img src={`${base}/images/Ilya.jpg`} alt="Илья" class="about-photo" />
+        <img src={`${base}/images/Ilya.jpg`} width="640" height="640" alt="Илья" class="about-photo" loading="lazy" decoding="async" />
       </div>
       <div class="about-text" data-animate="right">
         <p data-i18n="about.p1">
@@ -47,7 +47,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 </section>
 
 <div id="qna-modal" class="detail-modal qna-modal" aria-hidden="true">
-  <div class="detail-overlay" id="qna-overlay" class="qna-overlay"></div>
+  <div class="detail-overlay qna-overlay" id="qna-overlay"></div>
   <div class="detail-content qna-content" role="dialog" aria-modal="true" style="max-width: 600px; padding: 40px 30px;">
     <button class="qna-close" id="qna-close" aria-label="Закрыть" data-i18n-aria="products.detailClose">×</button>
     <h3 class="detail-title qna-title" data-i18n="qna.title" style="margin-bottom: 24px;">Блиц-опрос</h3>
@@ -229,10 +229,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 <script>
   var countObserver = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
-      if (entry.isIntersecting && !entry.target.dataset.counted) {
-        entry.target.dataset.counted = '1';
-        var target = parseInt(entry.target.dataset.count);
-        animateCount(entry.target, target);
+      var el = entry.target;
+      if (!(el instanceof HTMLElement)) return;
+      if (entry.isIntersecting && !el.dataset.counted) {
+        el.dataset.counted = '1';
+        var rawCount = el.dataset.count;
+        if (rawCount === undefined) return;
+        animateCount(el, parseInt(rawCount, 10));
       }
     });
   }, { threshold: 0.5 });
@@ -241,34 +244,38 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     countObserver.observe(el);
   });
 
-  function animateCount(el, target) {
+  function animateCount(el: HTMLElement, target: number): void {
     var duration = 1500;
     var start = performance.now();
-    function step(now) {
+    function step(now: number): void {
       var progress = Math.min((now - start) / duration, 1);
       var eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.floor(eased * target);
+      el.textContent = String(Math.floor(eased * target));
       if (progress < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
   }
 
-  var qnaBtn = document.getElementById('about-qna-btn');
-  var qnaModal = document.getElementById('qna-modal');
-  var qnaOverlay = document.getElementById('qna-overlay');
-  var qnaClose = document.getElementById('qna-close');
+  const qnaBtn = document.getElementById('about-qna-btn');
+  const qnaModal = document.getElementById('qna-modal');
+  const qnaClose = document.getElementById('qna-close');
+  const qnaOverlay = document.getElementById('qna-overlay');
 
-  if (qnaBtn && qnaModal) {
-    qnaBtn.addEventListener('click', function() {
-      qnaModal.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    });
-    
-    function closeQna() {
-      qnaModal.classList.remove('open');
+  if (qnaBtn && qnaModal && qnaClose && qnaOverlay) {
+    const modal: HTMLElement = qnaModal;
+
+    function closeQna(): void {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     }
-    
+
+    qnaBtn.addEventListener('click', function () {
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+
     qnaClose.addEventListener('click', closeQna);
     qnaOverlay.addEventListener('click', closeQna);
   }

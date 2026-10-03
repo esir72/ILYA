@@ -10,6 +10,7 @@
         <p class="footer-copy" data-i18n="footer.copyright">© {new Date().getFullYear()} Илья. Резьба по дереву.</p>
         <p class="footer-tag" data-i18n="footer.tagline">Сделано вручную с любовью к дереву</p>
         <p class="footer-made-by">made by <a href="https://esir72.github.io/about-me/" target="_blank" rel="noopener noreferrer">rise</a></p>
+        <button id="consent-settings" class="consent-settings" type="button" data-i18n="footer.cookieSettings">Настройки cookie</button>
       </div>
     </div>
     <div class="footer-socials">
@@ -40,6 +41,14 @@
     </div>
   </div>
 </footer>
+
+<script>
+  const consentSettings = document.getElementById('consent-settings');
+  consentSettings?.addEventListener('click', () => {
+    localStorage.removeItem('cookieConsent');
+    window.location.reload();
+  });
+</script>
 
 <style>
   .footer {
@@ -75,11 +84,11 @@
     width: 59px;
     height: 48px;
     background: linear-gradient(135deg, #E3C584 0%, #C8A96E 40%, #9C7B45 100%);
-    mask-image: url('/images/logo-light.png');
+    mask-image: url('/images/logo-light-mask.png');
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
-    -webkit-mask-image: url('/images/logo-light.png');
+    -webkit-mask-image: url('/images/logo-light-mask.png');
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
@@ -115,6 +124,22 @@
     opacity: 1;
   }
 
+  .consent-settings {
+    align-self: flex-start;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text-light);
+    font-size: 0.75rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  .consent-settings:hover {
+    color: var(--text);
+  }
+
   .footer-socials {
     display: flex;
     gap: 20px;
@@ -144,6 +169,10 @@
 
     .footer-text {
       align-items: center;
+    }
+
+    .consent-settings {
+      align-self: center;
     }
   }
 

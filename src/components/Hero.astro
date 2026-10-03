@@ -1,11 +1,13 @@
 ---
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const logo = `${base}/images/logo-light.webp`;
+const logoSrcSet = `${base}/images/logo-light-640.webp 640w, ${base}/images/logo-light-960.webp 960w, ${base}/images/logo-light.webp 1280w`;
 ---
 
 <section class="hero gloss-overlay">
   <div class="hero-gloss"></div>
   <div class="container hero-inner">
-    <img class="hero-logo" src={`${base}/images/logo-light.png`} alt="Илья — мастер резьбы по дереву" data-animate="fade" />
+    <img class="hero-logo" src={logo} srcset={logoSrcSet} sizes="(max-width: 768px) calc(100vw - 32px), 980px" width="1280" height="1047" alt="Илья — мастер резьбы по дереву" loading="eager" fetchpriority="high" decoding="async" data-animate="fade" />
     <p class="hero-slogan" data-animate="fade" data-delay="1" data-i18n="hero.slogan">
       Мастерство, переданное через года, и любовь к природе в каждом изделии.
     </p>
@@ -18,7 +20,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: flex;
     align-items: center;
     padding-top: 64px;
-    background: linear-gradient(180deg, rgba(12, 7, 3, 0.62) 0%, rgba(12, 7, 3, 0.86) 100%);
+    background: linear-gradient(180deg, rgba(12, 7, 3, 0.34) 0%, rgba(12, 7, 3, 0.62) 100%);
     position: relative;
     overflow: hidden;
   }
