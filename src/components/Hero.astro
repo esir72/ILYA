@@ -81,6 +81,8 @@ const logoSrcSet = `${base}/images/logo-light-640.webp 640w, ${base}/images/logo
     max-width: calc((100vh - 140px) / 1047 * 1280);
     height: auto;
     display: block;
+    --hero-logo-opacity: 0.65;
+    filter: opacity(var(--hero-logo-opacity));
   }
 
   .hero-slogan {
