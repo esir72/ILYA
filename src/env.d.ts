@@ -30,6 +30,7 @@ interface ProductDataItem {
   desc: string;
   image: string;
   price: number;
+  priceFrom: boolean;
   gallery: string[];
   colorsJson: string;
   titleKey: string;
@@ -37,6 +38,11 @@ interface ProductDataItem {
   priceKey: string;
   i18nKey: string;
 }
+
+declare var __pricing: {
+  usd: Record<string, number>;
+  from: number[];
+};
 
 interface Window {
   i18n: I18n;

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import CookieConsent from '../components/CookieConsent.astro';
+import { PRICE_FROM_IDS, USD_PRICES } from '../data/pricing';
 
 interface Props {
   title?: string;
@@ -17,6 +18,7 @@ const {
   descriptionKey = 'meta.desc'
 } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+const pricingData = JSON.stringify({ usd: USD_PRICES, from: PRICE_FROM_IDS });
 ---
 
 <!doctype html>
@@ -118,6 +120,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
      <script is:inline set:html={`
 (function () {
   var __translationsBase = '${base}';
+  var __pricing = ${pricingData};
   window.__base = __translationsBase;
   window.i18n = {
     lang: localStorage.getItem('lang') || 'ru',
@@ -243,15 +246,22 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
           localStorage.setItem('cart', JSON.stringify(items));
         }
 
-        function getItemPrice(item: CartItem): number {
-          if (window.i18n.lang === 'en') {
-            if (item.id == 10) return 170;
-            if (item.id == 9) return 110;
-            if (item.id == 11) return 50;
-            return Math.ceil(item.price / 100);
-          }
-          return item.price;
+function getItemPrice(item: CartItem): number {
+        if (window.i18n.lang === 'en') {
+          const usd = __pricing.usd[item.id];
+          return usd === undefined ? Math.ceil(item.price / 100) : usd;
         }
+        return item.price;
+      }
+
+      function isFrom(item: CartItem): boolean {
+        return __pricing.from.indexOf(item.id) !== -1;
+      }
+
+      function fromLabel(): string {
+        return window.i18n.lang === 'en' ? 'from ' : 'от ';
+      }
+
 
         function total(): number {
           return items.reduce((sum: number, item: CartItem): number => sum + getItemPrice(item) * item.qty, 0);
@@ -279,7 +289,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
               '<div class="cart-item">' +
                 '<div class="cart-item-info">' +
                   '<div class="cart-item-title">' + (item.i18nKey ? __t(item.i18nKey, item.title) : item.title) + (item.color ? ' <span style=\"opacity:0.6\">(' + __t(item.colorKey || (item.color === 'Черный' ? 'colors.black' : item.color === 'Белый' ? 'colors.white' : item.color === 'Коричневый' ? 'colors.brown' : ''), item.color) + ')</span>' : '') + '</div>' +
-                  '<div class="cart-item-price">' + fmtVal(getItemPrice(item)) + '</div>' +
+                  '<div class="cart-item-price">' + (isFrom(item) ? fromLabel() : '') + fmtVal(getItemPrice(item)) + '</div>' +
                   '<div class="cart-item-actions">' +
                     '<div class="cart-item-qty">' +
                       '<button class="cart-qty-btn" data-index="' + i + '" data-dir="-1">−</button>' +

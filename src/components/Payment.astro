@@ -118,6 +118,8 @@ const privacyHref = `${base}/privacy`;
 </section>
 
 <script>
+  import { USD_PRICES, formatRub, formatUsd } from '../data/pricing';
+
   interface CountryConfig {
     mask: string;
     min: number;
@@ -333,18 +335,13 @@ const privacyHref = `${base}/privacy`;
 
   function getItemPrice(item: CartItem): number {
     if (window.i18n.lang !== 'en') return item.price;
-    if (item.id === 9) return 110;
-    if (item.id === 10) return 170;
-    if (item.id === 11) return 50;
-    return Math.ceil(item.price / 100);
+    const usd = USD_PRICES[item.id];
+    return usd === undefined ? Math.ceil(item.price / 100) : usd;
   }
 
-  function formatPrice(price: number): string {
-    if (window.i18n.lang === 'en') {
-      if (price === 0) return 'Price on request';
-      return '$' + price.toLocaleString('en-US');
-    }
-    return price.toLocaleString('ru-RU') + ' ₽';
+  function formatPrice(price: number, from?: boolean): string {
+    if (window.i18n.lang === 'en') return formatUsd(price, from);
+    return formatRub(price, from);
   }
 
   const form = document.querySelector<HTMLFormElement>('#order-form');
