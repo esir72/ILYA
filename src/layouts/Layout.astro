@@ -121,6 +121,7 @@ const pricingData = JSON.stringify({ usd: USD_PRICES, from: PRICE_FROM_IDS });
 (function () {
   var __translationsBase = '${base}';
   var __pricing = ${pricingData};
+  window.__pricing = __pricing;
   window.__base = __translationsBase;
   window.i18n = {
     lang: localStorage.getItem('lang') || 'ru',
@@ -248,14 +249,14 @@ const pricingData = JSON.stringify({ usd: USD_PRICES, from: PRICE_FROM_IDS });
 
 function getItemPrice(item: CartItem): number {
         if (window.i18n.lang === 'en') {
-          const usd = __pricing.usd[item.id];
+          const usd = window.__pricing.usd[item.id];
           return usd === undefined ? Math.ceil(item.price / 100) : usd;
         }
         return item.price;
       }
 
       function isFrom(item: CartItem): boolean {
-        return __pricing.from.indexOf(item.id) !== -1;
+        return window.__pricing.from.indexOf(item.id) !== -1;
       }
 
       function fromLabel(): string {
