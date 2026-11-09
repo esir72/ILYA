@@ -31,6 +31,8 @@ jobs:
         run: npm ci
 
       - name: Validate and build Astro
+        env:
+          PUBLIC_ORDER_API_URL: ${{ vars.PUBLIC_ORDER_API_URL }}
         run: npm run validate
 
       - name: Upload artifact
