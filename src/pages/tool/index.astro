@@ -22,7 +22,7 @@ const tool = {
     'Вес': '1,6 кг (набор)',
   },
   images: [
-    `${base}/images/cards/set/set-1.png`,
+    `${base}/images/cards/set/set-1.webp`,
     `${base}/images/cards/set/photo_2026-09-21_16-18-23.webp`,
     `${base}/images/cards/set/photo_2026-09-21_16-18-31.webp`,
     `${base}/images/cards/set/photo_2026-09-21_16-18-33.webp`,
@@ -87,7 +87,7 @@ const formatPrice = (price: number): string => `${price.toLocaleString('ru-RU')}
             </div>
             <div class="detail-bottom">
               <span class="detail-price" data-i18n="toolPage.price">{formatPrice(tool.price)}</span>
-              <button class="btn btn-cart" data-id={tool.id} data-title={tool.title} data-i18n-key="toolPage.title" data-price={tool.price} data-img={tool.images[0]} data-i18n="toolPage.btnCart">
+              <button class="btn btn-cart" data-id={tool.id} data-title={tool.title} data-i18n-key="toolPage.title" data-price={tool.price} data-img={`${base}/images/cards/set/set-1-360.webp`} data-i18n="toolPage.btnCart">
                 В корзину
               </button>
             </div>

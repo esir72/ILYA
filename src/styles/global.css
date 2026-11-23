@@ -1,5 +1,6 @@
 :root {
   --bg: #1B0F08;
+  --site-background: url('/images/newBG.webp');
   --text: #F4E6D6;
   --text-light: #C6A98B;
   --accent: #D3A05A;
@@ -44,7 +45,7 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image: url('/images/newBG.png');
+  background-image: var(--site-background);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -63,7 +64,7 @@ body.site-loading {
   align-items: center;
   justify-content: center;
   background-color: #1A130A;
-  background-image: linear-gradient(rgba(12, 7, 3, 0.55), rgba(12, 7, 3, 0.78)), url('/images/newBG.png');
+  background-image: linear-gradient(rgba(12, 7, 3, 0.55), rgba(12, 7, 3, 0.78)), var(--site-background);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -101,6 +102,12 @@ body.site-loading {
 @keyframes loader-breathe {
   0%, 100% { transform: scale(1); opacity: 0.85; }
   50% { transform: scale(1.06); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --site-background: url('/images/newBG-960.webp');
+  }
 }
 
 .site-loader-bar {

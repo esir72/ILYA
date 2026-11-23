@@ -45,7 +45,7 @@ const products: Product[] = [
     desc: 'Всё необходимое, чтобы сделать первый шаг в древнее ремесло и почувствовать дерево в своих руках.\nВ комплекте: брусок мягкой липы для первого изделия, Богородский нож 50 мм для точной резьбы и ложкорез для глубоких выборок и аккуратных углублений.\nНебольшой набор — чтобы начать резать, создать первое изделие и открыть для себя мир резьбы по дереву.\n\nВсё собрано в подарочной коробке и дополнено тёплым напутствием от Илуи.\nПолностью заточен и готов к работе.\n\nПервый рез. Первое изделие. Первый след, который останется в дереве.',
     short: 'Всё необходимое для первого шага в резьбу: липа, нож и ложкорез.',
     price: 10900,
-    image: productImage(`${base}/images/cards/set/set-1.png`, 1254, 1254),
+    image: productImage(`${base}/images/cards/set/set-1.webp`, 1254, 1254),
     gallery: [
       `${base}/images/cards/set/photo_2026-09-21_16-18-23.webp`,
       `${base}/images/cards/set/photo_2026-09-21_16-18-31.webp`,
@@ -63,7 +63,7 @@ const products: Product[] = [
       { id: 'Белый', hex: '#FFFFFF', labelKey: 'colors.white' },
       { id: 'Коричневый', hex: '#8B4513', labelKey: 'colors.brown' }
     ],
-    image: productImage(`${base}/images/cards/knife/knife.png`, 1312, 1199),
+    image: productImage(`${base}/images/cards/knife/knife.webp`, 1312, 1199),
     gallery: [
       `${base}/images/cards/knife/photo_2026-09-21_16-19-32.webp`,
       `${base}/images/cards/knife/photo_2026-09-21_16-19-34.webp`,
@@ -76,7 +76,7 @@ const products: Product[] = [
     desc: 'Этот инструмент создан для полировки, правки и поддержания остроты любых ножей — от кухонных и охотничьих до ножей и ложкорезов для резьбы по дереву.\nДостаточно нанести немного полировальной пасты на кожаную поверхность и сделать несколько движений — кожа мягко доведёт режущую кромку, уберёт мельчайшие неровности и поможет вернуть инструменту чистоту и остроту.',
     short: 'Инструмент для полировки и поддержания остроты ножей и ложкорезов.',
     price: 2500,
-    image: productImage(`${base}/images/cards/polirovka/polirovka.png`, 1448, 1086),
+    image: productImage(`${base}/images/cards/polirovka/polirovka.webp`, 1448, 1086),
     gallery: [],
   },
   {
@@ -164,7 +164,7 @@ const productData: ProductDataItem[] = products.map((p: Product, i: number): Pro
   id: p.id,
   title: p.title,
   desc: p.desc,
-  image: p.image.large,
+  image: p.image.small,
   price: p.price,
   priceFrom: isPriceFrom(p.id),
   gallery: [p.image.large, ...p.gallery, `${base}/images/cards/ending.webp`],
@@ -201,7 +201,7 @@ const formatPrice = (price: number, from?: boolean): string => formatRub(price, 
             <div class="face face-front">
               <div class="flip-front">
                 <div class="product-image">
-                  <img src={product.image.large} srcset={`${product.image.small} 360w, ${product.image.medium} 540w, ${product.image.large} ${product.image.width}w`} sizes="(max-width: 768px) calc(100vw - 32px), (max-width: 1200px) calc((100vw - 96px) / 3), 380px" width={product.image.width} height={product.image.height} alt={product.title} loading="lazy" decoding="async" />
+                  <img src={product.image.medium} srcset={`${product.image.small} 360w, ${product.image.medium} 540w`} sizes="(max-width: 768px) calc(100vw - 32px), (max-width: 1200px) calc((100vw - 96px) / 3), 380px" width={product.image.width} height={product.image.height} alt={product.title} loading="lazy" decoding="async" />
                 </div>
               </div>
             </div>
@@ -212,7 +212,7 @@ const formatPrice = (price: number, from?: boolean): string => formatRub(price, 
                   <p class="product-desc" data-i18n={`products.item.${i}.short`}>{product.short}</p>
                   <div class="product-bottom">
                     <span class="product-price" data-i18n={`products.item.${i}.price`}>{formatPrice(product.price, isPriceFrom(product.id))}</span>
-                    <button class="btn btn-sm btn-cart btn-icon-only" data-id={product.id} data-title={product.title} data-i18n-key={`products.item.${i}.title`} data-price={product.price} data-img={product.image.large} data-i18n-title="products.btnCart" aria-label="В корзину">
+                    <button class="btn btn-sm btn-cart btn-icon-only" data-id={product.id} data-title={product.title} data-i18n-key={`products.item.${i}.title`} data-price={product.price} data-img={product.image.small} data-i18n-title="products.btnCart" aria-label="В корзину">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="9" cy="21" r="1"></circle>
                         <circle cx="20" cy="21" r="1"></circle>

@@ -562,6 +562,10 @@ const orderApiUrl = import.meta.env.PUBLIC_ORDER_API_URL || '/api/order';
     transition: background 0.25s, gap 0.25s;
   }
 
+  .order-btn[hidden] {
+    display: none;
+  }
+
   .order-btn:hover {
     background: var(--accent-fill-light);
     gap: 14px;
